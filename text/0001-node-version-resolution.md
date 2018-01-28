@@ -1,7 +1,7 @@
 - Feature Name: node_version_resolution
 - Start Date: 2018-01-28
-- RFC PR:
-- Notion Issue:
+- RFC PR: https://github.com/notion-cli/rfcs/pull/10
+- Notion Issue: https://github.com/notion-cli/notion/issues/26
 
 # Summary
 [summary]: #summary
