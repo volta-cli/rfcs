@@ -13,18 +13,20 @@ One paragraph explanation of the feature.
 
 Why are we doing this? What use cases does it support? What is the expected outcome?
 
-# Guide-level explanation
-[guide-level-explanation]: #guide-level-explanation
+# Pedagogy
+[pedagogy]: #pedagogy
 
-Explain the proposal as if it were already included in Notion and you were teaching it to another programmer. That generally means:
+How should we explain and teach this feature to users? How should users understand this feature? This generally means:
 
 - Introducing new named concepts.
 - Explaining the feature largely in terms of examples.
 - Explaining how users should _think_ about the feature, and how it should impact the way they use Notion. It should explain the impact as concretely as possible.
 - If applicable, describe the differences between teaching this to existing Node programmers and new Node programmers.
 
-# Reference-level explanation
-[reference-level-explanation]: #reference-level-explanation
+It is not necessary to write the actual feature documentation in this section, but it should establish the concepts on which the documentation would be built.
+
+# Details
+[details]: #details
 
 This is the technical portion of the RFC. Explain the design in sufficient detail that:
 
@@ -34,13 +36,10 @@ This is the technical portion of the RFC. Explain the design in sufficient detai
 
 This section should return to the examples given in the previous section, and explain more fully how the detailed proposal makes those examples work.
 
-# Drawbacks
-[drawbacks]: #drawbacks
+# Critique
+[critique]: #critique
 
-Why should we _not_ do this?
-
-# Rationale and alternatives
-[alternatives]: #alternatives
+This section discusses the tradeoffs considered in this proposal. This must include an honest accounting of the drawbacks of the proposal, as well as list out all the alternatives that were considered and rationale for why this proposal was chosen over the alternatives. This section should address questions such as:
 
 - Why is this design the best in the space of possible designs?
 - What other designs have been considered and what is the rationale for not choosing them?
