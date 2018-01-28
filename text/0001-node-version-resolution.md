@@ -53,13 +53,13 @@ the resolution semantics follows these steps:
 2. If there are any cached semver-compatible Node versions, install and return the latest one.
 3. Let *result* be the result of calling the *resolve* hook from configuration on `$spec`.
 4. If *result* is `{ "version": $version, "url": $url }`:
-  1. Fetch the installer from `$url`.
-  2. Cache and install the installer.
-  3. Return `$version`.
+   1. Fetch the installer from `$url`.
+   2. Cache and install the installer.
+   3. Return `$version`.
 5. If *result* is `{ "version": $version, "stream": true }`:
-  1. Fetch installer from the *resolve* addon’s stdout.
-  2. Cache and install the installer.
-  3. Return `$version`.
+   1. Fetch installer from the *resolve* addon’s stdout.
+   2. Cache and install the installer.
+   3. Return `$version`.
 6. Otherwise produce an error.
 
 ## Semver syntax
