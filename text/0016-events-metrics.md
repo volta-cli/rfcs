@@ -1,7 +1,7 @@
 - Feature Name: events_and_metrics
 - Start Date: 2018-05-04
-- RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- RFC PR: https://github.com/notion-cli/rfcs/pull/16
+- Notion PR: https://github.com/notion-cli/notion/pull/77
 
 # Summary
 [summary]: #summary
