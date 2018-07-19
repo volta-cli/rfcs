@@ -15,6 +15,8 @@ Each exit code is intended to signal to an external process some information abo
 
 Because redefining exit codes later in Notion's life would be a major hassle for third-party tools reliant on them, we should consider at the outset grouping errors together by exit code.
 
+Further, Notion must avoid conflicts between the exit codes produced by shims and those produced by the shimmed executables, in order to best preserve their behavior.
+
 # Pedagogy
 [pedagogy]: #pedagogy
 
@@ -23,7 +25,35 @@ A list of exit codes must be maintained within the Notion source code for use by
 # Details
 [details]: #details
 
-Exit codes shall be defined as an `enum` with appropriate documentation comments and an explicit integer value for each element.  Being explicit about values allows simple, at-a-glance correlation of exit codes to error types.
+## Shims
+
+Of the three "first-class" shims (`node`, `npm`, and `yarn`), only Node currently publishes a [list of exit codes](https://nodejs.org/api/process.html#process_exit_codes); the other two only emit codes 0/1 for success/failure.  The exit codes for other shimmed executables is too large a space to examine, but Node follows what appears to be a common practice: simply numbering errors starting with 1, preserving the [special meanings commonly applied by POSIX shells](http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_08_02).  This gives us incentive to avoid low-numbered exit codes (as likely to conflict) and exit codes with the high bit set (as typically representing termination due to signals).
+
+Additionally, shims must do their utmost to preserve the exit code supplied by the shimmed executable, only introducing a shim-specific exit code if the executable cannot be run at all.  To this end, shims must return 0 when the shimmed executable does, even if the shim itself is not able to perform its work (for example, if a new shim cannot be created when installing a new executable via `npm` or `yarn`).
+
+|    Code | Use
+| ------: | :--
+|   0-125 | Reserved for use by shimmed executables
+|     126 | Shimmed executable could not be run
+|     127 | Shimmed executable could not be found
+| 128-255 | Signal `code - 128` was received **prior** to launching shimmed executable
+
+## `notion`
+
+As `notion` is not subject to conflicts, we are free to define its exit codes in any manner we choose.  However, it it still valuable to follow such conventions as exist, such as not conflicting with common shell codes (2, 126, and 127) and responding to signals in the usual way.
+
+|    Code | Use
+| ------: | :--
+|       0 | Success
+|       1 | Unknown/"unfriendly" error
+|       2 | Unused (indicates builtin misuse in bash)
+|   3-125 | Errors
+| 126-127 | Unused (indicates failure to execute in POSIX shells)
+| 128-255 | Terminated due to signal `code - 128`
+
+## Implementation
+
+Exit codes shall be defined as an `enum` with appropriate documentation comments and an explicit integer value for each element.  Being explicit about values allows simple, at-a-glance correlation of exit codes to error types (as well as enabling sparse values).
 
 For example (this list is not meant to be exhaustive), the enum might be defined as follows:
 
@@ -36,38 +66,52 @@ pub enum ExitCode {
     /// An unknown error occurred.
     UnknownError = 1,
 
+    // Exit code 2 is reserved.
+
     /// An invalid combination of command-line arguments was supplied.
-    InvalidArguments = 2,
+    InvalidArguments = 3,
 
     /// No match could be found for the requested version string.
-    NoVersionMatch = 3,
+    NoVersionMatch = 4,
 
     /// A network error occurred.
-    NetworkError = 4,
+    NetworkError = 5,
+
+    /// The requested executable could not be run.
+    ExecutionFailure = 126,
+
+    /// The requested executable is not available.
+    ExecutableNotFound = 127,
 }
 ```
 
-Note that errors are grouped according to basic cause, with thought given to how external tooling might choose to react to the problem.  Doing so saves external tools from trying to parse Notion error messages in order to make these decisions.  In this example, an external tool receiving exit code 2 should absolutely not retry the operation (and may have a bug).  Exit code 3 indicates a potentially non-permanent error, but one which shouldn't be retried without first using another command to change Notion's current state.  Finally, exit code 4 indicates a kind of transient problem which might be desirable to retry after a short delay rather than immediately giving up entirely.
+### Grouping
+
+Errors will be grouped according to basic cause, with thought given to how external tooling might choose to react to the problem.  Doing so saves external tools from trying to parse Notion error messages in order to make these decisions.  For example, an external tool receiving an exit code representing an error parsing the command line should absolutely not retry the operation (and may have a bug).  An exit code indicating that no matching version is available indicates a potentially non-permanent error, but one which shouldn't be retried without first using another command to change Notion's current state.  An exit code indicating a network error signals a kind of transient problem which might be desirable to retry after a short delay rather than immediately giving up entirely.
+
+### Documentation
 
 Customer-facing documentation will also need to be generated, either by hand or by using a purpose-made tool.  (Rustdoc alone is insufficient for this purpose, as it does not expose the enum's integer values.)  The documentation for the above example might look as follows.  (Note that the descriptions provided to the user is the same as the ones provided to developers.)
 
-| Code | Description                                                    |
-| ---: | :------------------------------------------------------------- |
-|    0 | No error occurred.                                             |
-|    1 | An unknown error occurred.                                     |
-|    2 | An invalid combination of command-line arguments was supplied. |
-|    3 | No match could be found for the requested version string.      |
-|    4 | A network error occurred.                                      |
+| Code | Description
+| ---: | :--
+|    0 | No error occurred.
+|    1 | An unknown error occurred.
+|    3 | An invalid combination of command-line arguments was supplied.
+|    4 | No match could be found for the requested version string.
+|    5 | A network error occurred.
+|  126 | The requested executable could not be run.
+|  127 | The requested executable is not available.
 
 # Critique
 [critique]: #critique
 
-The primary downside introduced by this proposal is the loss of error granularity.  By grouping multiple errors into the same exit code, external tooling loses the ability to differentiate between those errors without capturing and parsing Notion's output.  However, it wasn't deemed realistic to provide a separate exit code for each error due to the limited nature of the former and the limitless potential of the latter.  🙂
+The primary downside introduced by this proposal is the loss of error granularity.  By grouping multiple errors into the same exit code, external tooling loses the ability to differentiate between those errors without capturing and parsing Notion's output.  However, it doesn't seem realistic to provide a separate exit code for each error due to the limited nature of the former and the limitless potential of the latter.  🙂
 
-Another issue is the communication of exit codes.  We want to publish the list as part of Notion's standard, user-facing documentation, but this requires either manually keeping the documentation in sync with the source or writing a tool to do so for us.  The alternative is to point interested parties directly to the Notion source, which is undesirable.
+Another issue is the communication of exit codes.  We want to publish the list as part of Notion's standard, user-facing documentation, but this requires either manually keeping the documentation in sync with the source or writing a tool to do so for us.  The alternative is to point interested parties directly to the Notion source, which isn't ideal.
 
 # Unresolved questions
 [unresolved]: #unresolved-questions
 
-- Is a process needed for 'vetting' new exit codes, to prevent duplication?  If so, is the RFC process appropriate?
-- Are there specific, known error codes produced by e.g. Node, npm, or Yarn which should be avoided?  None of those projects themselves publish a list of exit codes…
+- Is a process needed for 'vetting' new exit codes, to prevent duplication?  If so, is the RFC process appropriate?  Alternatively, is code review sufficient?
+- Should we engage npm/Yarn to improve error categorization (either through parsable output or diversifying exit codes)?
