@@ -25,6 +25,10 @@ A list of exit codes must be maintained within the Notion source code for use by
 # Details
 [details]: #details
 
+## Windows exit codes
+
+This RFC focuses largely on compatibility with Unix exit codes because there appears to be little consensus as to exit code meaning on Windows, aside from `0` indicating success and other values indicating failure.  Certain system applications (such as the Windows installer) use [stardard Windows error codes](https://docs.microsoft.com/en-us/windows/desktop/Debug/system-error-codes) as exit codes, but that list is nearly fully packed in the 8-bit range and is excessively granular (as it extends well beyond the 8-bit range).  For these reasons, compatibility with standard error codes is not a goal of this document.
+
 ## Shims
 
 Of the three "first-class" shims (`node`, `npm`, and `yarn`), only Node currently publishes a [list of exit codes](https://nodejs.org/api/process.html#process_exit_codes); the other two only emit codes 0/1 for success/failure.  The exit codes for other shimmed executables is too large a space to examine, but Node follows what appears to be a common practice: simply numbering errors starting with 1, preserving the [special meanings commonly applied by POSIX shells](http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_08_02).  This gives us incentive to avoid low-numbered exit codes (as likely to conflict) and exit codes with the high bit set (as typically representing termination due to signals).
