@@ -1,7 +1,7 @@
 - Feature Name: exit_codes
 - Start Date: 2018-06-11
-- RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- RFC PR: https://github.com/notion-cli/rfcs/pull/20
+- Notion Issue: https://github.com/notion-cli/notion/issues/49
 
 # Summary
 [summary]: #summary
