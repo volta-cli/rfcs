@@ -26,7 +26,7 @@ $ mocha  # The Notion way
 # Details
 [details]: #details
 
-Just prior to a successful completion inside a project, the `yarn` and `npm` shims will "scan" for dependency binaries and attempt to create shims for them.  A "successful" completion, in this sense, means that the underlying tool was successfully run and returned a successful (0) status.  This covers all potential scenarios in which either of those tools create new dependency binaries.
+Just prior to a successful completion inside a project, the `yarn` and `npm` shims will "scan" for dependency binaries and attempt to create shims for them.  A "successful" completion, in this sense, means that the underlying tool was successfully run; it does *not* require that the tool returned a status of 0.  This covers all potential scenarios in which either of those tools create new dependency binaries.
 
 This scan will be a two-level process.  First, the project's `package.json` will be inspected for all dependencies and devDependencies.  Second, each of those dependencies' `package.json` files will be inspected for binaries to shim.  For each binary, Notion will attempt to create a shim symlink, catching `EEXISTS` and considering it a success.  Any other error will result in an appropriate message to `stderr`, but not halt the scanning/shimming process.
 
