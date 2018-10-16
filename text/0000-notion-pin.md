@@ -6,7 +6,7 @@
 # Summary
 [summary]: #summary
 
-One paragraph explanation of the feature.
+This RFC proposes renaming the `notion use` command to `notion pin`.
 
 # Motivation
 [motivation]: #motivation
