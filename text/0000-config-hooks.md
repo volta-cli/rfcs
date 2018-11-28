@@ -71,3 +71,4 @@ There are some performance concerns with calling an external process to resolve 
 [unresolved]: #unresolved-questions
 
 - Will an organization need or want to manage the individual tool settings in separate files?
+- Should we change the format of the Hooks file(s) to JSON, since the end-users are JS devs who will be more familiar with JSON than TOML?
