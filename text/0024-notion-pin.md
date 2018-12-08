@@ -1,7 +1,7 @@
 - Feature Name: notion_pin
 - Start Date: 2018-10-15
-- RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- RFC PR: [#24](https://github.com/notion-cli/rfcs/pull/24)
+- Notion Issue: [#213](https://github.com/notion-cli/notion/issues/213)
 
 # Summary
 [summary]: #summary
