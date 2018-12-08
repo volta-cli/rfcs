@@ -138,6 +138,14 @@ The `"platform"` section of `package.json` selects the platform image associated
 
 Users can pin the platform by manually editing the `package.json` `"platform"` section or via [`notion pin`](https://github.com/notion-cli/rfcs/pull/24).
 
+## Installation
+
+The `notion install` command installs a tool to the user toolchain.
+
+When installing a version of the Node runtime, Notion also installs the default version of npm bundled with that verison of Node. This can be overridden with a subsequent `notion install npm` command.
+
+When installing a package binary to the user toolchain, Notion checks the package for a `"platform"` key to pin the user tool to a specific platform image. If there is no `"platform"` key in the package manifest, it defaults to the current platform image configured in the user toolchain. If there is no current platform image, `notion install` fails with an error message suggesting the user choose at least a Node runtime version.
+
 # Critique
 [critique]: #critique
 
