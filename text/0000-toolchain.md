@@ -31,7 +31,7 @@ A project maintainer selects a version of TypeScript in `package.json`:
   "dependencies": {
       "typescript": "^3.2"
   },
-  "platform": {
+  "toolchain": {
       "node": "10.10.0"
   }
   ...
@@ -51,7 +51,7 @@ An end user of the [surge.sh](https://surge.sh) service installs their CLI tool 
 ```
 notion install surge
 ```
-Assuming the `surge` tool selects Node 11.4.0 in its `"platform"` manifest (it's OK if not; more details below), the CLI tool is installed in the user toolchain and pinned to Node 11.4.0.
+In this user story, the `surge` tool is published with `"engines": "11"` in its manifest, and at the time the command is run, the latest 11.x version of Node is 11.4.0. The CLI tool is installed in the user toolchain with Node 11.4.0 set as its default engine.
 
 From this point on, unless the user changes their toolchain, running
 ```
@@ -67,18 +67,18 @@ A user can install this tool to their toolchain:
 ```
 notion install project-explorer
 ```
-Assuming the `project-explorer` manifest selects Node 8.12.0 in its manifest, the tool is installed pinned to that version of the Node runtime.
+In this user story, the `project-explorer` manifest is published with `"engines": "8"` in its manifest. At the time the tool is installed, the latest 8.x version of Node is 8.15.0. So the `pexx` tool is installed with Node 8.15.0 as its default engine.
 
 When the user runs
 ```
 pexx myproject
 ```
-the `pexx` binary runs with Node 8.12.0---even if `myproject` specifies a different version of Node in its `"platform"` spec.
+the `pexx` binary runs with Node 8.15.0—even if `myproject` specifies a different version of Node in its `"toolchain"` spec.
 
 # Pedagogy
 [pedagogy]: #pedagogy
 
-This section lists the set of concepts that users may encounter using Notion. The first two, **tools** and the **toolchain**, are central to using Notion. The latter two, **shims** and **platforms**, are lower-level primitives that may be helpful for more implementation-oriented users.
+This section lists the set of concepts that users may encounter using Notion. The first two, **tools** and the **toolchain**, are central to using Notion. The latter two, **shims** and **engines**, are lower-level primitives that may be helpful for more implementation-oriented users.
 
 ## Tools
 
@@ -90,9 +90,9 @@ There are three types of tools:
 
 ## Toolchain
 
-The toolchain is a set of tools. The user adds to their toolchain with `notion install` and removes with `notion uninstall`.
+The toolchain is a set of tools the user has installed for use at the command-line console. The user adds to their toolchain with `notion install` and removes with `notion uninstall`.
 
-Each tool installed in the toolchain has a default version and platform, which can be overridden when the tool is invoked in a project that has a dependency on that tool.
+Each tool installed in the toolchain has a default version and engine, which can be overridden when the tool is invoked in a project that has a dependency on that tool.
 
 ## Primitive: Shims
 
@@ -100,50 +100,60 @@ Notion shims intercept calls to tools and redirect execution to the right execut
 
 Users may already be familiar with shims, since these are commonly used by other version managers.
 
-## Primitive: Platforms
+## Primitive: Engines
 
-A **platform spec** is a complete description of a version of the Node platform:
+An **engine spec** is a complete description of a version of the Node platform:
 
 - An exact version of the Node runtime.
 - An optional exact version of npm.
 - An optional exact version of Yarn.
 
-A **platform image** is an immutable instantiation of a platform spec on disk. It can be thought of analogously to a container image, but for the Node platform as opposed to an operating system.
+An **engine image**, or **engine**, is an immutable instantiation of an engine spec on disk. (The name "image" is meant as an analogy to a container image, but for a snapshot of the Node platform as opposed to a snapshot of an operating system.)
+
+Users may already be familiar with the "engine" concept because of the `"engines"` key of `package.json`.
 
 # Details
 [details]: #details
 
-## Toolchain
+## Engine specs
 
-A toolchain is a pair of a platform image and a set of pinned package binaries.
+In the manifest, an omitted npm version defaults to the version bundled with the specified Node runtime. An omitted Yarn version defaults to Yarn being unavailable, meaning that invoking `yarn` will produce an error. Both of these can be explicitly set to `null`, which means the specified tool is unavailable, i.e., the shim fails with an error when executed.
 
-## Platform specs
+## Engine images
 
-In the manifest, an omitted npm version defaults to the version bundled with the specified Node runtime. An omitted Yarn version defaults to Yarn being unavailable, meaning that invoking `yarn` will produce an error. Both of these can be explicitly set to `null`, which means the specified tool is unavailable.
+An engine image is an installation on disk of a specific version of the Node runtime, a specific version of npm (or none), and a specific version of Yarn (or none).
 
-## Platform images
+The _intention_ of Notion is for an image never to be modified. In particular, all commands that modify the state of an engine—e.g. `npm install --global` or `yarn global add`—should fail with an error when invoked through Notion shims. This behavior can be disabled with the environment variable `NOTION_UNSAFE_GLOBAL`. The name is meant to indicate to the user that they are "voiding their warranty" and responsible for any violations of the expectation of immutability.
 
-The definition of a platform image is a pair consisting of a Node version and a Yarn version.
+## Pinning a project
 
-A Node version is a pair consisting of an exact Node runtime version, and either an exact npm version or `null`.
+The `"toolchain"` section of `package.json` selects the engine image associated with a package.
 
-A Yarn version is either an exact Yarn version or `null`.
+Users can pin the engine by manually editing the `package.json` `"toolchain"` section or via [`notion pin`](https://github.com/notion-cli/rfcs/pull/24).
 
-## Pinning
+When the `node` shim or a package manager shim is executed from within a pinned project, the shim delegates to the version of that tool from the project's pinned engine.
 
-The `"platform"` section of `package.json` selects the platform image associated with a package. (**Note:** This is a change from earlier versions of Notion, which used the key `"toolchain"`, since the toolchain consists of _both_ the platform image _and_ the pinned package binaries -- see above.)
+## Default engine
 
-Users can pin the platform by manually editing the `package.json` `"platform"` section or via [`notion pin`](https://github.com/notion-cli/rfcs/pull/24).
+Every package binary in the toolchain has a **default engine** associated with it.
+
+When a package binary is executed outside of a Node project, or from a Node project that _does not_ have that package as a direct dependency, the package binary is run using its default engine.
+
+When a package binary is executed from a Node project that _does_ have the package as a direct dependency but _does not_ have a pinned engine, the user's installed engine is used. If the user does not have an installed engine, the shim fails with an error indicating that no engine was selected.
 
 ## Installation
 
 The `notion install` command installs a tool to the user's toolchain.
 
-When installing a version of the Node runtime, Notion also installs the default version of npm bundled with that verison of Node. This can be overridden with a subsequent `notion install npm` command.
+### Installing an engine
 
-When installing a package binary to the user toolchain, Notion checks the package for a `"platform"` key to pin the user tool to a specific platform image. If there is no `"platform"` key in the package manifest, it defaults to the current platform image configured in the user toolchain. If there is no current platform image, `notion install` fails with an error message suggesting the user choose at least a Node runtime version.
+The `notion install node` subcommand installs the user's engine. When installing a version of the Node runtime, Notion also installs the default version of npm bundled with that verison of Node. This can be overridden with a subsequent `notion install npm` command.
 
-### Overriding the associated platform
+### Installing a package binary
+
+When installing a package binary, Notion checks the package for the standard [`"engines"`](https://docs.npmjs.com/files/package.json#engines) key to select the latest engine version compatible with the package and pins the tool's default engine to that engine version. If there is no `"engines"` key in the package manifest, it defaults to the user's current engine. If the user has no current engine, `notion install` fails with an error message suggesting the user choose at least a Node runtime version.
+
+### Overriding the associated engine
 
 When used for a package tool, `notion install` accepts an optional `--node` parameter for overriding the package's specified platform version:
 
@@ -167,9 +177,9 @@ notion update surge
 # Critique
 [critique]: #critique
 
-It's natural to question whether pinning for reproducibility is worth the cost of extra fetching. An alternative approach would be to allow projects to specify less precise version requirements (such as the ranges typically expressed in the `"engines"` field of `package.json`) and assume most differences will be benign. However, behavioral divergences between versions of Node do happen and are tricky bugs to nail down. Putting in extra work up front to ensure that these divergences cannot happen, by construction should pay dividends when scaled across the Node ecosystem. And over time, we can investigate optimization techniques to save time and disk space for fetching multiple similar versions.
+It's natural to question whether pinning for reproducibility is worth the cost of extra fetching. An alternative approach would be to allow projects to specify less precise version requirements (such as the ranges expressed under the `"engines"` field of `package.json`) and assume most differences will be benign. However, behavioral divergences between versions of Node do happen and are tricky bugs to nail down. Putting in extra work up front to ensure that these divergences cannot happen, by construction should pay dividends when scaled across the Node ecosystem. And over time, we can investigate optimization techniques to save time and disk space for fetching multiple similar versions.
 
-Theoretically, it might make more sense to put the `"platform"` section in a lockfile. But since there isn't a standardized single lockfile format for JS, and those formats aren't extensible, and we don't want to impose a whole new file to add to JS projects, using the package manifest seemed like the least imposition on users.
+Theoretically, it might make more sense to put the `"toolchain"` section in a lockfile. But since there isn't a standardized single lockfile format for JS, and those formats aren't extensible, and we don't want to impose a whole new file to add to JS projects, using the package manifest seemed like the least imposition on users.
 
 Another reasonable criticism is that pinning the Node version for tools in the user toolchain means that users will not automatically benefit from performance and security improvements in Node. There are a couple of reasons this is outweighed by the benefits of pinning. First, as described above, updating tools will typically get platform updates. Second, users can still override the default with the `--node` parameter.
 
@@ -180,3 +190,4 @@ Another reasonable criticism is that pinning the Node version for tools in the u
 - Should we consider some kind of update notification mechanism to inform you when your user tools are out of date? Probably at least something similar to `brew outdated` so users can explicitly ask for the information.
 - What kinds of performance optimizations can we offer to make stateless platform images super fast?
 - What about scenarios like CI and testing matrices, where users want to be able to specify different platform configurations without having to change the configuration file? Perhaps workflows similar to `ember try`?
+- `update` vs `upgrade` syntax 😬
