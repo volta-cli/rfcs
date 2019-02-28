@@ -22,6 +22,8 @@ Our current command line parsing tool, [Docopt], works well but has several impo
 
 - It requires custom wiring-up internally for every distinct subcommand to generate consistent help output, version output, etc., and custom parsing for each of those inputs.
 
+- Colorized help output is possible, but requires manual configuration.
+
 Switching to [StructOpt] improves our story in each of these areas:
 
 - It supports automatically generating completions for all major Unix shells and Powershell during the build step.
@@ -29,6 +31,8 @@ Switching to [StructOpt] improves our story in each of these areas:
 - The configuration is validated by the compiler rather than at runtime, and the compiler’s error messages are usually much clearer about what is wrong than are the runtime errors from Doctopt.
 
 - It properly passes through global options to subcommands, and it understands all variants of “help” invocations (position and both flag styles) out of the box, and can be trivially configured to display help/usage information when no arguments are passed.
+
+- Colorized help output works out of the box as a setting which can be enabled globally as well as on a per-command basis.
 
 Though StructOpt is not *universally* better than Docopt, it can generate similar output, but with a lower maintenance burden and a number of niceties *not* supported by Docopt.
 
