@@ -35,7 +35,9 @@ Though StructOpt is not *universally* better than Docopt, it can generate simila
 # Pedagogy
 [pedagogy]: #pedagogy
 
-This is purely an internal, developer-facing change, with *benefits* to the user but no changes in actual use of Notion. The documentation for StructOpt (and its core dependency [`clap`]) are sufficient for developers working on the project.
+This change improves the user experience but does not change the user workflow in any way.
+
+It does change the *developer* workflow; however, no additional internal documentation is needed. The documentation for StructOpt (and its core dependency [`clap`]) are sufficient for developers working on the project.
 
 [`clap`]: https://docs.rs/clap/2.32.0/clap/
 
