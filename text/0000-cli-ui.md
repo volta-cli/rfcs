@@ -32,7 +32,7 @@ Switching to [StructOpt] improves our story in each of these areas:
 
 - It properly passes through global options to subcommands, and it understands all variants of “help” invocations (position and both flag styles) out of the box, and can be trivially configured to display help/usage information when no arguments are passed.
 
-- Colorized help output works out of the box as a setting which can be enabled globally as well as on a per-command basis.
+- Cross-platform olorized help output works out of the box as a setting which can be enabled globally as well as on a per-command basis.
 
 Though StructOpt is not *universally* better than Docopt, it can generate similar output, but with a lower maintenance burden and a number of niceties *not* supported by Docopt.
 
