@@ -1,7 +1,7 @@
 - Feature Name: config_hooks
 - Start Date: 10/31/2018
-- RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- RFC PR: https://github.com/notion-cli/rfcs/pull/25
+- Notion Issue: https://github.com/notion-cli/notion/pull/241
 
 # Summary
 [summary]: #summary
