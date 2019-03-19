@@ -33,6 +33,26 @@ Global package installs are not recommended.
 Consider using `notion install` to add a package to your toolchain (see `notion help install` for more info).
 ```
 
+Additionally, there are some style standards that we should follow with our error messages, to make them consistent and predictable:
+
+## Line Lengths
+
+Since the error messages often include dynamic segments (e.g. tool names), we shouldn't try to have a strict line-length requirement for the error messages. However, for usability, we should aim to not have any lines that are significantly more than 100 characters long. Also, the primary error description should fit into a single line, with any additional calls to action or troubleshooting tips on additional lines.
+
+## Prefixes
+
+When an error occurs in a tool shim, we should prefix any errors with `Notion error:`, to make it explicit that the error occurred as a result of Notion, and not the underlying tool. If the error occurred during the execution of the primary `notion` executable, adding `Notion error:` would be redundant, so we should instead use `error:` to introduce the error. This will provide a consistency with error reporting that will make it easy for users to understand what has happened.
+
+## Color
+
+We shouldn't go overboard with colors or additional styling, since having too many can distract from the main message we are trying to get across. However, we _do_ want errors to be visually distinctive, both on the command line and in log output, so we should make the prefix (described above) bold and red. Red is the common color for errors, so it will stand out as a visual indicator to the user that something went wrong.
+
+## Additional Context
+
+Most of our errors will be self-contained, issues with executing some part of the operation. However, when there is an error with parsing a configuration file (`hooks.toml`, `package.json`, etc.), we should provide additional context to the user, letting them know where the error is and highlighting the incorrect parts of the file. This should only occur for user-editable files, not for any of our internal files that are used for maintaining state.
+
+-----
+
 Beyond the error message itself, it would be a good idea to include a "Troubleshooting" section of the documentation website, with sections for each error. There, we could provide more context and additional steps to resolve the issue. We could then write out a link with each error to the documentation for that error, affording users the opportunity to dig in deeper if necessary.
 
 The first phase of technical groundwork for improving the error messages was completed in notion-cli/notion#249. The additional work has several phases:
@@ -56,11 +76,25 @@ We will need to create the online documentation for all of the error messages, a
 # Critique
 [critique]: #critique
 
-The primary point of critique is with the exact voice and style we want to use for the error messages. There are two extremes we could take, though this proposal is for doing a middle-ground that hopefully gets the benefits of each without significant drawbacks.
+## Voice
+
+The primary point of critique is with the exact voice we want to use for the error messages. There are two extremes we could take, though this proposal is for doing a middle-ground that hopefully gets the benefits of each without significant drawbacks.
 
 On the one hand, we could argue that since Notion is a CLI tool, and many of the commands (e.g. `npm run ...`) will be run by automated scripts, we should keep the error messages as concise as possible. This prevents us from filling up logs with human-readable text, while still providing feedback in the form of an error code and short description. The issue with this is that Notion will also be used very often in non-automated contexts. Putting an extra step between the user and useful feedback hurts the user experience and makes it less likely for the helpful information to actually be of use.
 
 On the other hand, we could opt for extremely verbose error messages, in the vein of the compiler messages provided by [Elm](https://elm-lang.org). This has the benefit of being extremely friendly to the user in pointing them towards where their problem is, but is a lot of clutter. Additionally, while compile errors are a normal and expected part of development, errors in a tool like Notion should be rare and exceptional. While a compiler providing very verbose output to explain how to fix your code makes sense, it makes less sense for a tool that shouldn't be putting errors out anyway, to give that much detail all the time.
+
+## Style
+
+An additional point of critique is with the specific style used for the error messages. This includes:
+
+### Line Length
+
+We could have a fixed requirement that lines be a specific length and no longer, however this would require the error message author to know every possible value that a dynamic segment could take. Additionally, if the possible values of that segment change in the future, the error message would need to be updated to support the fixed line length. This could also lead to lines that appear too short, as the break needs to be done to accommodate a potentially longer dynamic segment.
+
+### Color
+
+We could make an argument for using more color, perhaps making the entire error description red (which is the approach used by [ember-cli](https://ember-cli.com/)). This would make the error even more explicit and visually distinctive. However, red on black (which is a common terminal background) can be difficult to read, and the goal is for the error messages to be readable and helpful. Additionally, having the message be red but then the calls to action in white provides a contrast that makes it somewhat ambiguous if the text is meant to supplement the error.
 
 # Unresolved questions
 [unresolved]: #unresolved-questions
