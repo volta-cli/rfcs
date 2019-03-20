@@ -13,63 +13,89 @@ Improve error messages so that users are better able to understand and troublesh
 
 Our current error messages are often cryptic and unhelpful. We have, at last count, nearly 100 calls to `.unknown()` for external errors, effectively swallowing the underlying error and presenting a generic `an internal error occurred` message. This doesn't help the user understand what went wrong nor what they could do to fix the issue, leading to frustration with Notion. Where we do have error messages, they are often utilitarian and not as helpful as they could be. To improve the user experience and make Notion a delightful tool to use, we should improve those error messages so that they are more helpful for the users.
 
-Additionally, when users report an error to the maintainers, it can sometimes be difficult to track down exactly where that error originated. By including a unique identifying code in every error, we will be more able to pinpoint the exact source of an error when a user reports an issue.
+Additionally, we often have extra information about an error that may be useful to help the user debug, however it would clutter the terminal if we always wrote it out. We should have a flag to allow the user to opt-in to more information on their errors, and write errors to a log so they can be easily looked up and submitted with bug reports.
+
+Lastly, when users report an error to the maintainers, it can sometimes be difficult to track down exactly where that error originated. By including a unique identifying code in every error, we will be more able to pinpoint the exact source of an error when a user reports an issue.
 
 # Pedagogy
 [pedagogy]: #pedagogy
 
-Ideally, there should be nothing new we need to teach the users. The error messages will be more descriptive and helpful, and in the event that the user still can't solve the problem, the unique identifier will make it more straightforward for us to assist.
+Ideally, there should be nothing new we need to teach the users about the errors. The error messages will be more descriptive and helpful, and in the event that the user still can't solve the problem, the unique identifier will make it more straightforward for us to assist.
 
-There may, however, be some additional education and documentation necessary to introduce concepts used by Notion that are now being exposed somewhat by the more descriptive error messages.
+We will, however, need to introduce the existence of the `--verbose` flag for showing more information on errors and the location of the log files so that users can use the error logs to troubleshoot as well as submit issues.
+
+There may also be some additional education and documentation necessary to introduce concepts used by Notion that are now being exposed somewhat by the more descriptive error messages.
+
 
 # Details
 [details]: #details
 
-After some short internal discussions, the general consensus is that the error messages should be conversational and provide the necessary context around what happened. However, we should try to avoid being too verbose as Notion is a CLI tool and we don't want long, informal error messages filling up logs when it isn't necessary. An example of an existing error message that provides the needed guidance without being too long is:
+## Style
+
+After some short internal discussions, the general consensus is that the error messages should be conversational and provide the necessary context around what happened. However, we should try to avoid being too verbose as Notion is a CLI tool and we don't want long, informal error messages filling up logs when it isn't necessary. In order to be as useful as possible, without unneeded cluttering, the error messages should generally have 2 parts:
+
+1. A short description of what went wrong. This should be kept to one or two lines, providing the context of what Notion was trying to do and what failed.
+2. A call-to-action for likely next steps the user can take to resolve the issue.
 
 ```
 Global package installs are not recommended.
 
-Consider using `notion install` to add a package to your toolchain (see `notion help install` for more info).
+Use `notion install` to add a package to your toolchain (see `notion help install` for more info).
 ```
 
 Additionally, there are some style standards that we should follow with our error messages, to make them consistent and predictable:
 
-## Line Lengths
+### Line Lengths
 
 Since the error messages often include dynamic segments (e.g. tool names), we shouldn't try to have a strict line-length requirement for the error messages. However, for usability, we should aim to not have any lines that are significantly more than 100 characters long. Also, the primary error description should fit into a single line, with any additional calls to action or troubleshooting tips on additional lines.
 
-## Prefixes
+### Prefixes
 
 When an error occurs in a tool shim, we should prefix any errors with `Notion error:`, to make it explicit that the error occurred as a result of Notion, and not the underlying tool. If the error occurred during the execution of the primary `notion` executable, adding `Notion error:` would be redundant, so we should instead use `error:` to introduce the error. This will provide a consistency with error reporting that will make it easy for users to understand what has happened.
 
-## Color
+### Color
 
 We shouldn't go overboard with colors or additional styling, since having too many can distract from the main message we are trying to get across. However, we _do_ want errors to be visually distinctive, both on the command line and in log output, so we should make the prefix (described above) bold and red. Red is the common color for errors, so it will stand out as a visual indicator to the user that something went wrong.
 
-## Additional Context
+### Additional Context
 
 Most of our errors will be self-contained, issues with executing some part of the operation. However, when there is an error with parsing a configuration file (`hooks.toml`, `package.json`, etc.), we should provide additional context to the user, letting them know where the error is and highlighting the incorrect parts of the file. This should only occur for user-editable files, not for any of our internal files that are used for maintaining state.
 
------
+## Verbose Mode
+
+While we want to keep our messages concise by default, often there will be situations where we have additional information that would help the user troubleshoot. We want to provide a way for the user to access that additional information if they want it, while allowing other users to easily ignore it when they don't need more information.
+
+### `--verbose` Flag
+
+We should provide a general option to the `notion` command, `--verbose`, that will include additional error information in the event of a problem. This will allow the user to see more information directly in the terminal if they are running a `notion` command.
+
+### Error Logs
+
+We should also write any errors into a log file in the `NOTION_HOME` directory, so that the user can access the verbose error message even if they didn't execute the command with the `--verbose` flag. This will also be where verbose errors for shims can be accessed, as the shims should be seamless so we can't add a `--verbose` option to them.
+
+## Implementation
 
 Beyond the error message itself, it would be a good idea to include a "Troubleshooting" section of the documentation website, with sections for each error. There, we could provide more context and additional steps to resolve the issue. We could then write out a link with each error to the documentation for that error, affording users the opportunity to dig in deeper if necessary.
 
 The first phase of technical groundwork for improving the error messages was completed in notion-cli/notion#249. The additional work has several phases:
 
-## Unique Identifiers
+### Add Verbose Flag and Logging
 
-Update the existing error implementation to support a unique error code assigned to each error type. Additionally, we'll need to update the `Display` implementation to output that error code and the link to the online documentation about that error with the error message.
+We will need to update our error reporting to handle the `--verbose` flag and output any additional information that we have available. We also will need to write those errors into a log file regardless of the existence of the flag.
 
-## Audit Existing Errors
+### Audit Existing Errors
 
 We have a number of existing error messages of varying levels of helpfulness. We should update those to all be at the same level (and potentially split them into multiple errors if necessary).
 
-## Create Error Messages for Unknown Errors
+### Create Error Messages for Unknown Errors
 
 The bulk of the work for this RFC will be in creating new error messages (and codes) and replacing every call to `.unknown()` with a call to `.with_context()` that returns the appropriate error. As of the start of this RFC, there are ~80 uses of `.unknown()`, so this will be a significant undertaking, and likely best handled with a quest issue. For each error, we will need to determine the appropriate context and then craft an error message to explain to the user what went wrong and how best to fix it.
 
-## Online Documentation
+### Unique Identifiers
+
+Update the existing error implementation to support a unique error code assigned to each error type. Additionally, we'll need to update the `Display` implementation to output that error code and the link to the online documentation about that error with the error message.
+
+### Online Documentation
 
 We will need to create the online documentation for all of the error messages, and keep it updated as new errors are added. For a day 0 implementation, the documentation could simply be a restatement of the error message, but going forward we should try to add additional context where possible. For example, a relatively common error is `No such file or directory (os error 2)` when trying to execute a command. This very often means that the command being executed couldn't be found in the `PATH`, so we should be able to include that additional information in the online troubleshooting documentation.
 
