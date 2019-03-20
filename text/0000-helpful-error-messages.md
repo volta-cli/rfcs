@@ -73,6 +73,43 @@ We should provide a general option to the `notion` command, `--verbose`, that wi
 
 We should also write any errors into a log file in the `NOTION_HOME` directory, so that the user can access the verbose error message even if they didn't execute the command with the `--verbose` flag. This will also be where verbose errors for shims can be accessed, as the shims should be seamless so we can't add a `--verbose` option to them.
 
+## Examples
+
+### Global package install is not recommended
+
+![Global package error on dark background](/images/global_install.png)
+![Global package error on light background](/images/global_install_light.png)
+
+### Pinning yarn without pinned node
+
+![Pin yarn error on dark background](/images/pin_yarn_without_node.png)
+![Pin yarn error on light background](/images/pin_yarn_without_node_light.png)
+
+### Version not found in registry
+
+![Version not found on dark background](/images/version_not_in_registry.png)
+![Version not found on light background](/images/version_not_in_registry_light.png)
+
+### Registry fetch error (default)
+
+![Registry fetch error on dark background](/images/registry_fetch_short.png)
+![Registry fetch error on light background](/images/registry_fetch_short_light.png)
+
+### Registry fetch error (verbose)
+
+![Verbose registry fetch error on dark background](/images/registry_fetch_long.png)
+![Verbose registry fetch error on light background](/images/registry_fetch_long_light.png)
+
+### Tool download error (default)
+
+![Tool download error on dark background](/images/tool_download_short.png)
+![Tool download error on light background](/images/tool_download_short_light.png)
+
+### Tool download error (verbose)
+
+![Verbose tool download error on dark background](/images/tool_download_long.png)
+![Verbose tool download error on dark background](/images/tool_download_long_light.png)
+
 ## Implementation
 
 Beyond the error message itself, it would be a good idea to include a "Troubleshooting" section of the documentation website, with sections for each error. There, we could provide more context and additional steps to resolve the issue. We could then write out a link with each error to the documentation for that error, affording users the opportunity to dig in deeper if necessary.
