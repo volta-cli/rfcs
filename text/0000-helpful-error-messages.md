@@ -77,38 +77,101 @@ We should also write any errors into a log file in the `NOTION_HOME` directory, 
 
 ### Global package install is not recommended
 
-![Global package error on dark background](/images/global_install.png)
-![Global package error on light background](/images/global_install_light.png)
+<details>
+  <summary>Dark background</summary>
+
+  ![Global package error on dark background](/images/global_install.png)
+</details>
+
+<details>
+  <summary>Light background</summary>
+
+  ![Global package error on light background](/images/global_install_light.png)
+</details>
 
 ### Pinning yarn without pinned node
 
-![Pin yarn error on dark background](/images/pin_yarn_without_node.png)
-![Pin yarn error on light background](/images/pin_yarn_without_node_light.png)
+<details>
+  <summary>Dark background</summary>
+
+  ![Pin yarn error on dark background](/images/pin_yarn_without_node.png)
+</details>
+
+<details>
+  <summary>Light background</summary>
+
+  ![Pin yarn error on light background](/images/pin_yarn_without_node_light.png)
+</details>
 
 ### Version not found in registry
 
-![Version not found on dark background](/images/version_not_in_registry.png)
-![Version not found on light background](/images/version_not_in_registry_light.png)
+<details>
+  <summary>Dark background</summary>
+
+  ![Version not found on dark background](/images/version_not_in_registry.png)
+</details>
+
+<details>
+  <summary>Light background</summary>
+
+  ![Version not found on light background](/images/version_not_in_registry_light.png)
+</details>
 
 ### Registry fetch error (default)
 
-![Registry fetch error on dark background](/images/registry_fetch_short.png)
-![Registry fetch error on light background](/images/registry_fetch_short_light.png)
+<details>
+  <summary>Dark background</summary>
+
+  ![Registry fetch error on dark background](/images/registry_fetch_short.png)
+</details>
+
+<details>
+  <summary>Light background</summary>
+
+  ![Registry fetch error on light background](/images/registry_fetch_short_light.png)
+</details>
 
 ### Registry fetch error (verbose)
 
-![Verbose registry fetch error on dark background](/images/registry_fetch_long.png)
-![Verbose registry fetch error on light background](/images/registry_fetch_long_light.png)
+<details>
+  <summary>Dark background</summary>
+
+  ![Verbose registry fetch error on dark background](/images/registry_fetch_long.png)
+</details>
+
+<details>
+  <summary>Light background</summary>
+
+  ![Verbose registry fetch error on light background](/images/registry_fetch_long_light.png)
+</details>
 
 ### Tool download error (default)
 
-![Tool download error on dark background](/images/tool_download_short.png)
-![Tool download error on light background](/images/tool_download_short_light.png)
+<details>
+  <summary>Dark background</summary>
+
+  ![Tool download error on dark background](/images/tool_download_short.png)
+</details>
+
+<details>
+  <summary>Light background</summary>
+
+  ![Tool download error on light background](/images/tool_download_short_light.png)
+</details>
 
 ### Tool download error (verbose)
 
-![Verbose tool download error on dark background](/images/tool_download_long.png)
-![Verbose tool download error on dark background](/images/tool_download_long_light.png)
+<details>
+  <summary>Dark background</summary>
+
+  ![Verbose tool download error on dark background](/images/tool_download_long.png)
+</details>
+
+<details>
+  <summary>Light background</summary>
+
+  ![Verbose tool download error on dark background](/images/tool_download_long_light.png)
+</details>
 
 ## Implementation
 
