@@ -6,7 +6,7 @@
 # Summary
 [summary]: #summary
 
-Change all version-specifying commands to use the `<tool>[@<version>]` syntax from `npm install` and `yarn add`.
+Change all version-specifying commands to use the `<tool>[@<version>]` syntax from `npm install`, `yarn add`, and `npx <package command>`.
 
 # Motivation
 [motivation]: #motivation
@@ -77,13 +77,13 @@ Installation, fetching, and pinning function much as they do today, with two cha
 
 There are two broad sets of current Node users: those not using a Node version management tool, and those using an existing tool like `nvm`, `nodenv`, or `nvm-windows`.
 
-Current Node users who are not using a Node version management tool should find this a simplification: it matches what npm and Yarn do.
+Current Node users who are not using a Node version management tool should find this a simplification: it matches what npm, npx, and Yarn do.
 
 Current Node users using existing tools will find this to be different from their experience:
 
-- `nvm` uses `nodenv install <version>`
+- `nvm` uses `nvm install <version>`
 - `nodenv` uses `nodenv install <version>`
-- `nvm-windows` uses `nodenv install <version> [arch]` (where `[arch]` allows users to specify 32-bit or 64-bit builds)
+- `nvm-windows` uses `nvm install <version> [arch]` (where `[arch]` allows users to specify 32-bit or 64-bit builds)
 
 Although we are breaking with these tools, all of them are responsible to manage *only* the Node version, *not* other tools. Notion's purview extends to other tools and therefore overlaps more with the behavior expected from invoking `npm` or `yarn`.
 
@@ -130,11 +130,11 @@ Managing a tool at a specific version, at any level of granularity, now uses `@`
 
 This also works for shorthands (currently `latest`, conceivably also tags like `next` or `lts` in the future):
 
-| Original                 | Proposed                  | Status       |
+| Original                 | Proposed                  | Status      |
 | ------------------------ | ------------------------ | ------------ |
 | `notion pin node latest` | `notion pin node@latest` | current      |
+| `notion pin node lts`    | `notion pin node@lts`    | current      |
 | `notion pin node next`   | `notion pin node@next`   | hypothetical |
-| `notion pin node lts`    | `notion pin node@lts`    | hypothetical |
 
 ## Installing, fetching, or pinning multiple tools
 
