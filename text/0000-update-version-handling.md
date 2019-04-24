@@ -121,7 +121,7 @@ Current Node users using existing tools will find this to be different from thei
 - `nodenv` uses `nodenv install <version>`
 - `nvm-windows` uses `nvm install <version> [arch]` (where `[arch]` allows users to specify 32-bit or 64-bit builds)
 
-Although we are breaking with these tools, all of them are responsible to manage *only* the Node version, *not* other tools. Notion's purview extends to other tools and therefore overlaps more with the behavior expected from invoking `npm` or `yarn`.
+Although we are breaking with these tools, all of them are responsible to manage *only* the Node version, *not* other tools. Notion's purview extends to other tools and therefore overlaps more with the behavior expected from invoking `npm`, `npx`, or `yarn`.
 
 ### New Node users
 
