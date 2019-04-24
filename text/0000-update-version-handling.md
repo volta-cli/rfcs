@@ -61,15 +61,51 @@ This is a surprising difference for users coming from `npm` or `yarn`. Switching
 # Pedagogy
 [pedagogy]: #pedagogy
 
-Installation, fetching, and pinning function much as they do today, with two changes:
+Installation, fetching, and pinning function much as they do today, with two changes: the tool + version combination is now a single string, in the format `tool[@<version>]`; and users may fetch, install, or pin multiple tools at once.
 
-- The tool + version combination is now a single string, in the format `tool[@<version>]`. That is, a user may supply a tool with its name only, e.g. `node`, or with a specific version using the `@` to separate the name from the version, e.g. `node@10`, `node@10.5`, `node@10.5.2`, or `node@latest`.
+## New tool + version string
 
-- The invocations now allow multiple tool + version combinations, each of the format specified above. For example, a user may simultaneously pin a Node and a Yarn version (with any combination of the version specifier, or none at all):
+The tool + version combination is now a single string, in the format `tool[@<version>]`.
 
-  ```sh
-  notion install node@10.5 yarn
-  ```
+Users may supply a tool with no version string:
+
+```sh
+notion install node
+```
+
+This will use the current default for the specified tool—currently the latest version available for any package, and the LTS distribution for Node.
+
+Users may supply a tool with a <i>version</i> or a <i>version spec</i>, using an `@` to separate the tool name from the version or version spec.
+
+Valid <i>versions</i> are any of the following formats:
+
+-   `node@10`
+-   `node@10.5`
+-   `node@10.5.2`
+
+Valid <i>version specs</i> are any valid SemVer spec, as already implemented in Notion. As a representative (not exhaustive) sample:
+
+-   `node@10.5*`
+-   `node@^10.5`
+-   `node@~10.5`
+-   `node@>=10`
+-   `node@<10`
+-   `"node@8 || 9"` (an odd invocation, but one our current implementation supports)
+
+Finally, users may supply a tool with either of the two special version names Notion currently supports, `lts` and `latest`:
+
+-   `node@lts`
+-   `node@latest`
+
+This RFC does *not* propose supporting arbitrary tags such as `next`, as there is further design work to be done there; but it does not preclude support for that in the future.
+
+## Multiple tool + version arguments
+
+The invocations now allow multiple tool + version combinations, each of the format specified above. For example, a user may simultaneously pin a Node and a Yarn version (with any combination of the version specifier, or none at all):
+
+```sh
+notion install node@10.5 yarn
+```
 
 ## Explanation for Users
 
