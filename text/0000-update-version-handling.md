@@ -187,7 +187,7 @@ The `ToolSpec` change will make the format `tool[@version]` work; updating the c
 # Critique
 [critique]: #critique
 
-This introduces breaking changes—something which should not be done lightly! It does so under the assumption that fetching or especially installing or pinning multiple tools simultaneously is a relatively common operation. This assumption may be wrong. It may also be the case that implementing this—with the required changes to 
+This introduces breaking changes—something which should not be done lightly! It does so under the assumption that fetching or especially installing or pinning multiple tools simultaneously is a relatively common operation. This assumption may be wrong.
 
 It also introduces a move away from users’ existing habits with `nvm` and `nodenv` and similar tools. This is thus an increase in the learning/switching costs for the tool.
 
