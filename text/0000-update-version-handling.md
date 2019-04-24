@@ -258,9 +258,11 @@ It also introduces a move away from users’ existing habits with `nvm` and `nod
 # Unresolved questions
 [unresolved]: #unresolved-questions
 
--   This will *suggest* to users that they can use tags, e.g. `tool@next`, a feature we do not currently support. Should we include support for that here, or plan it as follow-on work, or neither?
-
 -   How do we handle errors when installing multiple things?
 
     -   Do we keep going and try to install as much as we can, or fail on the first error?
     -   If we do attempt to continue and multiple installs fail, how do we present those errors to the user?
+
+## Future work
+
+Introducing this feature will *suggest* to users that they can use tags, e.g. `tool@next`, a feature we do not currently support. We should plan that as useful later work, as it requires further design around the difference between Node and other tools, since other tools are npm packages with tags, and Node is not. Moreover, if or when we implement that functionality the version-specifying approach proposed here will get it "for free".
