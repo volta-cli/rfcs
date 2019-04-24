@@ -180,7 +180,7 @@ impl ToolSpec {
 }
 ```
 
-This is a relatively simple implementation. The only complication is the existence of Node namespaces: `@namespace/package`. This means parsing the version is not as simple as splitting on `"@"`. However, it should still be straightforward using the combination of a regular expression and the existing semver tooling.
+This is a relatively simple implementation. The only complication is the existence of Node namespaces: `@namespace/package`. This means parsing the version is not as simple as splitting on `"@"`. However, it should still be straightforward using the combination of a regular expression and the existing semver tooling. The use of `@` to demarcate a namespace is restricted to the first character, which means the problem is small. In any case, we will treat npm and Yarn's handling as reference implementations.
 
 The `ToolSpec` change will make the format `tool[@version]` work; updating the commands to take a `Vec<ToolSpec>` will support passing multiple arguments.
 
