@@ -253,7 +253,7 @@ It also introduces a move away from users’ existing habits with `nvm` and `nod
 
     The proposed design here is well-proven with other tools which install more than simply a single tool-and-version pair, e.g. `npm`, `yarn`, and `cargo-edit`, and it does not fall prey to these problems of indeterminacy.
 
--   Leave things as they are. This has the upside of matching other Node version managers, all of which use a close variant on our current syntax.
+-   Leave things as they are. This has the upside of matching other Node version managers, all of which use a close variant on our current syntax. However, none of those tools support installing anything but Node, so the comparison is less telling than it might seem.
 
 # Unresolved questions
 [unresolved]: #unresolved-questions
