@@ -156,13 +156,18 @@ Managing a tool with its default version is unchanged.
 | `notion pin yarn`         | `notion pin yarn`         |
 | `notion fetch typescript` | `notion fetch typescript` |
 
-Managing a tool at a specific version, at any level of granularity, now uses `@` to separate the tool name from its version.
+Managing a tool at a specific version, at any level of granularity, and with either a specific version or a version spec, now uses `@` to separate the tool name from its version/version spec.
 
-| Original                     | Proposed                     |
-| ---------------------------- | ---------------------------- |
-| `notion pin node 10`         | `notion pin node@10`         |
-| `notion fetch node 10.5`     | `notion fetch node@10.5`     |
-| `notion install node 10.5.0` | `notion install node@10.5.0` |
+| Original                        | Proposed                        |
+| ------------------------------- | ------------------------------- |
+| `notion pin node 10`            | `notion pin node@10`            |
+| `notion fetch node 10.5`        | `notion fetch node@10.5`        |
+| `notion install node 10.5.0`    | `notion install node@10.5.0`    |
+| `notion install node ^10`       | `notion install node@^10`       |
+| `notion install node ~10.5`     | `notion install node@~10.5`     |
+| `notion install node >=10`      | `notion install node@>=10`      |
+| `notion install node <10`       | `notion install node@<10`       |
+| `notion install node "8 || 10"` | `notion install "node@8 || 10"` |
 
 This also works for shorthands (currently `latest`, conceivably also tags like `next` in the future):
 
