@@ -13,7 +13,7 @@ Change all version-specifying commands to use the `<tool>[@<version>]` syntax fr
 
 Users may regularly want to add multiple tools to their toolchain at the same time. They are also accustomed to being able to install multiple dependencies simultaneously with the `npm install` or `yarn add` commands, both in a package and globally.
 
-- **Local installs:**
+-   **Local installs:**
 
     ```sh
     npm install ember-cli@3.9.1 typescript@3
@@ -23,7 +23,7 @@ Users may regularly want to add multiple tools to their toolchain at the same ti
     yarn global ember-cli@3.9.1 typescript@3
     ```
 
-- **Global installs:**
+-   **Global installs:**
 
     ```sh
     npm install --global ember-cli@3.9.1 typescript@3
@@ -35,21 +35,21 @@ Users may regularly want to add multiple tools to their toolchain at the same ti
 
 Notion currently does not support this, requiring individual invocations for each tool:
 
-- **User toolchain:**
+-   **User toolchain:**
 
     ```sh
     notion install ember-cli 3.9.1
     notion install typescript 3
     ```
 
-- **Project toolchain:**
+-   **Project toolchain:**
 
     ```sh
     notion pin ember-cli 3.9.1
     notion pin typescript 3
     ```
 
-- **Tool retrieval:**
+-   **Tool retrieval:**
 
     ```sh
     notion fetch ember-cli 3.9.1
@@ -117,9 +117,9 @@ Current Node users who are not using a Node version management tool should find 
 
 Current Node users using existing tools will find this to be different from their experience:
 
-- `nvm` uses `nvm install <version>`
-- `nodenv` uses `nodenv install <version>`
-- `nvm-windows` uses `nvm install <version> [arch]` (where `[arch]` allows users to specify 32-bit or 64-bit builds)
+-   `nvm` uses `nvm install <version>`
+-   `nodenv` uses `nodenv install <version>`
+-   `nvm-windows` uses `nvm install <version> [arch]` (where `[arch]` allows users to specify 32-bit or 64-bit builds)
 
 Although we are breaking with these tools, all of them are responsible to manage *only* the Node version, *not* other tools. Notion's purview extends to other tools and therefore overlaps more with the behavior expected from invoking `npm`, `npx`, or `yarn`.
 
@@ -127,19 +127,19 @@ Although we are breaking with these tools, all of them are responsible to manage
 
 New Node users may have a wide variety of different expectations for adding a version of a tool:
 
-- RubyGems: `gem install <gem name> [-v|--version <version>]`
+-   RubyGems: `gem install <gem name> [-v|--version <version>]`
 
-- Bundler: `bundle add <gem name> [--version=<version>]`
+-   Bundler: `bundle add <gem name> [--version=<version>]`
 
-- Nuget: `nuget install <package> [-Version <version>]`
+-   Nuget: `nuget install <package> [-Version <version>]`
 
-- Paket: `paket add <package> [--version <version spec>]`
+-   Paket: `paket add <package> [--version <version spec>]`
 
-- `dotnet`: `dotnet tool install <PACKAGE_NAME> <-g|--global> [--version]`
+-   `dotnet`: `dotnet tool install <PACKAGE_NAME> <-g|--global> [--version]`
 
-- Cargo: `cargo install crate [--version <version>]`
+-   Cargo: `cargo install crate [--version <version>]`
 
-- `cargo-edit`: `cargo add <package>[@<version>]...`
+-   `cargo-edit`: `cargo add <package>[@<version>]...`
 
 Of these, only `cargo-edit` allows adding multiple packages simultaneously; it does so with the same interface as `npm` and `yarn` and proposed here.
 
