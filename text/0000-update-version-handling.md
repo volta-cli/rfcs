@@ -110,7 +110,7 @@ Of these, only `cargo-edit` allows adding multiple packages simultaneously; it d
 # Details
 [details]: #details
 
-## Installing, fetchin, or pinning a single tool
+## Installing, fetching, or pinning a single tool
 
 Managing a tool with its default version is unchanged.
 
