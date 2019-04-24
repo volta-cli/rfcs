@@ -160,9 +160,9 @@ Managing a tool at a specific version, at any level of granularity, now uses `@`
 
 | Original                     | Proposed                     |
 | ---------------------------- | ---------------------------- |
-| `notion install node latest` | `notion install node@latest` |
 | `notion pin node 10`         | `notion pin node@10`         |
 | `notion fetch node 10.5`     | `notion fetch node@10.5`     |
+| `notion install node 10.5.0` | `notion install node@10.5.0` |
 
 This also works for shorthands (currently `latest`, conceivably also tags like `next` in the future):
 
