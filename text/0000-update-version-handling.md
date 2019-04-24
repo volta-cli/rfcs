@@ -128,7 +128,7 @@ Managing a tool at a specific version, at any level of granularity, now uses `@`
 | `notion pin node 10`         | `notion pin node@10`         |
 | `notion fetch node 10.5`     | `notion fetch node@10.5`     |
 
-This also works for shorthands (currently `latest`, conceivably also tags like `next` or `lts` in the future):
+This also works for shorthands (currently `latest`, conceivably also tags like `next` in the future):
 
 | Original                 | Proposed                  | Status      |
 | ------------------------ | ------------------------ | ------------ |
