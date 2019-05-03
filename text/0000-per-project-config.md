@@ -33,14 +33,14 @@ We will need to update the `HookConfig` to parse the user-level `.notionrc.json`
 
 ## Configuration Precedence
 
-When configurations are specified in multiple places, we need to merge them in a specified order so that we get a single configuration to work from. The order will be defined generally as more specific configurations having precedence over more general configurations. This means:
+When configurations are specified in multiple places, we need to deep merge them in a specified order so that we get a single configuration to work from. The order will be defined generally as more specific configurations having precedence over more general configurations. This means:
 
 - Per-project configuration beats per-user configuration
 - `.notionrc.json` platform spec beats `package.json` platform spec
 
 ## Merging Configurations
 
-When multiple configurations are specified, we should merge them using the above precedence such that the final configuration includes all hooks defined by any of the configurations. For example, if:
+When multiple configurations are specified, we should merge them deeply using the above precedence such that the final configuration includes all hooks defined by any of the configurations. For example, if:
 
 - User-level `.notionrc.json` includes the `[node.index]` and `[node.distro]` hooks
 - Project-level `.notionrc.json` includes the `[node.distro]` hook and the `node` version setting for the platform
