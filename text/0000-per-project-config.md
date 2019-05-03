@@ -56,7 +56,15 @@ This will likely require that the `Project` and `Hooks` objects in `notion-core`
 
 ## `notion config` Reference
 
-To help users understand which configurations are active and where they are coming from, we should implement a `notion config` command that works similarly to `npm config`. This will likely require a separate RFC to work out the specific details of how we show configurations and sources. We'll also need to figure out if the user can set configurations from the command-line, and if so, how we propagate those settings back into the various config files.
+To help users understand which configurations are active and where they are coming from, we should implement a `notion config list` command that works similarly to `npm config list`. This will allow users to immediately see what Notion understands about the state of the world from a given place in the filesystem, while also providing us with a useful tool for debugging the implementation. This also opens the option going forward of providing CLI commands for editing the configuration (e.g. `notion config set`).
+
+## Multi-stage Implementation
+
+To facilitate the work and allow users to work with parts of these changes before we make an entire overhaul to the system, we can implement this RFC in multiple stages:
+
+1. Add support for parsing a project-local `notion-hooks.toml` file, if it exists, as well as the `~/.notion/hooks.toml` that we currently check for.
+2. Rename `hooks.toml` into `.notionrc.json`, changing the file format but supporting the same set of configurations (i.e. Only hooks, no platform specifications at this point).
+3. Fully merge the hooks config with the platform config internally and add support for `toolchain` within `.notionrc.json`
 
 # Critique
 [critique]: #critique
