@@ -18,7 +18,7 @@ Additionally, we currently already support per-project settings for the platform
 # Pedagogy
 [pedagogy]: #pedagogy
 
-We need to document the format of the `.voltarc.json` file, which will mostly match the features available in the existing `hooks.toml`, however it will also include the additional settings for `toolchain` similar to . Additionally, we need to document and explain the precedence order for when multiple configs are specified (e.g. user-level _and_ project-level).
+We need to document the format of the `.voltarc.json` file, which will mostly match the features available in the existing `hooks.toml`, however it will also include the additional settings for `toolchain` similar to `package.json`. Additionally, we need to document and explain the precedence order for when multiple configs are specified (e.g. user-level _and_ project-level).
 
 Additionally, for consistency of configuration, we should update the user-wide config stored in `~/.volta` from `hooks.toml` to also be named `.voltarc.json`, so that it's immediately obvious that it contains the same settings as the project-level configuration. This will be a breaking change that requires users to translate their settings from the old format to the new.
 
