@@ -1,7 +1,7 @@
 - Feature Name: update_version_handling
 - Start Date: 2019-04-23
 - RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- Volta Issue: (leave this empty)
 
 # Summary
 [summary]: #summary
@@ -33,27 +33,27 @@ Users may regularly want to add multiple tools to their toolchain at the same ti
     yarn global add ember-cli@3.9.1 typescript@3
     ```
 
-Notion currently does not support this, requiring individual invocations for each tool:
+Volta currently does not support this, requiring individual invocations for each tool:
 
 -   **User toolchain:**
 
     ```sh
-    notion install ember-cli 3.9.1
-    notion install typescript 3
+    volta install ember-cli 3.9.1
+    volta install typescript 3
     ```
 
 -   **Project toolchain:**
 
     ```sh
-    notion pin ember-cli 3.9.1
-    notion pin typescript 3
+    volta pin ember-cli 3.9.1
+    volta pin typescript 3
     ```
 
 -   **Tool retrieval:**
 
     ```sh
-    notion fetch ember-cli 3.9.1
-    notion fetch typescript 3
+    volta fetch ember-cli 3.9.1
+    volta fetch typescript 3
     ```
 
 This is a surprising difference for users coming from `npm` or `yarn`. Switching over to use the same invocation as the existing tools will make adoption smoother and less surprising.
@@ -70,7 +70,7 @@ The tool + version combination is now a single string, in the format `tool[@<ver
 Users may supply a tool with no version string:
 
 ```sh
-notion install node
+volta install node
 ```
 
 This will use the current default for the specified tool—currently the latest version available for any package, and the LTS distribution for Node.
@@ -83,7 +83,7 @@ Valid <i>versions</i> are any of the following formats:
 -   `node@10.5`
 -   `node@10.5.2`
 
-Valid <i>version specs</i> are any valid SemVer spec, as already implemented in Notion. As a representative (not exhaustive) sample:
+Valid <i>version specs</i> are any valid SemVer spec, as already implemented in Volta. As a representative (not exhaustive) sample:
 
 -   `node@10.5.*`
 -   `node@^10.5`
@@ -92,7 +92,7 @@ Valid <i>version specs</i> are any valid SemVer spec, as already implemented in 
 -   `node@<10`
 -   `"node@8 || 9"` (an odd invocation, but one our current implementation supports)
 
-Finally, users may supply a tool with either of the two special version names Notion currently supports, `lts` and `latest`:
+Finally, users may supply a tool with either of the two special version names Volta currently supports, `lts` and `latest`:
 
 -   `node@lts`
 -   `node@latest`
@@ -104,7 +104,7 @@ This RFC does *not* propose supporting arbitrary tags such as `next`, as there i
 The invocations now allow multiple tool + version combinations, each of the format specified above. For example, a user may simultaneously pin a Node and a Yarn version (with any combination of the version specifier, or none at all):
 
 ```sh
-notion install node@10.5 yarn
+volta install node@10.5 yarn
 ```
 
 ## Explanation for Users
@@ -121,7 +121,7 @@ Current Node users using existing tools will find this to be different from thei
 -   `nodenv` uses `nodenv install <version>`
 -   `nvm-windows` uses `nvm install <version> [arch]` (where `[arch]` allows users to specify 32-bit or 64-bit builds)
 
-Although we are breaking with these tools, all of them are responsible to manage *only* the Node version, *not* other tools. Notion's purview extends to other tools and therefore overlaps more with the behavior expected from invoking `npm`, `npx`, or `yarn`.
+Although we are breaking with these tools, all of them are responsible to manage *only* the Node version, *not* other tools. Volta's purview extends to other tools and therefore overlaps more with the behavior expected from invoking `npm`, `npx`, or `yarn`.
 
 ### New Node users
 
@@ -152,46 +152,46 @@ Managing a tool with its default version is unchanged.
 
 | Original                  | Proposed                  |
 | ------------------------- | ------------------------- |
-| `notion install node`     | `notion install node`     |
-| `notion pin yarn`         | `notion pin yarn`         |
-| `notion fetch typescript` | `notion fetch typescript` |
+| `volta install node`     | `volta install node`     |
+| `volta pin yarn`         | `volta pin yarn`         |
+| `volta fetch typescript` | `volta fetch typescript` |
 
 Managing a tool at a specific version, at any level of granularity, and with either a specific version or a version spec, now uses `@` to separate the tool name from its version/version spec.
 
 | Original                        | Proposed                        |
 | ------------------------------- | ------------------------------- |
-| `notion pin node 10`            | `notion pin node@10`            |
-| `notion fetch node 10.5`        | `notion fetch node@10.5`        |
-| `notion install node 10.5.0`    | `notion install node@10.5.0`    |
-| `notion install node ^10`       | `notion install node@^10`       |
-| `notion install node ~10.5`     | `notion install node@~10.5`     |
-| `notion install node >=10`      | `notion install node@>=10`      |
-| `notion install node <10`       | `notion install node@<10`       |
-| `notion install node "8 || 10"` | `notion install "node@8 || 10"` |
+| `volta pin node 10`            | `volta pin node@10`            |
+| `volta fetch node 10.5`        | `volta fetch node@10.5`        |
+| `volta install node 10.5.0`    | `volta install node@10.5.0`    |
+| `volta install node ^10`       | `volta install node@^10`       |
+| `volta install node ~10.5`     | `volta install node@~10.5`     |
+| `volta install node >=10`      | `volta install node@>=10`      |
+| `volta install node <10`       | `volta install node@<10`       |
+| `volta install node "8 || 10"` | `volta install "node@8 || 10"` |
 
 This also works for shorthands (currently `latest`, conceivably also tags like `next` in the future):
 
 | Original                 | Proposed                  | Status      |
 | ------------------------ | ------------------------ | ------------ |
-| `notion pin node latest` | `notion pin node@latest` | current      |
-| `notion pin node lts`    | `notion pin node@lts`    | current      |
-| `notion pin node next`   | `notion pin node@next`   | hypothetical |
+| `volta pin node latest` | `volta pin node@latest` | current      |
+| `volta pin node lts`    | `volta pin node@lts`    | current      |
+| `volta pin node next`   | `volta pin node@next`   | hypothetical |
 
 ## Installing, fetching, or pinning multiple tools
 
-Previously, installing multiple tools required invoking Notion multiple times. Now, it may be invoked with multiple tools at once.
+Previously, installing multiple tools required invoking Volta multiple times. Now, it may be invoked with multiple tools at once.
 
 - **Original:**
 
     ```ts
-    notion install create-react-app latest
-    notion install typescript 3.4
+    volta install create-react-app latest
+    volta install typescript 3.4
     ```
 
 - **Updated:**
 
     ```
-    notion install create-react-app@latest typescript@3.4
+    volta install create-react-app@latest typescript@3.4
     ```
 
 There are no impacts to features other than fetching, installing, and pinning.
@@ -239,19 +239,19 @@ It also introduces a move away from users’ existing habits with `nvm` and `nod
 -   Support *both* invocation styles. This may *just* be technically feasible, allowing users to pass any of the following invocations successfully:
 
     ```sh
-    notion pin create-react-app
-    notion pin create-react-app@3.0
-    notion pin create-react-app 3.0
-    notion pin create-react-app typescript
-    notion pin create-react-app@3.0 typescript
-    notion pin create-react-app typescript@3.4
-    notion pin create-react-app@3.0 typescript@3.4
+    volta pin create-react-app
+    volta pin create-react-app@3.0
+    volta pin create-react-app 3.0
+    volta pin create-react-app typescript
+    volta pin create-react-app@3.0 typescript
+    volta pin create-react-app typescript@3.4
+    volta pin create-react-app@3.0 typescript@3.4
     ```
 
     However, this introduces substantial additional complexity for the implementation, and ambiguity around certain invocations, e.g. for tagged versions/special names. For example, how should the following invocation be resolved?
     
     ```sh
-    notion pin create-react-app latest
+    volta pin create-react-app latest
     ```
 
     Does it refer to the latest version of `create-react-app`, or the default version of `create-react-app` and [the `latest` package](https://www.npmjs.com/package/latest)? For all non-SemVer-string parses, this will be impossible to resolve.
