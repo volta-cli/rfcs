@@ -20,7 +20,7 @@ Users may regularly want to add multiple tools to their toolchain at the same ti
     ```
     
     ```sh
-    yarn global ember-cli@3.9.1 typescript@3
+    yarn global add ember-cli@3.9.1 typescript@3
     ```
 
 -   **Global installs:**
@@ -85,7 +85,7 @@ Valid <i>versions</i> are any of the following formats:
 
 Valid <i>version specs</i> are any valid SemVer spec, as already implemented in Notion. As a representative (not exhaustive) sample:
 
--   `node@10.5*`
+-   `node@10.5.*`
 -   `node@^10.5`
 -   `node@~10.5`
 -   `node@>=10`
