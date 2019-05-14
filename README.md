@@ -1,6 +1,6 @@
-# Notion RFCs
+# Volta RFCs
 
-A Notion RFC ("Request For Comments") is a proposal for a significant change to the Notion design or architecture.
+A Volta RFC ("Request For Comments") is a proposal for a significant change to the Volta design or architecture.
 
 Many changes, such as bug fixes and documentation improvements, can be implemented and reviewed via the normal GitHub pull request workflow.
 
@@ -16,7 +16,7 @@ The RFC process is intended to provide a consistent, well-considered path for fe
 
 # When you need an RFC
 
-You need an RFC if you intend to make substantial changes to Notion, or the RFC process itself. What constitutes a "substantial" change is evolving based on community norms, but may including the following:
+You need an RFC if you intend to make substantial changes to Volta, or the RFC process itself. What constitutes a "substantial" change is evolving based on community norms, but may including the following:
 
   - Any change to the command-line interface (including command syntax and behavior).
   - Changes to the configuration formats.
@@ -27,17 +27,17 @@ Some changes do not require an RFC:
 
   - Rephrasing, reorganizing, refactoring, or otherwise "changing shape does not change meaning."
   - Additions that strictly improve objective, numerical criteria (e.g., performance improvements, removing compiler warnings from the builds, better platform coverage, more parallelism, trapping more errors, etc).
-  - Additions only likely to be _noticed_ by other developers of Notion, invisible to users of Notion.
+  - Additions only likely to be _noticed_ by other developers of Volta, invisible to users of Volta.
 
 If you submit a pull request to implement a new feature without going through the RFC process, we may politely ask you to submit an RFC first and close the pull request.
 
 # The process
 
-In short, getting a major feature added to Notion requires an RFC to be merged into the RFC repository. At that point the RFC is "active" and may be implemented with the goal of eventual inclusion into Notion.
+In short, getting a major feature added to Volta requires an RFC to be merged into the RFC repository. At that point the RFC is "active" and may be implemented with the goal of eventual inclusion into Volta.
 
 The steps are:
 
-- Fork the [RFC repository](https://github.com/notion-cli/rfcs).
+- Fork the [RFC repository](https://github.com/volta-cli/rfcs).
 - Copy `0000-template.md` to `text/0000-my-feature.md` (where "my-feature" is descriptive; don't assign an RFC number yet).
 - Fill in the RFC. Put care in the details: RFCs that do not present convincing motivation, demonstrate understanding of the impact of the design, or are disingenuous about the drawbacks or alternatives tend to be poorly received.
 - Submit a pull request. As a pull request, the RFC will receive design feedback from the larger community, and the author should be prepared to revise it in response.
