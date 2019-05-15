@@ -28,6 +28,59 @@ It is not necessary to write the actual feature documentation in this section, b
 # Details
 [details]: #details
 
+## Why `list`?
+
+### Prior art
+
+A brief survey of the broader developer ecosystem indicates that `list` is by far the most common (sub)command used in CLI tools for listing installed versions of tools:
+
+- `nvm` (and the other `*vm` tools):
+	- `ls` for installed versions
+	- `ls-remote` for available versions
+
+- `nodenv` (and the other `*env` tools) 
+	- `versions`: list all installed versions
+	- `version`: displays the currently-active version *and* how it was set
+	- `local`: list/set the version specified for a given directory tree, if any
+	- `global`: list/set the version specified for a global default, if any
+	- `shell`: list/set the version specified for a given shell, if any
+
+- [`dotnet`](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet?tabs=netcore21) uses the [`tool list`](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-tool-list) subcommand:
+	- `tool list -g, --global` -> lists “user-wide Global tools”; mutually exclusive with `--tool-path` variant
+	- `tool list --tool-path <path>` -> a custom path to look for global tools; mutually exclusive with `--global` variant
+
+- [Chocolatey](https://chocolatey.org):
+	- `list`: searches for both local and remote packages, alias for `search`
+		- `-l, --lo, --localonly, --local-only`: only items on the local machine
+		- `-a, --all, --allversions, --all-versions`: results from all versions
+		- `--version=VALUE`: only this specific version match
+		- ` -e, --exact`: only exact matches for the name
+	- `info` for displaying details about a specific installed package
+
+- [Homebrew](https://brew.sh):
+	- `list`, `ls`
+	- takes a variety of arguments to limit the output:
+		- `--full-name`: give fully-qualified names
+		- `--versions`: show version number, takes an optional list of packages
+		- `--multiple`: only packages that have multiple versions installed
+		- `--pinned`: only for pinned formulae (things brew won’t upgrade without forcing)
+	- `info` for displaying 
+
+- [Scoop](https://scoop.sh):
+	- `list`
+
+- apt:
+	- `list`, lists `<source>/<package>,<package> <version> <arch>`
+	- explicitly does not have a stable CLI
+
+- yum:
+	- `list`: List package names from repositories
+		- `list available`: List all available packages
+		- `list installed`: List all installed packages
+		- `list all`: List installed and available packages
+		- `list kernel`: List installed and available kernel packages
+	- `info`: Display information about a package
+
 ## Deprecating `volta current`
 
 Since `volta list` subsumes (and substantially extends upon) the functionality of `volta current`, `volta current` should be deprecated when `volta list` is implemented. The deprecation should include a warning that the command will be removed in a future version and information about how to use `volta list --current <tool>` as a replacement.
