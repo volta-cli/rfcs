@@ -28,6 +28,11 @@ It is not necessary to write the actual feature documentation in this section, b
 # Details
 [details]: #details
 
+## Deprecating `volta current`
+
+Since `volta list` subsumes (and substantially extends upon) the functionality of `volta current`, `volta current` should be deprecated when `volta list` is implemented. The deprecation should include a warning that the command will be removed in a future version and information about how to use `volta list --current <tool>` as a replacement.
+
+<!--
 This is the technical portion of the RFC. Explain the design in sufficient detail that:
 
 - Its interaction with other features is clear.
@@ -35,6 +40,7 @@ This is the technical portion of the RFC. Explain the design in sufficient detai
 - Corner cases are dissected by example.
 
 This section should return to the examples given in the previous section, and explain more fully how the detailed proposal makes those examples work.
+-->
 
 # Critique
 [critique]: #critique
