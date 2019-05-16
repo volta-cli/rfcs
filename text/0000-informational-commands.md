@@ -38,7 +38,7 @@ Throughout, we will assume the user has the following configuration for illustra
     - ember-cli: v3.10.0 (default) on Node v12.2.0, v3.8.2 on Node v12.2.0, with binary `ember`
     - typescript: v3.4.5 on Node v12.2.0, v3.0.3 (default) on Node v12.2.0, with binaries `tsc`, `tsserver`
     - create-react-app: v3.0.1 (default) on Node v12.2.0, with binary `create-react-app`
-    - yarn-deduplicate: v1.1.1 on Node v12.2.0, with binary `yarn-deduplicate` (notice that this is not a *default*; assume the user ran `volta )
+    - yarn-deduplicate: v1.1.1 on Node v12.2.0, with binary `yarn-deduplicate` (notice that this is not a *default*; assume the user ran `volta fetch` )
 
 They also have two projects with the following pins:
 
