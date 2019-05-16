@@ -42,7 +42,7 @@ Throughout, we will assume the user has the following configuration for illustra
 
 They also have two projects with the following pins:
 
-- `~/pinned/node-only/package.json`: f
+- `~/pinned/node-only/package.json`:
 
     ```json
     {
