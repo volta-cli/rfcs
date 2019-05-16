@@ -1,7 +1,7 @@
 - Feature Name: per-project-config
 - Start Date: 2019-05-01
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: [#33](https://github.com/volta-cli/rfcs/pull/33)
+- Volta Issue: [#411](https://github.com/volta-cli/volta/pull/411)
 
 # Summary
 [summary]: #summary
