@@ -71,7 +71,7 @@ Top-level command: show the current to
 $ volta list
 ⚡️ Currently active toolchain:
 
-    Node: v8.16.0 (from `~/path/to/project/package.json`)
+    Node: v8.16.0 (from `~/pinned/node-only/package.json`)
     Yarn: v1.12.3 (default)
     Package binaries available:
         create-react-app, ember, tsc, tsserver, yarn-deduplicate
