@@ -511,9 +511,12 @@ This section discusses the tradeoffs considered in this proposal. This must incl
 [unresolved]: #unresolved-questions
 
 - Should the bare `list` command include:
+
     - all available package binaries?
     - a subset of package binaries once the number crosses a threshold, with instructions about how to see all?
     - no package binaries?
+
+    And how should that be presented in `plain` vs. `human` mode?
 
 <!-- 
 - What parts of the design do you expect to resolve through the RFC process before this gets merged?
