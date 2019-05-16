@@ -69,13 +69,14 @@ Top-level command: show the current to
 
 ```sh
 $ volta list
-Currently active toolchain:
+⚡️ Currently active toolchain:
 
-    ⚡ Node: v10.15.3 (from `~/path/to/project/package.json`)
-    ⚡ Yarn: v1.14.0 (default)
-    ⚡ 11 binaries available.
+    Node: v8.16.0 (from `~/path/to/project/package.json`)
+    Yarn: v1.12.3 (default)
+    Package binaries available:
+        create-react-app, ember, tsc, tsserver, yarn-deduplicate
 
-For more detailed reports, see `volta list --help`.
+See options for more detailed reports by running `volta list --help`.
 ```
 
 Show all available tools, including binaries, with `list --all`:
