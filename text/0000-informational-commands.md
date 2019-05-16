@@ -133,6 +133,32 @@ See options for more detailed reports by running `volta list --help`.
     
 </details>
 
+### `volta list --all`
+
+#### Pretty
+
+The basic format is:
+
+```sh
+$ volta list --all
+Node runtimes:
+    <version> [(default|project)]
+
+Packagers:
+    (Yarn|npm):
+        <version> [(default|project)]
+
+Tools:
+    <tool name>
+        <version> [(default|project)]
+            binaries: [<binary name>]...
+            platform:
+                runtime: node@<version>
+                packager: built-in npm|<npm|yarn>@<version>
+```
+
+<details><summary>Outside a project directory</summary>
+
 ```sh
 $ volta list --all
 Node runtimes:
@@ -183,12 +209,117 @@ Tools:
                 packager: built-in npm
 ```
 
-Filter the list of fetched tools to a specific context: tools set as a user default, or tools set for a project toolchain.
+</details>
+
+<details><summary>In the <code>node-only</code> project</summary>
 
 ```sh
-volta list --default
-volta list --project
+$ volta list --all
+Node runtimes:
+    v12.2.0
+    v11.9.0
+    v10.15.3 (default)
+    v8.16.0 (current)
+
+Packagers:
+    Yarn:
+        v1.16.0 (default)
+        v1.12.3
+
+Tools:
+    create-react-app:
+        v3.0.1 (default)
+            binaries: create-react-app
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+    ember-cli:
+        v3.10.0 (default)
+            binaries: ember
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+        v3.8.2
+            binaries: ember
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+    tsc:
+        v3.4.5
+            binaries: tsc, tsserver
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+        v3.0.3 (default)
+            binaries: tsc, tsserver
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+    yarn-deduplicate:
+        v1.1.1 (default)
+            binaries: yarn-deduplicate
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
 ```
+
+</details>
+
+<details><summary>In the <code>node-and-yarn</code> project</summary>
+
+```sh
+$ volta list --all
+Node runtimes:
+    v12.2.0 (project)
+    v11.9.0
+    v10.15.3 (default)
+    v8.16.0
+
+Packagers:
+    Yarn:
+        v1.16.0 (default)
+        v1.12.3 (project)
+
+Tools:
+    create-react-app:
+        v3.0.1 (default)
+            binaries: create-react-app
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+    ember-cli:
+        v3.10.0 (default)
+            binaries: ember
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+        v3.8.2
+            binaries: ember
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+    tsc:
+        v3.4.5
+            binaries: tsc, tsserver
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+        v3.0.3 (default)
+            binaries: tsc, tsserver
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+    yarn-deduplicate:
+        v1.1.1 (default)
+            binaries: yarn-deduplicate
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+```
+
+</details>
+
+### `volta list <package>`
 
 List all fetched versions of a specific package:
 
@@ -196,19 +327,6 @@ List all fetched versions of a specific package:
 volta list <package>
 ```
 
-## Command modes
-
-The `volta list` command should work in two modes initially. Both include the tool name, version, whether it is the default, and the Node version and packager (i.e. platform).
-
-- "pretty" mode, the default if the context is a user-facing terminal; also invokable with `--print=pretty` in any context. The format is a table of data, with a row per tool and a column for each field of interest.
-
-- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--print=plain` in any context. A simple plain text format which prints a single line with space separated output for each tool matching the query
-
-Having these two modes should make it easy to add a JSON mode later (`--print=json`) if that proves desirable.
-
-### Pretty mode design
-
-<!-- TODO -->
 
 ### Plain mode design
 
