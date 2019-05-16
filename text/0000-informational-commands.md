@@ -290,6 +290,13 @@ This section discusses the tradeoffs considered in this proposal. This must incl
 # Unresolved questions
 [unresolved]: #unresolved-questions
 
+- Should the bare `list` command include:
+    - all available package binaries?
+    - a subset of package binaries once the number crosses a threshold, with instructions about how to see all?
+    - no package binaries?
+
+<!-- 
 - What parts of the design do you expect to resolve through the RFC process before this gets merged?
 - What parts of the design do you expect to resolve through the implementation of this feature before stabilization?
 - What related issues do you consider out of scope for this RFC that could be addressed in the future independently of the solution that comes out of this RFC?
+-->
