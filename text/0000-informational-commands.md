@@ -6,7 +6,7 @@
 # Summary
 [summary]: #summary
 
-Add an informational command, `volta list`, replacing the `volta current` command and expanding on its capabilities. The `list` command will allow users to see their default and project-specific toolchains, and will support both pretty-printed user-facing output and at least one mode of tool-friendly output.
+Add an informational command, `volta list`, replacing the `volta current` command and expanding on its capabilities. The `list` command will allow users to see their default and project-specific toolchains, and will support both human-friendly output and a tool-friendly output.
 
 # Motivation
 [motivation]: #motivation
@@ -67,7 +67,7 @@ They also have two projects with the following pins:
 
 ### `volta list` (no flags)
 
-#### Pretty
+#### Human
 
 The format is:
 
@@ -135,7 +135,7 @@ See options for more detailed reports by running `volta list --help`.
 
 ### `volta list --all`
 
-#### Pretty
+#### Human
 
 The basic format is:
 
