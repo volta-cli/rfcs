@@ -354,6 +354,28 @@ Tools:
 
 </details>
 
+#### Plain
+
+<details><summary></summary>
+
+```sh
+$ volta list --all
+runtime node@v12.2.0
+runtime node@v11.9.0
+runtime node@v10.15.3 (default)
+runtime node@v8.16.0
+packager yarn@v1.16.0
+packager yarn@v1.12.3 (default)
+tool create-react-app@v3.0.1 (default) / node@v12.2.0
+tool ember-cli@v3.10.0 (default) / node@v12.2.0
+tool ember-cli@v3.8.2 / node@v12.2.0
+tool typescript@v3.4.5 / node@v12.2.0
+tool typescript@v3.0.3 (default) / node@v12.2.0
+tool yarn-deduplicate@v1.1.1 / node@v12.2.0
+```
+
+</details>
+
 ### `volta list <package>`
 
 List all fetched versions of a specific package:
@@ -362,10 +384,7 @@ List all fetched versions of a specific package:
 volta list <package>
 ```
 
-
-
-
-
+<!-- TODO: remaining examples! -->
 
 ## Why `list`?
 
