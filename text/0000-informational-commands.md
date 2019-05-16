@@ -83,37 +83,52 @@ Show all available tools, including binaries, with `list --all`:
 
 ```sh
 $ volta list --all
-⚡ Runtimes:
+Node runtimes:
+    v12.2.0
+    v11.9.0
+    v10.15.3 (default)
+    v8.16.0
 
-    Node:
-        v12.0.2
-        v11.0.0
-        v10.15.3 (default)
-        v8.2.2
-
-⚡ Packagers:
-
+Packagers:
     Yarn:
-        v1.15.0 (default)
-        v1.14.0
+        v1.16.0 (default)
+        v1.12.3
 
-⚡ Tools:
-
+Tools:
+    create-react-app:
+        v3.0.1 (default)
+            bins: create-react-app
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
     ember-cli:
-        v3.9.0 (default)
+        v3.10.0 (default)
             bins: ember
-        v3.8.5
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+        v3.8.2
             bins: ember
-
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
     tsc:
         v3.4.5
             bins: tsc, tsserver
-        v3.0.4
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+        v3.0.3 (default)
             bins: tsc, tsserver
-
-    create-react-app:
-        v2.0.0 (default)
-            bins: create-react-app
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
+    yarn-deduplicate:
+        v1.1.1 (default)
+            bins: yarn-deduplicate
+            platform:
+                runtime: node@v12.2.0
+                packager: built-in npm
 ```
 
 Filter the list of fetched tools to a specific context: tools set as a user default, or tools set for a project toolchain.
