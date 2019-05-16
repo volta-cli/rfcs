@@ -168,6 +168,48 @@ See options for more detailed reports by running `volta list --help`.
     
 </details>
 
+#### Plain
+
+The format is:
+
+```sh
+$ volta list
+runtime node@<version> (default|<project path>)
+packager <npm|yarn>@<version> (built-in|default|<project path>)
+```
+
+<details><summary>Outside a project</summary>
+
+```sh
+$ volta list
+runtime node@v10.15.3 (default)
+packager yarn@v1.12.3 (default)
+```
+
+</details>
+
+<details><summary>In the `node-only` project</summary>
+
+<b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436).
+
+```sh
+$ volta list
+runtime node@v8.16.0 (`~/node-only/package.json`)
+packager yarn@v1.12.3 (default)
+```
+
+</details>
+
+<details><summary>In the <code>node-and-yarn</code> project</summary>
+
+```sh
+$ volta list
+node@v12.2.0 (`~/node-and-yarn/package.json`)
+yarn@v1.16.0 (`~/node-and-yarn/package.json`)
+```
+    
+</details>
+    
 ### `volta list --all`
 
 #### Human
