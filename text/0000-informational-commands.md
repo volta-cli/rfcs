@@ -28,6 +28,106 @@ It is not necessary to write the actual feature documentation in this section, b
 # Details
 [details]: #details
 
+## Overview of CLI commands
+
+Top-level command: show the current to
+
+```sh
+$ volta list
+Currently active toolchain:
+
+    ⚡ Node: v10.15.3 (from `~/path/to/project/package.json`)
+    ⚡ Yarn: v1.14.0 (default)
+    ⚡ 11 binaries available.
+
+For more detailed reports, see `volta list --help`.
+```
+
+Show all available tools, including binaries, with `list --all`:
+
+```sh
+$ volta list --all
+⚡ Runtimes:
+
+    Node:
+        v12.0.2
+        v11.0.0
+        v10.15.3 (default)
+        v8.2.2
+
+⚡ Packagers:
+
+    Yarn:
+        v1.15.0 (default)
+        v1.14.0
+
+⚡ Tools:
+
+    ember-cli:
+        v3.9.0 (default)
+            bins: ember
+        v3.8.5
+            bins: ember
+
+    tsc:
+        v3.4.5
+            bins: tsc, tsserver
+        v3.0.4
+            bins: tsc, tsserver
+
+    create-react-app:
+        v2.0.0 (default)
+            bins: create-react-app
+```
+
+Filter the list of fetched tools to a specific context: tools set as a user default, or tools set for a project toolchain.
+
+```sh
+volta list --default
+volta list --project
+```
+
+List all fetched versions of a specific package:
+
+```sh
+volta list <package>
+```
+
+## Command modes
+
+The `volta list` command should work in two modes initially. Both include the tool name, version, whether it is the default, and the Node version and packager (i.e. platform).
+
+- "pretty" mode, the default if the context is a user-facing terminal; also invokable with `--pretty` in any context. The format is a table of data, with a row per tool and a column for each field of interest.
+
+- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--plain` in any context. A simple plain text format which prints a single line with space separated output for each tool matching the query
+
+Having these two modes should make it easy to add a JSON mode later if that proves desirable.
+
+### Pretty mode design
+
+<!-- TODO -->
+
+### Plain mode design
+
+Running `volta list` in the non-TTY/line mode will print a space delimited set of data which can then be piped into other CLI tools which expect strings. The format is a list with tools sorted by name, and versions by semantic version.
+
+```
+<tool name>@<tool version>[ (default)]
+```
+
+For our canonical example, the output would be:
+
+```sh
+volta list --plain
+node@v11.0.2
+node@v12.0.1
+node@v10.5.3 (default)
+yarn@v1.15.0 (default)
+yarn@v1.13.0
+ember-cli v3.10.0
+ember-cli v3.8.5 (default)
+```
+
 ## Why `list`?
 
 ### Prior art
