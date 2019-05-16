@@ -63,7 +63,42 @@ They also have two projects with the following pins:
     }
     ```
 
-## CLI Command
+## CLI Command Design
+
+The `volta list` command always prints the following information for a set of runtimes, packagers, and tools:
+
+- name
+- version
+- whether it is the user's default or a project-pinned version
+- for tools, the associated runtime and packager versions
+
+The tool will support two modes initially: "human" and "plain", which include exactly the same information but presented in a  Both modes include the same information for runtimes, packagers, and tools: name, version, whether it is a default or project-specified version, and (for tools) the Node version and packager (i.e. platform).
+
+- "human" mode, the default if the context is a user-facing terminal; also invokable with `--print=human` in any context.
+
+- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--print=plain` in any context. A simple plain text format which prints a line per runtime, packager, or tool, with space-separated output on each line.
+
+    - runtimes:
+
+        ```
+        runtime node@<version>
+        ```
+
+    - packagers:
+
+        ```
+        packager (yarn|npm)@<version>
+        ```
+
+    - tools: 
+
+        ```
+        tool <tool name>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|<project path>)]
+        ```
+
+Having these two modes should make it easy to add a JSON mode later (`--print=json`) if that proves desirable.
+
+## CLI Command Variants
 
 ### `volta list` (no flags)
 
@@ -328,55 +363,9 @@ volta list <package>
 ```
 
 
-### Plain mode design
 
-Running `volta list` in the non-TTY/line mode will print a space delimited set of data which can then be piped into other CLI tools which expect strings. The format is a list with tools sorted by name, and versions by semantic version.
 
-- Runtimes:
 
-    ```
-    runtime node@<version>
-    ```
-
-- Packagers:
-
-    ```
-    packager (yarn|npm)@<version>
-    ```
-
-- Tools: 
-
-    ```
-    tool <tool name>@<tool version>[ (default)] [/ node@<version>] [/ (yarn|npm)@<version>]
-    ```
-
-For our canonical example, the outputs from `--print=plain` would be:
-
-- bare subcommand:
-
-    ```sh
-    $ volta list --print=plain
-    runtime node@v10.15.3 (default)
-    packager yarn@v1.12.3 (default)
-    ```
-
-- `--all`:
-
-    ```sh
-    $ volta list --all --print=plain
-    runtime node@v12.2.0
-    runtime node@v11.9.0
-    runtime node@v10.15.3 (default)
-    runtime node@v8.16.0
-    packager yarn@v1.16.0
-    packager yarn@v1.12.3 (default)
-    tool create-react-app@v3.0.1 (default) / node@v12.2.0
-    tool ember-cli@v3.10.0 (default) / node@v12.2.0
-    tool ember-cli@v3.8.2 / node@v12.2.0
-    tool typescript@v3.4.5 / node@v12.2.0
-    tool typescript@v3.0.3 (default) / node@v12.2.0
-    tool yarn-deduplicate@v1.1.1 / node@v12.2.0
-    ```
 
 ## Why `list`?
 
