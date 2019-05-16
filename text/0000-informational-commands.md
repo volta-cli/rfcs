@@ -63,9 +63,45 @@ They also have two projects with the following pins:
     }
     ```
 
-## Overview of CLI commands
+## CLI Command
 
-Top-level command: show the current to
+### `volta list` (no flags)
+
+#### Pretty
+
+The format is:
+
+```sh
+$ volta list
+⚡️ Currently active toolchain:
+
+    Node: version [(default|project)]
+    <packager>: <built-in|version> [(default|project)]]
+    Tool binaries available:
+        <comma separated list|NONE>
+
+See options for more detailed reports by running `volta list --help`.
+```
+
+<details><summary>Outside a project</summary>
+
+```sh
+$ volta list
+⚡️ Currently active toolchain:
+
+    Node: v8.16.0 (default)
+    Yarn: v1.12.3 (default)
+    Tool binaries available:
+        create-react-app, ember, tsc, tsserver, yarn-deduplicate
+
+See options for more detailed reports by running `volta list --help`.
+```
+
+</details>
+
+<details><summary>In the `node-only` project</summary>
+
+<b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436)
 
 ```sh
 $ volta list
@@ -79,7 +115,23 @@ $ volta list
 See options for more detailed reports by running `volta list --help`.
 ```
 
-Show all available tools, including binaries, with `list --all`:
+</details>
+
+<details><summary>In the <code>node-and-yarn</code> project</summary>
+
+```sh
+$ volta list
+⚡️ Currently active toolchain:
+
+    Node: v12.2.0 (from `~/pinned/node-and-yarn/package.json`)
+    Yarn: v1.16.0 (from `~/pinned/node-and-yarn/package.json`)
+    Tool binaries available:
+        create-react-app, ember, tsc, tsserver, yarn-deduplicate
+
+See options for more detailed reports by running `volta list --help`.
+```
+    
+</details>
 
 ```sh
 $ volta list --all
