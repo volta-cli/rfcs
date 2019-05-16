@@ -73,7 +73,7 @@ $ volta list
 
     Node: v8.16.0 (from `~/pinned/node-only/package.json`)
     Yarn: v1.12.3 (default)
-    Package binaries available:
+    Tool binaries available:
         create-react-app, ember, tsc, tsserver, yarn-deduplicate
 
 See options for more detailed reports by running `volta list --help`.
@@ -97,35 +97,35 @@ Packagers:
 Tools:
     create-react-app:
         v3.0.1 (default)
-            bins: create-react-app
+            binaries: create-react-app
             platform:
                 runtime: node@v12.2.0
                 packager: built-in npm
     ember-cli:
         v3.10.0 (default)
-            bins: ember
+            binaries: ember
             platform:
                 runtime: node@v12.2.0
                 packager: built-in npm
         v3.8.2
-            bins: ember
+            binaries: ember
             platform:
                 runtime: node@v12.2.0
                 packager: built-in npm
     tsc:
         v3.4.5
-            bins: tsc, tsserver
+            binaries: tsc, tsserver
             platform:
                 runtime: node@v12.2.0
                 packager: built-in npm
         v3.0.3 (default)
-            bins: tsc, tsserver
+            binaries: tsc, tsserver
             platform:
                 runtime: node@v12.2.0
                 packager: built-in npm
     yarn-deduplicate:
         v1.1.1 (default)
-            bins: yarn-deduplicate
+            binaries: yarn-deduplicate
             platform:
                 runtime: node@v12.2.0
                 packager: built-in npm
