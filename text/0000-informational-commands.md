@@ -180,23 +180,33 @@ Running `volta list` in the non-TTY/line mode will print a space delimited set o
     tool <tool name>@<tool version>[ (default)] [/ node@<version>] [/ (yarn|npm)@<version>]
     ```
 
-For our canonical example, the output would be:
+For our canonical example, the outputs from `--print=plain` would be:
 
-```sh
-volta list --plain
-runtime node@v12.2.0
-runtime node@v11.9.0
-runtime node@v10.15.3 (default)
-runtime node@v8.16.0
-packager yarn@v1.16.0
-packager yarn@v1.12.3 (default)
-tool create-react-app@v3.0.1 (default) / node@v12.2.0
-tool ember-cli@v3.10.0 (default) / node@v12.2.0
-tool ember-cli@v3.8.2 / node@v12.2.0
-tool typescript@v3.4.5 / node@v12.2.0
-tool typescript@v3.0.3 (default) / node@v12.2.0
-tool yarn-deduplicate@v1.1.1 / node@v12.2.0
-```
+- bare subcommand:
+
+    ```sh
+    $ volta list --print=plain
+    runtime node@v10.15.3 (default)
+    packager yarn@v1.12.3 (default)
+    ```
+
+- `--all`:
+
+    ```sh
+    $ volta list --all --print=plain
+    runtime node@v12.2.0
+    runtime node@v11.9.0
+    runtime node@v10.15.3 (default)
+    runtime node@v8.16.0
+    packager yarn@v1.16.0
+    packager yarn@v1.12.3 (default)
+    tool create-react-app@v3.0.1 (default) / node@v12.2.0
+    tool ember-cli@v3.10.0 (default) / node@v12.2.0
+    tool ember-cli@v3.8.2 / node@v12.2.0
+    tool typescript@v3.4.5 / node@v12.2.0
+    tool typescript@v3.0.3 (default) / node@v12.2.0
+    tool yarn-deduplicate@v1.1.1 / node@v12.2.0
+    ```
 
 ## Why `list`?
 
