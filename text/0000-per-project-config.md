@@ -64,5 +64,11 @@ Another approach to determining the final configuration from the available files
 
 The merge approach suggested in the RFC matches how `npm` resolves configuration from multiple sources, pulling each value in precedence order, but allowing different files to specify different settings.
 
+## File Format
+
+Instead of using `.json`, we could use a format that supports comments for our configuration files, such as `.toml`. This would have the advantage of allowing the configuration to be more expressive, but would require a learning curve for a majority of our users, who don't necessarily have experience with `.toml`. By using `.json`, we're using a format that is a standard in the JS ecosystem, so the learning curve will be lowered. Additionally, there are proposals for extensions of JSON that support comments, so in the future we could adopt those in a backwards-compatible way, which would allow us to support comments without breaking existing users.
+
 # Unresolved questions
 [unresolved]: #unresolved-questions
+
+- Should we allow users to specify platform information (`node`, `npm`, and `yarn` versions) in the `.volta` directory? If so, what format should it take?
