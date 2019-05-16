@@ -42,7 +42,7 @@ Throughout, we will assume the user has the following configuration for illustra
 
 They also have two projects with the following pins:
 
-- `~/pinned/node-only/package.json`:
+- `~/node-only/package.json`:
 
     ```json
     {
@@ -52,7 +52,7 @@ They also have two projects with the following pins:
     }
     ```
 
-- `~/pinned/node-and-yarn/package.json`:
+- `~/node-and-yarn/package.json`:
 
     ```json
     {
@@ -75,8 +75,8 @@ The format is:
 $ volta list
 ⚡️ Currently active toolchain:
 
-    Node: version [(default|project)]
-    <packager>: <built-in|version> [(default|project)]]
+    Node: version [(default|<project path>)]
+    <packager>: <built-in|version> [(default|<project path>)]]
     Tool binaries available:
         <comma separated list|NONE>
 
@@ -107,7 +107,7 @@ See options for more detailed reports by running `volta list --help`.
 $ volta list
 ⚡️ Currently active toolchain:
 
-    Node: v8.16.0 (from `~/pinned/node-only/package.json`)
+    Node: v8.16.0 (from `~/node-only/package.json`)
     Yarn: v1.12.3 (default)
     Tool binaries available:
         create-react-app, ember, tsc, tsserver, yarn-deduplicate
@@ -123,8 +123,8 @@ See options for more detailed reports by running `volta list --help`.
 $ volta list
 ⚡️ Currently active toolchain:
 
-    Node: v12.2.0 (from `~/pinned/node-and-yarn/package.json`)
-    Yarn: v1.16.0 (from `~/pinned/node-and-yarn/package.json`)
+    Node: v12.2.0 (from `~/node-and-yarn/package.json`)
+    Yarn: v1.16.0 (from `~/node-and-yarn/package.json`)
     Tool binaries available:
         create-react-app, ember, tsc, tsserver, yarn-deduplicate
 
@@ -142,15 +142,15 @@ The basic format is:
 ```sh
 $ volta list --all
 Node runtimes:
-    <version> [(default|project)]
+    <version> [(default|<project path>)]
 
 Packagers:
     (Yarn|npm):
-        <version> [(default|project)]
+        <version> [(default|<project path>)]
 
 Tools:
     <tool name>
-        <version> [(default|project)]
+        <version> [(default|<project path>)]
             binaries: [<binary name>]...
             platform:
                 runtime: node@<version>
@@ -270,7 +270,7 @@ Tools:
 ```sh
 $ volta list --all
 Node runtimes:
-    v12.2.0 (project)
+    v12.2.0 (`~/node-and-yarn/project.json`)
     v11.9.0
     v10.15.3 (default)
     v8.16.0
@@ -278,7 +278,7 @@ Node runtimes:
 Packagers:
     Yarn:
         v1.16.0 (default)
-        v1.12.3 (project)
+        v1.12.3 (`~/node-and-yarn/project.json`)
 
 Tools:
     create-react-app:
