@@ -147,21 +147,40 @@ Having these two modes should make it easy to add a JSON mode later (`--print=js
 
 Running `volta list` in the non-TTY/line mode will print a space delimited set of data which can then be piped into other CLI tools which expect strings. The format is a list with tools sorted by name, and versions by semantic version.
 
-```
-<tool name>@<tool version>[ (default)]
-```
+- Runtimes:
+
+    ```
+    runtime node@<version>
+    ```
+
+- Packagers:
+
+    ```
+    packager (yarn|npm)@<version>
+    ```
+
+- Tools: 
+
+    ```
+    tool <tool name>@<tool version>[ (default)] [/ node@<version>] [/ (yarn|npm)@<version>]
+    ```
 
 For our canonical example, the output would be:
 
 ```sh
 volta list --plain
-node@v11.0.2
-node@v12.0.1
-node@v10.5.3 (default)
-yarn@v1.15.0 (default)
-yarn@v1.13.0
-ember-cli v3.10.0
-ember-cli v3.8.5 (default)
+runtime node@v12.2.0
+runtime node@v11.9.0
+runtime node@v10.15.3 (default)
+runtime node@v8.16.0
+packager yarn@v1.16.0
+packager yarn@v1.12.3 (default)
+tool create-react-app@v3.0.1 (default) / node@v12.2.0
+tool ember-cli@v3.10.0 (default) / node@v12.2.0
+tool ember-cli@v3.8.2 / node@v12.2.0
+tool typescript@v3.4.5 / node@v12.2.0
+tool typescript@v3.0.3 (default) / node@v12.2.0
+tool yarn-deduplicate@v1.1.1 / node@v12.2.0
 ```
 
 ## Why `list`?
