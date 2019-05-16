@@ -136,7 +136,7 @@ See options for more detailed reports by running `volta list --help`.
 
 <details><summary>In the `node-only` project</summary>
 
-<b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436)
+<b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436).
 
 ```sh
 $ volta list
