@@ -64,6 +64,10 @@ Another approach to determining the final configuration from the available files
 
 The merge approach suggested in the RFC matches how `npm` resolves configuration from multiple sources, pulling each value in precedence order, but allowing different files to specify different settings.
 
+## File Layout
+
+An alternative to using a `.volta` directory with independent files would be to have a single `.voltarc` or `.voltarc.json` file in the root of the project. The trouble with this approach is that it would require any future project-level configuration we decide to add to also be in the same file. In a corporate setting, it's reasonable to expect that different groups will be responsible for managing different configurations (i.e. one group is in charge of changes to the hooks while another group manages the `node` platform settings). In this case, it would be preferable to have the files be separate, so to future-proof the design, we decided on having a configuration directory that can hold any number of independent files.
+
 ## File Format
 
 Instead of using `.json`, we could use a format that supports comments for our configuration files, such as `.toml`. This would have the advantage of allowing the configuration to be more expressive, but would require a learning curve for a majority of our users, who don't necessarily have experience with `.toml`. By using `.json`, we're using a format that is a standard in the JS ecosystem, so the learning curve will be lowered. Additionally, there are proposals for extensions of JSON that support comments, so in the future we could adopt those in a backwards-compatible way, which would allow us to support comments without breaking existing users.
