@@ -28,6 +28,41 @@ It is not necessary to write the actual feature documentation in this section, b
 # Details
 [details]: #details
 
+## User configuration
+
+Throughout, we will assume the user has the following configuration for illustrative purposes:
+
+- Node versions installed: v12.2.0, v11.9.0, v10.15.3 (default), v8.16.0
+- Yarn versions installed: v1.16.0, v1.12.3 (default)
+- Tools installed:
+    - ember-cli: v3.10.0 (default) on Node v12.2.0, v3.8.2 on Node v12.2.0, with binary `ember`
+    - typescript: v3.4.5 on Node v12.2.0, v3.0.3 (default) on Node v12.2.0, with binaries `tsc`, `tsserver`
+    - create-react-app: v3.0.1 (default) on Node v12.2.0, with binary `create-react-app`
+    - yarn-deduplicate: v1.1.1 on Node v12.2.0, with binary `yarn-deduplicate` (notice that this is not a *default*; assume the user ran `volta )
+
+They also have two projects with the following pins:
+
+- `~/pinned/node-only/package.json`: f
+
+    ```json
+    {
+      "volta": {
+        "node": "v8.16.0",
+      }
+    }
+    ```
+
+- `~/pinned/node-and-yarn/package.json`:
+
+    ```json
+    {
+      "volta": {
+        "node": "v12.2.0",
+        "yarn": "v1.16.0"
+      }
+    }
+    ```
+
 ## Overview of CLI commands
 
 Top-level command: show the current to
