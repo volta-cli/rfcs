@@ -97,11 +97,11 @@ volta list <package>
 
 The `volta list` command should work in two modes initially. Both include the tool name, version, whether it is the default, and the Node version and packager (i.e. platform).
 
-- "pretty" mode, the default if the context is a user-facing terminal; also invokable with `--pretty` in any context. The format is a table of data, with a row per tool and a column for each field of interest.
+- "pretty" mode, the default if the context is a user-facing terminal; also invokable with `--print=pretty` in any context. The format is a table of data, with a row per tool and a column for each field of interest.
 
-- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--plain` in any context. A simple plain text format which prints a single line with space separated output for each tool matching the query
+- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--print=plain` in any context. A simple plain text format which prints a single line with space separated output for each tool matching the query
 
-Having these two modes should make it easy to add a JSON mode later if that proves desirable.
+Having these two modes should make it easy to add a JSON mode later (`--print=json`) if that proves desirable.
 
 ### Pretty mode design
 
