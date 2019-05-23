@@ -1,7 +1,7 @@
 - Feature Name: (fill me in with a unique ident, my_awesome_feature)
 - Start Date: (fill me in with today's date, YYYY-MM-DD)
 - RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- Volta Issue: (leave this empty)
 
 # Summary
 [summary]: #summary
@@ -20,7 +20,7 @@ How should we explain and teach this feature to users? How should users understa
 
 - Introducing new named concepts.
 - Explaining the feature largely in terms of examples.
-- Explaining how users should _think_ about the feature, and how it should impact the way they use Notion. It should explain the impact as concretely as possible.
+- Explaining how users should _think_ about the feature, and how it should impact the way they use Volta. It should explain the impact as concretely as possible.
 - If applicable, describe the differences between teaching this to existing Node programmers and new Node programmers.
 
 It is not necessary to write the actual feature documentation in this section, but it should establish the concepts on which the documentation would be built.
