@@ -93,7 +93,7 @@ The tool will support multiple modes (two initially), which include exactly the 
     - tools: 
 
         ```
-        tool <tool name>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|<project path>)]
+        tool <tool name>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|current @ <project path>)]
         ```
 
 This RFC does not propose, but allows for the possibility of, a JSON mode (`--print=json`) or similar at a later time if that proves desirable.
@@ -174,8 +174,8 @@ The format is:
 
 ```sh
 $ volta list
-runtime node@<version> (default|<project path>)
-packager <npm|yarn>@<version> (built-in|default|<project path>)
+runtime node@<version> (default|current@ <project path>)
+packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 ```
 
 <details><summary>Outside a project</summary>
@@ -229,7 +229,7 @@ $ volta list --all
     
     Tools:
         <tool name>
-            <version> [(default|<project path>)]
+            <version> [(default|current @ <project path>)]
                 binaries: [<binary name>]...
                 platform:
                     runtime: node@<version>
