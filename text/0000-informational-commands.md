@@ -410,9 +410,9 @@ The basic format is:
 
 ```sh
 $ volta list --all
-runtime node@<version> [(default|<project path>)]
-packager <packager>@<version> [(default|<project path>)]
-tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|<project path>)]
+runtime node@<version> [(default|current @ <project path>)]
+packager <packager>@<version> [(default|current @ <project path>)]
+tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|current @ <project path>)]
 ```
 
 <details><summary>Outside a project directory</summary>
