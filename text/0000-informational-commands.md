@@ -1,7 +1,7 @@
 - Feature Name: informational_commands
 - Start Date: 2019-05-15
 - RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- Volta Issue: (leave this empty)
 
 # Summary
 [summary]: #summary
@@ -72,9 +72,9 @@ The `volta list` command always prints the following information for a set of ru
 - whether it is the user's default or a project-pinned version
 - for tools, the associated runtime and packager versions
 
-The tool will support two modes initially: "human" and "plain", which include exactly the same information but presented in a  Both modes include the same information for runtimes, packagers, and tools: name, version, whether it is a default or project-specified version, and (for tools) the Node version and packager (i.e. platform).
+The tool will support multiple modes (two initially), which include exactly the same information but presented in different human- or machine-friendly formats. All modes include the same information for runtimes, packagers, and tools: name, version, whether it is a default or project-specified version, and (for tools) the Node version and packager (i.e. platform).
 
-- "human" mode, the default if the context is a user-facing terminal; also invokable with `--print=human` in any context.
+- "human" mode, the default if the context is a user-facing terminal; also invokable with `--print=human` in any context. An indented listing of the user's current runtime, packager (if specified), and any installed binaries. See the detailed sections below for examples of the format.
 
 - "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--print=plain` in any context. A simple plain text format which prints a line per runtime, packager, or tool, with space-separated output on each line.
 
@@ -96,7 +96,7 @@ The tool will support two modes initially: "human" and "plain", which include ex
         tool <tool name>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|<project path>)]
         ```
 
-Having these two modes should make it easy to add a JSON mode later (`--print=json`) if that proves desirable.
+This RFC does not propose, but allows for the possibility of, a JSON mode (`--print=json`) or similar at a later time if that proves desirable.
 
 ## CLI Command Variants
 
