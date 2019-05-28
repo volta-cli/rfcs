@@ -107,7 +107,7 @@ This RFC does not propose, but allows for the possibility of, a JSON mode (`--pr
 The format is:
 
 ```sh
-$ volta list
+$ volta list --human
 ⚡️ Currently active tools:
 
     Node: v8.16.0 (default)
@@ -121,7 +121,7 @@ See options for more detailed reports by running `volta list --help`.
 <details><summary>Outside a project</summary>
 
 ```sh
-$ volta list
+$ volta list --human
 ⚡️ Currently active tools:
 
     Node: v8.16.0 (default)
@@ -139,7 +139,7 @@ See options for more detailed reports by running `volta list --help`.
 <b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436).
 
 ```sh
-$ volta list
+$ volta list --human
 ⚡️ Currently active tools:
 
     Node: v8.16.0 (from `~/node-only/package.json`)
@@ -155,7 +155,7 @@ See options for more detailed reports by running `volta list --help`.
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list
+$ volta list --human
 ⚡️ Currently active tools:
 
     Node runtime: v12.2.0 (from `~/node-and-yarn/package.json`)
@@ -173,7 +173,7 @@ See options for more detailed reports by running `volta list --help`.
 The format is:
 
 ```sh
-$ volta list
+$ volta list --plain
 runtime node@<version> (default|current@ <project path>)
 packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 ```
@@ -181,7 +181,7 @@ packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 <details><summary>Outside a project</summary>
 
 ```sh
-$ volta list
+$ volta list --plain
 runtime node@v10.15.3 (default)
 packager yarn@v1.12.3 (default)
 ```
@@ -193,7 +193,7 @@ packager yarn@v1.12.3 (default)
 <b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436).
 
 ```sh
-$ volta list
+$ volta list --plain
 runtime node@v8.16.0 (~/node-only/package.json)
 packager yarn@v1.12.3 (default)
 ```
@@ -203,7 +203,7 @@ packager yarn@v1.12.3 (default)
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list
+$ volta list --plain
 runtime node@v12.2.0 (~/node-and-yarn/package.json)
 packager yarn@v1.16.0 (~/node-and-yarn/package.json)
 ```
@@ -217,7 +217,7 @@ packager yarn@v1.16.0 (~/node-and-yarn/package.json)
 The basic format is:
 
 ```sh
-$ volta list --all
+$ volta list --all --human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -239,7 +239,7 @@ $ volta list --all
 <details><summary>Outside a project directory</summary>
 
 ```sh
-$ volta list --all
+$ volta list --all --human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -295,7 +295,7 @@ $ volta list --all
 <details><summary>In the <code>node-only</code> project</summary>
 
 ```sh
-$ volta list --all
+$ volta list --all --human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -351,7 +351,7 @@ $ volta list --all
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list --all
+$ volta list --all --human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -409,7 +409,7 @@ $ volta list --all
 The basic format is:
 
 ```sh
-$ volta list --all
+$ volta list --all --plain
 runtime node@<version> [(default|current @ <project path>)]
 packager <packager>@<version> [(default|current @ <project path>)]
 tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|current @ <project path>)]
@@ -418,7 +418,7 @@ tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<versio
 <details><summary>Outside a project directory</summary>
 
 ```sh
-$ volta list --all
+$ volta list --all --plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
@@ -440,7 +440,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (defau
 <details><summary>In the <code>node-only</code> project</summary>
 
 ```sh
-$ volta list --all
+$ volta list --all --plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
@@ -462,7 +462,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (defau
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list --all
+$ volta list --all --plain
 runtime node@v12.2.0 (current@~/node-and-yarn/project.json)
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
@@ -529,7 +529,7 @@ tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list --package=typescript
+volta list --package=typescript --plain
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
