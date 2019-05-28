@@ -676,6 +676,8 @@ This section discusses the tradeoffs considered in this proposal. This must incl
 
     And how should that be presented in `plain` vs. `human` mode? Should there be any differences between `plain` and `human` for the bare command (as in the current design)?
 
+- How should the current version be identified? It is currently marked with `(current @ <path>)`. Should this be `(from <path>)` or some other design?
+
 <!-- 
 - What parts of the design do you expect to resolve through the RFC process before this gets merged?
 - What parts of the design do you expect to resolve through the implementation of this feature before stabilization?
