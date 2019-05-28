@@ -194,7 +194,7 @@ packager yarn@v1.12.3 (default)
 
 ```sh
 $ volta list
-runtime node@v8.16.0 (`~/node-only/package.json`)
+runtime node@v8.16.0 (~/node-only/package.json)
 packager yarn@v1.12.3 (default)
 ```
 
@@ -204,8 +204,8 @@ packager yarn@v1.12.3 (default)
 
 ```sh
 $ volta list
-runtime node@v12.2.0 (`~/node-and-yarn/package.json`)
-packager yarn@v1.16.0 (`~/node-and-yarn/package.json`)
+runtime node@v12.2.0 (~/node-and-yarn/package.json)
+packager yarn@v1.16.0 (~/node-and-yarn/package.json)
 ```
     
 </details>
@@ -221,11 +221,11 @@ $ volta list --all
 ⚡️ User toolchain:
 
     Node runtimes:
-        <version> [(default|<project path>)]
+        <version> [(default|current @ <project path>)]
     
     Packagers:
         (Yarn|npm):
-            <version> [(default|<project path>)]
+            <version> [(default|current @ <project path>)]
     
     Tools:
         <tool name>
@@ -355,7 +355,7 @@ $ volta list --all
 ⚡️ User toolchain:
 
     Node runtimes:
-        v12.2.0 (`~/node-and-yarn/project.json`)
+        v12.2.0 (current @ ~/node-and-yarn/project.json)
         v11.9.0
         v10.15.3 (default)
         v8.16.0
@@ -363,7 +363,7 @@ $ volta list --all
     Packagers:
         Yarn:
             v1.16.0 (default)
-            v1.12.3 (`~/node-and-yarn/project.json`)
+            v1.12.3 (current @ ~/node-and-yarn/project.json)
     
     Tools:
         create-react-app:
