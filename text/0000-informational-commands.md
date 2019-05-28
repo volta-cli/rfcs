@@ -483,7 +483,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (defau
 
 ### `volta list --package=<package>`
 
-List all fetched versions of a specific package.
+List all fetched versions of a specific package, along with its associated binaries.
 
 #### Human
 
