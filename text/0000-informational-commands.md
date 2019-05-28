@@ -540,6 +540,35 @@ tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 
 #### Human
 
+The basic format is:
+
+```sh
+volta list --tool=<tool> --human
+⚡️ tool tsc available from:
+
+    <package>@<version> [(default|current @ <project path>)]
+        platform:
+            runtime: node@<version>
+            packager: built-in npm|<npm|yarn>@<version>
+```
+
+For the TypeScript config specified in the canonical example:
+
+```sh
+volta list --tool=tsc --human
+⚡️ tool tsc available from:
+
+    typescript@v3.4.5
+        platform:
+            runtime: node@v12.2.0
+            packager: built-in npm
+
+    typescript@v3.0.3 (default)
+        platform:
+            runtime: node@v12.2.0
+            packager: built-in npm
+```
+
 #### Plain
 
 The basic format is:
