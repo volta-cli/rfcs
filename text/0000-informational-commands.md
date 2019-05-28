@@ -108,12 +108,12 @@ The format is:
 
 ```sh
 $ volta list
-⚡️ Currently active toolchain:
+⚡️ Currently active tools:
 
-    Node: version [(default|<project path>)]
-    <packager>: <built-in|version> [(default|<project path>)]]
+    Node: v8.16.0 (default)
+    Yarn: v1.12.3 (default)
     Tool binaries available:
-        <comma separated list|NONE>
+        create-react-app, ember, tsc, tsserver, yarn-deduplicate
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -122,7 +122,7 @@ See options for more detailed reports by running `volta list --help`.
 
 ```sh
 $ volta list
-⚡️ Currently active toolchain:
+⚡️ Currently active tools:
 
     Node: v8.16.0 (default)
     Yarn: v1.12.3 (default)
@@ -140,7 +140,7 @@ See options for more detailed reports by running `volta list --help`.
 
 ```sh
 $ volta list
-⚡️ Currently active toolchain:
+⚡️ Currently active tools:
 
     Node: v8.16.0 (from `~/node-only/package.json`)
     Yarn: v1.12.3 (default)
@@ -156,10 +156,10 @@ See options for more detailed reports by running `volta list --help`.
 
 ```sh
 $ volta list
-⚡️ Currently active toolchain:
+⚡️ Currently active tools:
 
-    Node: v12.2.0 (from `~/node-and-yarn/package.json`)
-    Yarn: v1.16.0 (from `~/node-and-yarn/package.json`)
+    Node runtime: v12.2.0 (from `~/node-and-yarn/package.json`)
+    Packager: Yarn: v1.16.0 (from `~/node-and-yarn/package.json`)
     Tool binaries available:
         create-react-app, ember, tsc, tsserver, yarn-deduplicate
 
@@ -204,8 +204,8 @@ packager yarn@v1.12.3 (default)
 
 ```sh
 $ volta list
-node@v12.2.0 (`~/node-and-yarn/package.json`)
-yarn@v1.16.0 (`~/node-and-yarn/package.json`)
+runtime node@v12.2.0 (`~/node-and-yarn/package.json`)
+packager yarn@v1.16.0 (`~/node-and-yarn/package.json`)
 ```
     
 </details>
@@ -218,72 +218,76 @@ The basic format is:
 
 ```sh
 $ volta list --all
-Node runtimes:
-    <version> [(default|<project path>)]
+⚡️ User toolchain:
 
-Packagers:
-    (Yarn|npm):
+    Node runtimes:
         <version> [(default|<project path>)]
-
-Tools:
-    <tool name>
-        <version> [(default|<project path>)]
-            binaries: [<binary name>]...
-            platform:
-                runtime: node@<version>
-                packager: built-in npm|<npm|yarn>@<version>
+    
+    Packagers:
+        (Yarn|npm):
+            <version> [(default|<project path>)]
+    
+    Tools:
+        <tool name>
+            <version> [(default|<project path>)]
+                binaries: [<binary name>]...
+                platform:
+                    runtime: node@<version>
+                    packager: built-in npm|<npm|yarn>@<version>
 ```
 
 <details><summary>Outside a project directory</summary>
 
 ```sh
 $ volta list --all
-Node runtimes:
-    v12.2.0
-    v11.9.0
-    v10.15.3 (default)
-    v8.16.0
+⚡️ User toolchain:
 
-Packagers:
-    Yarn:
-        v1.16.0 (default)
-        v1.12.3
-
-Tools:
-    create-react-app:
-        v3.0.1 (default)
-            binaries: create-react-app
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    ember-cli:
-        v3.10.0 (default)
-            binaries: ember
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-        v3.8.2
-            binaries: ember
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    tsc:
-        v3.4.5
-            binaries: tsc, tsserver
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-        v3.0.3 (default)
-            binaries: tsc, tsserver
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    yarn-deduplicate:
-        v1.1.1 (default)
-            binaries: yarn-deduplicate
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
+    Node runtimes:
+        v12.2.0
+        v11.9.0
+        v10.15.3 (default)
+        v8.16.0
+    
+    Packagers:
+        Yarn:
+            v1.16.0 (default)
+            v1.12.3
+    
+    Tools:
+        create-react-app:
+            v3.0.1 (default)
+                binaries: create-react-app
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        ember-cli:
+            v3.10.0 (default)
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.8.2
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        typescript:
+            v3.4.5
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.0.3 (default)
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        yarn-deduplicate:
+            v1.1.1 (default)
+                binaries: yarn-deduplicate
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
 ```
 
 </details>
@@ -292,52 +296,54 @@ Tools:
 
 ```sh
 $ volta list --all
-Node runtimes:
-    v12.2.0
-    v11.9.0
-    v10.15.3 (default)
-    v8.16.0 (current)
+⚡️ User toolchain:
 
-Packagers:
-    Yarn:
-        v1.16.0 (default)
-        v1.12.3
-
-Tools:
-    create-react-app:
-        v3.0.1 (default)
-            binaries: create-react-app
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    ember-cli:
-        v3.10.0 (default)
-            binaries: ember
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-        v3.8.2
-            binaries: ember
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    tsc:
-        v3.4.5
-            binaries: tsc, tsserver
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-        v3.0.3 (default)
-            binaries: tsc, tsserver
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    yarn-deduplicate:
-        v1.1.1 (default)
-            binaries: yarn-deduplicate
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
+    Node runtimes:
+        v12.2.0
+        v11.9.0
+        v10.15.3 (default)
+        v8.16.0 (current)
+    
+    Packagers:
+        Yarn:
+            v1.16.0 (default)
+            v1.12.3
+    
+    Tools:
+        create-react-app:
+            v3.0.1 (default)
+                binaries: create-react-app
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        ember-cli:
+            v3.10.0 (default)
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.8.2
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        tsc:
+            v3.4.5
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.0.3 (default)
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        yarn-deduplicate:
+            v1.1.1 (default)
+                binaries: yarn-deduplicate
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
 ```
 
 </details>
@@ -346,74 +352,199 @@ Tools:
 
 ```sh
 $ volta list --all
-Node runtimes:
-    v12.2.0 (`~/node-and-yarn/project.json`)
-    v11.9.0
-    v10.15.3 (default)
-    v8.16.0
+⚡️ User toolchain:
 
-Packagers:
-    Yarn:
-        v1.16.0 (default)
-        v1.12.3 (`~/node-and-yarn/project.json`)
-
-Tools:
-    create-react-app:
-        v3.0.1 (default)
-            binaries: create-react-app
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    ember-cli:
-        v3.10.0 (default)
-            binaries: ember
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-        v3.8.2
-            binaries: ember
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    tsc:
-        v3.4.5
-            binaries: tsc, tsserver
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-        v3.0.3 (default)
-            binaries: tsc, tsserver
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
-    yarn-deduplicate:
-        v1.1.1 (default)
-            binaries: yarn-deduplicate
-            platform:
-                runtime: node@v12.2.0
-                packager: built-in npm
+    Node runtimes:
+        v12.2.0 (`~/node-and-yarn/project.json`)
+        v11.9.0
+        v10.15.3 (default)
+        v8.16.0
+    
+    Packagers:
+        Yarn:
+            v1.16.0 (default)
+            v1.12.3 (`~/node-and-yarn/project.json`)
+    
+    Tools:
+        create-react-app:
+            v3.0.1 (default)
+                binaries: create-react-app
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        ember-cli:
+            v3.10.0 (default)
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.8.2
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        tsc:
+            v3.4.5
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.0.3 (default)
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        yarn-deduplicate:
+            v1.1.1 (default)
+                binaries: yarn-deduplicate
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
 ```
 
 </details>
 
 #### Plain
 
-<details><summary></summary>
+The basic format is:
+
+```sh
+$ volta list --all
+runtime node@<version> [(default|<project path>)]
+packager <packager>@<version> [(default|<project path>)]
+tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|<project path>)]
+```
+
+<details><summary>Outside a project directory</summary>
 
 ```sh
 $ volta list --all
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
-runtime node@v8.16.0
-packager yarn@v1.16.0
-packager yarn@v1.12.3 (default)
-tool create-react-app@v3.0.1 (default) / node@v12.2.0
-tool ember-cli@v3.10.0 (default) / node@v12.2.0
-tool ember-cli@v3.8.2 / node@v12.2.0
-tool typescript@v3.4.5 / node@v12.2.0
-tool typescript@v3.0.3 (default) / node@v12.2.0
-tool yarn-deduplicate@v1.1.1 / node@v12.2.0
+runtime node@v8.16.0    
+packager yarn@v1.16.0 (default)
+packager yarn@v1.12.3
+tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
+tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
+tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
+tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
+tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
+tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
+tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
+tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (default)
+```
+
+</details>
+
+<details><summary>In the <code>node-only</code> project</summary>
+
+```sh
+$ volta list --all
+⚡️ User toolchain:
+
+    Node runtimes:
+        v12.2.0
+        v11.9.0
+        v10.15.3 (default)
+        v8.16.0 (current)
+    
+    Packagers:
+        Yarn:
+            v1.16.0 (default)
+            v1.12.3
+    
+    Tools:
+        create-react-app:
+            v3.0.1 (default)
+                binaries: create-react-app
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        ember-cli:
+            v3.10.0 (default)
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.8.2
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        tsc:
+            v3.4.5
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.0.3 (default)
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        yarn-deduplicate:
+            v1.1.1 (default)
+                binaries: yarn-deduplicate
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+```
+
+</details>
+
+<details><summary>In the <code>node-and-yarn</code> project</summary>
+
+```sh
+$ volta list --all
+⚡️ User toolchain:
+
+    Node runtimes:
+        v12.2.0 (`~/node-and-yarn/project.json`)
+        v11.9.0
+        v10.15.3 (default)
+        v8.16.0
+    
+    Packagers:
+        Yarn:
+            v1.16.0 (default)
+            v1.12.3 (`~/node-and-yarn/project.json`)
+    
+    Tools:
+        create-react-app:
+            v3.0.1 (default)
+                binaries: create-react-app
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        ember-cli:
+            v3.10.0 (default)
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.8.2
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        tsc:
+            v3.4.5
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+            v3.0.3 (default)
+                binaries: tsc, tsserver
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
+        yarn-deduplicate:
+            v1.1.1 (default)
+                binaries: yarn-deduplicate
+                platform:
+                    runtime: node@v12.2.0
+                    packager: built-in npm
 ```
 
 </details>
@@ -516,7 +647,7 @@ This section discusses the tradeoffs considered in this proposal. This must incl
     - a subset of package binaries once the number crosses a threshold, with instructions about how to see all?
     - no package binaries?
 
-    And how should that be presented in `plain` vs. `human` mode?
+    And how should that be presented in `plain` vs. `human` mode? Should there be any differences between `plain` and `human` for the bare command (as in the current design)?
 
 <!-- 
 - What parts of the design do you expect to resolve through the RFC process before this gets merged?
