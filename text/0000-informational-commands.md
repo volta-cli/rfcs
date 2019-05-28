@@ -536,6 +536,26 @@ tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 ```
 
+### `volta list --tool=<tool>`
+
+#### Human
+
+#### Plain
+
+The basic format is:
+
+```sh
+volta list --tool=<tool> --plain
+tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
+```
+
+For the TypeScript config specified in the canonical example:
+
+```sh
+volta list --tool=tsc
+tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
+tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
+```
 
 ## Why `list`?
 
