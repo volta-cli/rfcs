@@ -228,7 +228,7 @@ $ volta list --all
             <version> [(default|current @ <project path>)]
     
     Tools:
-        <tool name>
+        <package name>
             <version> [(default|current @ <project path>)]
                 binaries: [<binary name>]...
                 platform:
