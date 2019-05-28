@@ -463,54 +463,20 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (defau
 
 ```sh
 $ volta list --all
-⚡️ User toolchain:
-
-    Node runtimes:
-        v12.2.0 (`~/node-and-yarn/project.json`)
-        v11.9.0
-        v10.15.3 (default)
-        v8.16.0
-    
-    Packagers:
-        Yarn:
-            v1.16.0 (default)
-            v1.12.3 (`~/node-and-yarn/project.json`)
-    
-    Tools:
-        create-react-app:
-            v3.0.1 (default)
-                binaries: create-react-app
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
-        ember-cli:
-            v3.10.0 (default)
-                binaries: ember
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
-            v3.8.2
-                binaries: ember
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
-        tsc:
-            v3.4.5
-                binaries: tsc, tsserver
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
-            v3.0.3 (default)
-                binaries: tsc, tsserver
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
-        yarn-deduplicate:
-            v1.1.1 (default)
-                binaries: yarn-deduplicate
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
+runtime node@v12.2.0 (current@~/node-and-yarn/project.json)
+runtime node@v11.9.0
+runtime node@v10.15.3 (default)
+runtime node@v8.16.0
+packager yarn@v1.16.0 (default)
+packager yarn@v1.12.3 (current@~/node-and-yarn/project.json)
+tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
+tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
+tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
+tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
+tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
+tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
+tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
+tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (default)
 ```
 
 </details>
