@@ -481,15 +481,61 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (defau
 
 </details>
 
-### `volta list <package>`
+### `volta list --package=<package>`
 
-List all fetched versions of a specific package:
+List all fetched versions of a specific package.
+
+#### Human
+
+The basic format is:
 
 ```sh
-volta list <package>
+volta list --package=<package> --human
+
+    <version> [(default|current @ <project path>)]
+        binaries: [<binary name>]...
+        platform:
+            runtime: node@<version>
+            packager: built-in npm|<npm|yarn>@<version>
 ```
 
-<!-- TODO: remaining examples! -->
+For the TypeScript config specified in the canonical example:
+
+```sh
+volta list --package=typescript --human
+
+    v3.4.5
+        binaries: tsc, tsserver
+        platform:
+            runtime: node@v12.2.0
+            packager: built-in npm
+
+    v3.0.3 (default)
+        binaries: tsc, tsserver
+        platform:
+            runtime: node@v12.2.0
+            packager: built-in npm
+```
+
+#### Plain
+
+The basic format is:
+
+```sh
+volta list --package=<package> --plain
+tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
+```
+
+For the TypeScript config specified in the canonical example:
+
+```sh
+volta list --package=typescript
+tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
+tool tsserver / typescript@v3.4.5 node@12.2.0 npm@built-in
+tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
+tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
+```
+
 
 ## Why `list`?
 
