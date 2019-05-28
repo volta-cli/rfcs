@@ -142,7 +142,7 @@ See options for more detailed reports by running `volta list --help`.
 $ volta list --human
 ⚡️ Currently active tools:
 
-    Node: v8.16.0 (from `~/node-only/package.json`)
+    Node: v8.16.0 (current @ ~/node-only/package.json)
     Yarn: v1.12.3 (default)
     Tool binaries available:
         create-react-app, ember, tsc, tsserver, yarn-deduplicate
@@ -158,8 +158,8 @@ See options for more detailed reports by running `volta list --help`.
 $ volta list --human
 ⚡️ Currently active tools:
 
-    Node runtime: v12.2.0 (from `~/node-and-yarn/package.json`)
-    Packager: Yarn: v1.16.0 (from `~/node-and-yarn/package.json`)
+    Node runtime: v12.2.0 (current @ ~/node-and-yarn/package.json)
+    Packager: Yarn: v1.16.0 (current @ ~/node-and-yarn/package.json)
     Tool binaries available:
         create-react-app, ember, tsc, tsserver, yarn-deduplicate
 
@@ -174,7 +174,7 @@ The format is:
 
 ```sh
 $ volta list --plain
-runtime node@<version> (default|current@ <project path>)
+runtime node@<version> (default|current @  <project path>)
 packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 ```
 
@@ -444,7 +444,7 @@ $ volta list --all --plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
-runtime node@v8.16.0 (current@~/node-only/package.json)
+runtime node@v8.16.0 (current @ ~/node-only/package.json)
 packager yarn@v1.16.0 (default)
 packager yarn@v1.12.3
 tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
@@ -463,12 +463,12 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (defau
 
 ```sh
 $ volta list --all --plain
-runtime node@v12.2.0 (current@~/node-and-yarn/project.json)
+runtime node@v12.2.0 (current @ ~/node-and-yarn/project.json)
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
 runtime node@v8.16.0
 packager yarn@v1.16.0 (default)
-packager yarn@v1.12.3 (current@~/node-and-yarn/project.json)
+packager yarn@v1.12.3 (current @ ~/node-and-yarn/project.json)
 tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
 tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
 tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
