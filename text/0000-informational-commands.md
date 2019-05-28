@@ -544,7 +544,7 @@ The basic format is:
 
 ```sh
 volta list --tool=<tool> --human
-⚡️ tool tsc available from:
+⚡️ tool <tool> available from:
 
     <package>@<version> [(default|current @ <project path>)]
         platform:
