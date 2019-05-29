@@ -271,7 +271,7 @@ The format is:
 
 ```sh
 $ volta list --plain
-runtime node@<version> (default|current @  <project path>)
+runtime node@<version> (default|current @ <project path>)
 packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 ```
 
@@ -304,9 +304,9 @@ $ volta list --plain
 runtime node@v12.2.0 (~/node-and-yarn/package.json)
 packager yarn@v1.16.0 (~/node-and-yarn/package.json)
 ```
-    
+
 </details>
-    
+
 ### `volta list --all`
 
 #### Human
@@ -519,7 +519,7 @@ $ volta list --all --plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
-runtime node@v8.16.0    
+runtime node@v8.16.0
 packager yarn@v1.16.0 (default)
 packager yarn@v1.12.3
 tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
@@ -755,4 +755,3 @@ We could leave the current state of affairs as it is. However, users then have n
 - How should the built-in version of `npm` be displayed to the user? Options include:
     - associated with the runtime it ships with, e.g. `v12.2.0 (with npm v6.4.1)`
     - as a packager, but indicating its source as a built-in, e.g. `npm v6.4.1 (built-in from node@v12.2.0`
-
