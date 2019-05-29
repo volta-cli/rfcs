@@ -1,7 +1,7 @@
 - Feature Name: cli-ui-improvements
 - Start Date: 2019-02-25
-- RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- RFC PR: [#30](https://github.com/volta-cli/rfcs/pull/30)
+- Notion Issue: [#283](https://github.com/volta-cli/volta/pull/283)
 
 # Summary
 [summary]: #summary
