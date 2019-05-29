@@ -19,7 +19,7 @@ Add an informational command, `volta list`, replacing the `volta current` comman
     - [Detailed Command Output](#detailed-command-output)
         - [Assumed Configuration](#assumed-configuration)
         - [`volta list` (no flags)](#volta-list-no-flags)
-        - [`volta list --all`](#volta-list---all)
+        - [`volta list all`](#volta-list-all)
         - [`volta list package <package>`](#volta-list-package-package)
         - [`volta list tool <tool>`](#volta-list-tool-tool)
     - [Deprecating `volta current`](#deprecating-volta-current)
@@ -52,7 +52,7 @@ We introduce a `list` command, which lets users get a description of their Volta
 
 - To get the currently-active runtime, packager, and available binaries, the user can run `volta list`.
 
-- To get *all* runtimes, packagers, and binaries currently fetched to the user's system, the user can run `volta list --all`.
+- To get *all* runtimes, packagers, and binaries currently fetched to the user's system, the user can run `volta list all`.
 
 - The user can also narrow the query:
     - to runtimes: `volta list node`
@@ -95,7 +95,7 @@ Survey details:
 - [Chocolatey](https://chocolatey.org):
     - `list`: searches for both local and remote packages, alias for `search`
         - `-l, --lo, --localonly, --local-only`: only items on the local machine
-        - `-a, --all, --allversions, --all-versions`: results from all versions
+        - `-a, all, allversions, all-versions`: results from all versions
         - `--version=VALUE`: only this specific version match
         - ` -e, --exact`: only exact matches for the name
     - `info` for displaying details about a specific installed package
@@ -131,11 +131,11 @@ The `volta list` command supports four *variants*:
 
 - **`volta list`:** comparable to the existing `volta current`, but expanded. Shows not only the user’s current runtime but also their current packager and any available tool binaries, as well as explanation of why the current values are what they are.
 
-- **`volta list --all`:** shows every fetched runtime, packager, and tool version along with the binaries available for each tool. Also indicates of whether each is a default or is set for a project in the user’s current working directory.
+- **`volta list all`:** shows every fetched runtime, packager, and tool version along with the binaries available for each tool. Also indicates of whether each is a default or is set for a project in the user’s current working directory.
 
-- **`volta list package <package>`:** shows a subset of the output from `--all`, scoped to the information for a specific package which has been fetched to the user’s inventory.
+- **`volta list package <package>`:** shows a subset of the output from `all`, scoped to the information for a specific package which has been fetched to the user’s inventory.
 
-- **`volta list tool <tool>`:** shows a subset of the output from `--all`, scoped to the information for a specific tool which has been fetched to the user’s inventory. `tool` is similar to `package`, but if a package has more than one tool associated with it, only the specified tool will be shown.
+- **`volta list tool <tool>`:** shows a subset of the output from `all`, scoped to the information for a specific tool which has been fetched to the user’s inventory. `tool` is similar to `package`, but if a package has more than one tool associated with it, only the specified tool will be shown.
 
 The command also supports (initially) two *output modes*: *human-friendly* (`human`) and *machine-friendly* (`plain`).
 
@@ -329,14 +329,14 @@ packager yarn@v1.16.0 (~/node-and-yarn/package.json)
 
 </details>
 
-### `volta list --all`
+### `volta list all`
 
 #### Human
 
 The basic format is:
 
 ```sh
-$ volta list --all --human
+$ volta list all --human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -358,7 +358,7 @@ $ volta list --all --human
 <details><summary>Outside a project directory</summary>
 
 ```sh
-$ volta list --all --human
+$ volta list all --human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -414,7 +414,7 @@ $ volta list --all --human
 <details><summary>In the <code>node-only</code> project</summary>
 
 ```sh
-$ volta list --all --human
+$ volta list all --human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -470,7 +470,7 @@ $ volta list --all --human
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list --all --human
+$ volta list all --human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -528,7 +528,7 @@ $ volta list --all --human
 The basic format is:
 
 ```sh
-$ volta list --all --plain
+$ volta list all --plain
 runtime node@<version> [(default|current @ <project path>)]
 packager <packager>@<version> [(default|current @ <project path>)]
 tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|current @ <project path>)]
@@ -537,7 +537,7 @@ tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<versio
 <details><summary>Outside a project directory</summary>
 
 ```sh
-$ volta list --all --plain
+$ volta list all --plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
@@ -559,7 +559,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
 <details><summary>In the <code>node-only</code> project</summary>
 
 ```sh
-$ volta list --all --plain
+$ volta list all --plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
@@ -581,7 +581,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list --all --plain
+$ volta list all --plain
 runtime node@v12.2.0 (current @ ~/node-and-yarn/project.json)
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
