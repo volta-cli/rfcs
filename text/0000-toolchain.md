@@ -1,22 +1,22 @@
 - Feature Name: toolchain
 - Start Date: 2018-12-07
 - RFC PR: 
-- Notion Issue: 
+- Volta Issue: 
 
 # Summary
 [summary]: #summary
 
-This RFC describes a design for the Notion's central unifying design concept: the **toolchain**.
+This RFC describes a design for the Volta's central unifying design concept: the **toolchain**.
 
 # Motivation
 [motivation]: #motivation
 
-The Notion toolchain is designed with several goals:
+The Volta toolchain is designed with several goals:
 
-- **Reproducible project tooling.** With this design, Notion should make it convenient and reliable for all contributors on a project to get the same exact version of the Node runtime, the package manager, and any package binaries configured for use by `package.json`.
+- **Reproducible project tooling.** With this design, Volta should make it convenient and reliable for all contributors on a project to get the same exact version of the Node runtime, the package manager, and any package binaries configured for use by `package.json`.
 - **Reconciling the use of npm as a software distribution platform with best practices.** It's considered a best practice for project development to avoid ever installing global packages. But npm is a popular and convenient platform for distributing command-line tools. The toolchain design reconciles this tension by isolating _user tools_, which are installed for personal use, making them invisible to JS project scripts, and distinguishing them from _project tools_.
-- **Install and forget.** This design solves the problem of _tool bitrot_, where a tool stops working because of Node upgrades. It also avoids the need to reinstall global tools every time a new Node version is provisioned. With Notion, once you install a user tool and get it working, it keeps working unless you deliberately decide to change or uninstall it.
-- **Low cognitive overhead via statelessness.** This design allows Notion users to generally avoid thinking at all about the version of Node that's currently installed, instead relying on saved configuration to ensure that tools and projects have already declaratively specified their Node platform version.
+- **Install and forget.** This design solves the problem of _tool bitrot_, where a tool stops working because of Node upgrades. It also avoids the need to reinstall global tools every time a new Node version is provisioned. With Volta, once you install a user tool and get it working, it keeps working unless you deliberately decide to change or uninstall it.
+- **Low cognitive overhead via statelessness.** This design allows Volta users to generally avoid thinking at all about the version of Node that's currently installed, instead relying on saved configuration to ensure that tools and projects have already declaratively specified their Node platform version.
 
 ## User stories
 
@@ -41,7 +41,7 @@ and the lockfile pins TypeScript to version 3.2.2.
 
 Users can call the TypeScript compiler directly as long as they've installed it:
 ```
-notion install typescript
+volta install typescript
 ```
 Afterwards, running `tsc` from within the project directory runs version 3.2.2 of the TypeScript compiler, using Node 10.10.0 as the runtime.
 
@@ -49,7 +49,7 @@ Afterwards, running `tsc` from within the project directory runs version 3.2.2 o
 
 An end user of the [surge.sh](https://surge.sh) service installs their CLI tool that is deployed as an npm package:
 ```
-notion install surge
+volta install surge
 ```
 In this user story, the `surge` tool is published with `"engines": "11"` in its manifest, and at the time the command is run, the latest 11.x version of Node is 11.4.0. The CLI tool is installed in the user toolchain with Node 11.4.0 set as its default engine.
 
@@ -65,7 +65,7 @@ The [project-explorer](https://sdras.github.io/project-explorer-site/) tool is a
 
 A user can install this tool to their toolchain:
 ```
-notion install project-explorer
+volta install project-explorer
 ```
 In this user story, the `project-explorer` manifest is published with `"engines": "8"` in its manifest. At the time the tool is installed, the latest 8.x version of Node is 8.15.0. So the `pexx` tool is installed with Node 8.15.0 as its default engine.
 
@@ -78,7 +78,7 @@ the `pexx` binary runs with Node 8.15.0—even if `myproject` specifies a differ
 # Pedagogy
 [pedagogy]: #pedagogy
 
-This section lists the set of concepts that users may encounter using Notion. The first two, **tools** and the **toolchain**, are central to using Notion. The latter two, **shims** and **engines**, are lower-level primitives that may be helpful for more implementation-oriented users.
+This section lists the set of concepts that users may encounter using Volta. The first two, **tools** and the **toolchain**, are central to using Volta. The latter two, **shims** and **engines**, are lower-level primitives that may be helpful for more implementation-oriented users.
 
 ## Tools
 
@@ -90,13 +90,13 @@ There are three types of tools:
 
 ## Toolchain
 
-The toolchain is a set of tools the user has installed for use at the command-line console. The user adds to their toolchain with `notion install` and removes with `notion uninstall`.
+The toolchain is a set of tools the user has installed for use at the command-line console. The user adds to their toolchain with `volta install` and removes with `volta uninstall`.
 
 Each tool installed in the toolchain has a default version and engine, which can be overridden when the tool is invoked in a project that has a dependency on that tool.
 
 ## Primitive: Shims
 
-Notion shims intercept calls to tools and redirect execution to the right executable based on the environment and current directory.
+Volta shims intercept calls to tools and redirect execution to the right executable based on the environment and current directory.
 
 Users may already be familiar with shims, since these are commonly used by other version managers.
 
@@ -123,13 +123,13 @@ In the manifest, an omitted npm version defaults to the version bundled with the
 
 An engine image is an installation on disk of a specific version of the Node runtime, a specific version of npm (or none), and a specific version of Yarn (or none).
 
-The _intention_ of Notion is for an image never to be modified. In particular, all commands that modify the state of an engine—e.g. `npm install --global` or `yarn global add`—should fail with an error when invoked through Notion shims. This behavior can be disabled with the environment variable `NOTION_UNSAFE_GLOBAL`. The name is meant to indicate to the user that they are "voiding their warranty" and responsible for any violations of the expectation of immutability.
+The _intention_ of Volta is for an image never to be modified. In particular, all commands that modify the state of an engine—e.g. `npm install --global` or `yarn global add`—should fail with an error when invoked through Volta shims. This behavior can be disabled with the environment variable `VOLTA_UNSAFE_GLOBAL`. The name is meant to indicate to the user that they are "voiding their warranty" and responsible for any violations of the expectation of immutability.
 
 ## Pinning a project
 
 The `"toolchain"` section of `package.json` selects the engine image associated with a package.
 
-Users can pin the engine by manually editing the `package.json` `"toolchain"` section or via [`notion pin`](https://github.com/notion-cli/rfcs/pull/24).
+Users can pin the engine by manually editing the `package.json` `"toolchain"` section or via [`volta pin`](https://github.com/volta-cli/rfcs/pull/24).
 
 When the `node` shim or a package manager shim is executed from within a pinned project, the shim delegates to the version of that tool from the project's pinned engine.
 
@@ -143,35 +143,35 @@ When a package binary is executed from a Node project that _does_ have the packa
 
 ## Installation
 
-The `notion install` command installs a tool to the user's toolchain.
+The `volta install` command installs a tool to the user's toolchain.
 
 ### Installing an engine
 
-The `notion install node` subcommand installs the user's engine. When installing a version of the Node runtime, Notion also installs the default version of npm bundled with that verison of Node. This can be overridden with a subsequent `notion install npm` command.
+The `volta install node` subcommand installs the user's engine. When installing a version of the Node runtime, Volta also installs the default version of npm bundled with that verison of Node. This can be overridden with a subsequent `volta install npm` command.
 
 ### Installing a package binary
 
-When installing a package binary, Notion checks the package for the standard [`"engines"`](https://docs.npmjs.com/files/package.json#engines) key to select the latest engine version compatible with the package and pins the tool's default engine to that engine version. If there is no `"engines"` key in the package manifest, it defaults to the user's current engine. If the user has no current engine, `notion install` fails with an error message suggesting the user choose at least a Node runtime version.
+When installing a package binary, Volta checks the package for the standard [`"engines"`](https://docs.npmjs.com/files/package.json#engines) key to select the latest engine version compatible with the package and pins the tool's default engine to that engine version. If there is no `"engines"` key in the package manifest, it defaults to the user's current engine. If the user has no current engine, `volta install` fails with an error message suggesting the user choose at least a Node runtime version.
 
 ### Overriding the associated engine
 
-When used for a package tool, `notion install` accepts an optional `--node` parameter for overriding the package's specified platform version:
+When used for a package tool, `volta install` accepts an optional `--node` parameter for overriding the package's specified platform version:
 
 ```
-notion install surge --node=latest
+volta install surge --node=latest
 ```
 
 ## Uninstallation
 
-The `notion uninstall` command uninstalls a tool from the user's toolchain.
+The `volta uninstall` command uninstalls a tool from the user's toolchain.
 
 ## Updating
 
-Taken together, `notion uninstall` and `notion install` can be used to update a tool. Note that as the tool evolves over time, its authors may update its platform to newer Node versions. So as users upgrade their tools they will automatically get platform upgrades for the tool. But they also continue to be assured they are getting a version of the platform that the tool was tested with.
+Taken together, `volta uninstall` and `volta install` can be used to update a tool. Note that as the tool evolves over time, its authors may update its platform to newer Node versions. So as users upgrade their tools they will automatically get platform upgrades for the tool. But they also continue to be assured they are getting a version of the platform that the tool was tested with.
 
-The `notion update` command is a shorthand command for doing the same thing:
+The `volta update` command is a shorthand command for doing the same thing:
 ```
-notion update surge
+volta update surge
 ```
 
 # Critique
