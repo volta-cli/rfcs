@@ -8,6 +8,28 @@
 
 Add an informational command, `volta list`, replacing the `volta current` command and expanding on its capabilities. The `list` command will allow users to see their default and project-specific toolchains, and will support both human-friendly output and a tool-friendly output.
 
+- [Summary](#summary)
+- [Motivation](#motivation)
+- [Pedagogy](#pedagogy)
+    - [Why `list`?](#why-list)
+    - [Prior art](#prior-art)
+- [Details](#details)
+    - [Information supplied by the command](#information-supplied-by-the-command)
+    - [Output modes](#output-modes)
+    - [Detailed Command Output](#detailed-command-output)
+        - [Assumed Configuration](#assumed-configuration)
+        - [`volta list` (no flags)](#volta-list-no-flags)
+        - [`volta list --all`](#volta-list---all)
+        - [`volta list package <package>`](#volta-list-package-package)
+        - [`volta list tool <tool>`](#volta-list-tool-tool)
+    - [Deprecating `volta current`](#deprecating-volta-current)
+- [Critique](#critique)
+    - [Use another command name](#use-another-command-name)
+    - [Use shorthands instead of `list`](#use-shorthands-instead-of-list)
+    - [Keep `volta current` as an alias for `volta list`](#keep-volta-current-as-an-alias-for-volta-list)
+    - [Do not add `list`](#do-not-add-list)
+- [Unresolved questions](#unresolved-questions)
+
 # Motivation
 [motivation]: #motivation
 
@@ -19,14 +41,14 @@ Users of Volta currently have no way to get the answers to the following questio
 - What binaries are supplied by a given package which has been installed?
 - What Node version and packager are used by a given tool binary?
 
-The only tooling available to answer *any* of these question presently is the `volta current` command, which prints exactly and only the version of Node itself which will be executed in the user’s current directory. Users wanting to answer these questions today must resort to poking through the `~/.volta` directory, and its internals are *not* public API, so any tooling a user might put in place around that would be subject to breakage between versions.
+The only tooling available to answer *any* of these questions are the `volta current` and `volta which` commands. `volta current` prints exactly and only the version of Node itself which will be executed in the user’s current directory. `volta which` answers the question for any single item in the user's toolchain, but only by parsing a path. Users must resort to poking through the `~/.volta` directory to answer these questions, and its internals are *not* public API. Thus, any tooling a user might build around the directory could break between versions.
 
-Adding a `volta list` command designed to address all of these needs allows users to get and use the information however they need. Adding it with both human- and tool-friendly output formats makes for a better user-experience: the default output will make it easy for people to *read*, and the machine-readable formats will make it easy for people to build *tools* around.
+Adding a `volta list` command addresses this need. Adding it with both human- and tool-friendly output formats makes for a better user-experience: the default output will make it easy for people to *read*, and the machine-readable formats will make it easy for people to build *tools* around.
 
 # Pedagogy
 [pedagogy]: #pedagogy
 
-We introduce a `list` command, which lets users get a description of their Volta environment: the currently-active items in their toolchain and the reason those items are currently active, and the total set of available tools on their system.
+We introduce a `list` command, which lets users get a description of their Volta environment: the currently-active items in their toolchain, the reason those items are currently active, and the total set of available tools on their system.
 
 - To get the currently-active runtime, packager, and available binaries, the user can run `volta list`.
 
@@ -45,12 +67,12 @@ These ideas already exist implicitly in Volta's vocabulary. Introducing `list` p
 ## Why `list`?
 [why-list]: #why-list
 
-Potential options include `list`, `ls`, `tools`, `toolchain`, `info`, `current`, or simply bare names like `node`, `yarn`, or `<package>` or `<tool>`. However, `list` is the most flexible in terms of allowing variants to let the user describe *parts* of their toolchain as desired. It is also is a very common name for this operation in other tools (see the survey below). Additionally, choosing `list` as the primary name of the command does not preclude adding aliases for common operations later.
+Potential options include `list`, `ls`, `tools`, `toolchain`, `info`, `current`, or simply bare names like `node`, `yarn`, or `<package>` or `<tool>`. However, `list` is the most flexible, supplying variants to let the user describe *parts* of their toolchain as desired. It is also is a very common name for this operation in other tools (see the survey below). Additionally, choosing `list` as the primary name of the command does not preclude adding aliases for common operations later.
 
 ## Prior art
 [prior-art]: #prior-art
 
-A brief survey of the broader developer ecosystem indicates that `list` is by far the most common (sub)command used in CLI tools for listing installed versions of tools. The only major exception is `nodenv`, which (reasonably) seems to treat the "list" action as implicit in the user's intention, given that nodenv serves *only* to manage specific versions of Node. `nvm` uses `ls` and `ls-remote`, which are standard Unix shortenings of "list."
+A brief survey of the broader developer ecosystem indicates that `list` is by far the most common (sub)command used in CLI tools for listing installed versions of tools. The only major exception is `nodenv`, which (reasonably) seems to treat the "list" action as implicit in the user's intention. However, this is clearer for nodenv because it *only* manages specific versions of Node. `nvm` uses `ls` and `ls-remote`, which are standard Unix shortenings of "list."
 
 Survey details:
 
