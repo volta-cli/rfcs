@@ -1,7 +1,7 @@
 - Feature Name: toolchain
 - Start Date: 2018-12-07
-- RFC PR: 
-- Volta Issue: 
+- RFC PR: [#27](https://github.com/volta-cli/rfcs/pull/27)
+- Volta Issue: [#148](https://github.com/volta-cli/volta/issues/148)
 
 # Summary
 [summary]: #summary
