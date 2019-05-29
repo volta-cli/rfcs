@@ -39,7 +39,7 @@ It is not necessary to write the actual feature documentation in this section, b
 
 ## Why `list`?
 
-Potential options include something like `list`, `ls`, `tools`, `info`, `current`, or simply bare names like `node`, `yarn`, or `<package>` or `<tool>`. 
+Potential options include something like `list`, `ls`, `tools`, `info`, `current`, or simply bare names like `node`, `yarn`, or `<package>` or `<tool>`. However, as the tool survey below indicates, `list` is by far the most common name for this operation among other tools, and it is also the most flexible in terms of allowing variants to let the user describe *parts* of their toolchain as desired.
 
 ### Prior art
 
