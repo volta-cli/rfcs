@@ -758,7 +758,7 @@ We could leave the current state of affairs as it is. However, users then have n
 # Unresolved questions
 [unresolved]: #unresolved-questions
 
-- Should the bare `list` command include:
+- Should the bare command include:
 
     - all available package binaries?
     - a subset of package binaries once the number crosses a threshold, with instructions about how to see all?
@@ -768,11 +768,7 @@ We could leave the current state of affairs as it is. However, users then have n
 
 - How should the current version be identified? It is currently marked with `(current @ <path>)`. Should this be `(from <path>)` or some other design?
 
-- Should the `list` command accept flags to narrow the search instead of subcommands, e.g. `volta list --node`, `volta list --yarn`, `volta list --package=typescript`, etc.?
-
-    - Is there value in supporting both the `tool` and `package` invocations, or should we collapse them and avoid the additional complexity of distinguishing between tools/binaries and their supplying packages?
-
-    - Should we simply parse a positional argument after `volta list` as `<node|npm|yarn|<package name>>`?
+- Should the command accept flags to narrow the search instead of a positional argument, e.g. `volta list --node`, `volta list --yarn`, `volta list --package=typescript`, etc.?
 
 - How should the built-in version of `npm` be displayed to the user? Options include:
     - associated with the runtime it ships with, e.g. `v12.2.0 (with npm v6.4.1)`
