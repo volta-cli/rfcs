@@ -39,9 +39,9 @@ It is not necessary to write the actual feature documentation in this section, b
 
 ## Why `list`?
 
-Potential options include something like `list`, `ls`, `tools`, `info`, `current`, or simply bare names like `node`, `yarn`, or `<package>` or `<tool>`. However, as the tool survey below indicates, `list` is by far the most common name for this operation among other tools, and it is also the most flexible in terms of allowing variants to let the user describe *parts* of their toolchain as desired.
+Potential options include something like `list`, `ls`, `tools`, `info`, `current`, or simply bare names like `node`, `yarn`, or `<package>` or `<tool>`. However, `list` is the most flexible in terms of allowing variants to let the user describe *parts* of their toolchain as desired. It is also is a very common name for this operation in other tools (see the survey below). Additionally, choosing `list` as the primary name of the command does not preclude adding aliases for common operations later.
 
-### Prior art
+### Survey details
 
 A brief survey of the broader developer ecosystem indicates that `list` is by far the most common (sub)command used in CLI tools for listing installed versions of tools. The only major exception is `nodenv`, which (reasonably) seems to treat the "list" action as implicit in the user's intention, given that nodenv serves *only* to manage specific versions of Node. `nvm` uses `ls` and `ls-remote`, which are standard Unix shortenings of "list."
 
