@@ -56,9 +56,9 @@ We introduce a `list` command, which lets users get a description of their Volta
 
 - The user can also narrow the query:
     - to runtimes: `volta list node`
-    - to packagers: `volta list npm` or `volta list yarn`
-    - to a specific package: `volta list package <package name>`
-    - to a specific tool: `volta list tool <tool name>`
+    - to packagers: `volta list yarn` (and, when custom installations of `npm` are supported, `volta list npm`)
+    - to a specific package: `volta list <package name>`
+    - to a specific tool: `volta list <tool name>`
 
 These commands represent the Volta ideas of the user's *toolchain*, including *default* and *current* items within that chain.
 
