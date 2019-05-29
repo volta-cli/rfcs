@@ -1,7 +1,7 @@
 - Feature Name: notion which
 - Start Date: 2019-01-23
-- RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- RFC PR: [#29](https://github.com/volta-cli/rfcs/pull/29)
+- Notion Issue: [#293](https://github.com/volta-cli/volta/pull/293)
 
 # Summary
 [summary]: #summary
