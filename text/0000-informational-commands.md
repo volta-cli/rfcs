@@ -98,40 +98,12 @@ Survey details:
 # Details
 [details]: #details
 
-## Example configuration
+There are variants of the command:
 
-Throughout, we will assume the user has the following configuration for illustrative purposes:
-
-- Node versions installed: v12.2.0, v11.9.0, v10.15.3 (default), v8.16.0
-- Yarn versions installed: v1.16.0, v1.12.3 (default)
-- Tools installed:
-    - ember-cli: v3.10.0 (default) on Node v12.2.0, v3.8.2 on Node v12.2.0, with binary `ember`
-    - typescript: v3.4.5 on Node v12.2.0, v3.0.3 (default) on Node v12.2.0, with binaries `tsc`, `tsserver`
-    - create-react-app: v3.0.1 (default) on Node v12.2.0, with binary `create-react-app`
-    - yarn-deduplicate: v1.1.1 on Node v12.2.0, with binary `yarn-deduplicate` (notice that this is not a *default*; assume the user ran `volta fetch` )
-
-They also have two projects with the following pins:
-
-- `~/node-only/package.json`:
-
-    ```json
-    {
-      "volta": {
-        "node": "v8.16.0",
-      }
-    }
-    ```
-
-- `~/node-and-yarn/package.json`:
-
-    ```json
-    {
-      "volta": {
-        "node": "v12.2.0",
-        "yarn": "v1.16.0"
-      }
-    }
-    ```
+- with no flags: `volta list` – comparable to the existing `volta current`, but expanded to show not only the user’s current runtime but also their current packager and any available tool binaries, as well as explanation of why the current values are what they are
+- with `--all`: `volta list --all` – shows every fetched runtime, packager, and tool version, along with the binaries available for each tool, and an indication of whether each is a default or is set for a project in the user’s current working directory
+- with `--package`: `volta list --package=<package>` – shows a subset of the output from `--all`, scoped to the information for a specific package which has been fetched to the user’s inventory one or more times
+- with `--tool`: `volta list --tool=<tool>` – shows a subset of the output from `--all`, scoped to the information for a specific tool which has been fetched to the user’s inventory one or more times; like `--package` but if a package has more than one tool associated with it, only the specified tool will be shown
 
 ## CLI Command Design
 
@@ -168,7 +140,46 @@ The tool will support multiple modes (two initially), which include exactly the 
 
 This RFC does not propose, but allows for the possibility of, a JSON mode (`--print=json`) or similar at a later time if that proves desirable.
 
-## CLI Command Variants
+Below, this design is worked out in detailed examples.
+
+### Assumed Configuration
+
+Throughout, we will assume the user has the following configuration for illustrative purposes:
+
+- Node versions installed: v12.2.0, v11.9.0, v10.15.3 (default), v8.16.0
+- Yarn versions installed: v1.16.0, v1.12.3 (default)
+- Tools installed:
+    - ember-cli, with binary `ember`:
+	    - v3.10.0 on Node v12.2.0 with built-in npm (default)
+	    - v3.8.2 on Node v12.2.0 with built-in npm
+    - typescript, with binaries `tsc`, `tsserver`:
+	    - v3.4.5 on Node v12.2.0 with built-in npm
+	    - v3.0.3 on Node v12.2.0 with built-in npm (default)
+    - create-react-app, with binary `create-react-app`: v3.0.1 on Node v12.2.0 with built-in npm (default)
+    - yarn-deduplicate, with binary `yarn-deduplicate`: v1.1.1 on Node v12.2.0 with built-in npm (notice that this is not a *default*; assume the user ran `volta fetch` )
+
+They also have two projects with the following pins:
+
+- `~/node-only/package.json`:
+
+    ```json
+    {
+      "volta": {
+        "node": "v8.16.0",
+      }
+    }
+    ```
+
+- `~/node-and-yarn/package.json`:
+
+    ```json
+    {
+      "volta": {
+        "node": "v12.2.0",
+        "yarn": "v1.16.0"
+      }
+    }
+    ```
 
 ### `volta list` (no flags)
 
@@ -183,7 +194,7 @@ $ volta list --human
     Node: v8.16.0 (default)
     Yarn: v1.12.3 (default)
     Tool binaries available:
-        create-react-app, ember, tsc, tsserver, yarn-deduplicate
+        create-react-app, ember, tsc, tsserver
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -197,7 +208,7 @@ $ volta list --human
     Node: v8.16.0 (default)
     Yarn: v1.12.3 (default)
     Tool binaries available:
-        create-react-app, ember, tsc, tsserver, yarn-deduplicate
+        create-react-app, ember, tsc, tsserver
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -215,7 +226,7 @@ $ volta list --human
     Node: v8.16.0 (current @ ~/node-only/package.json)
     Yarn: v1.12.3 (default)
     Tool binaries available:
-        create-react-app, ember, tsc, tsserver, yarn-deduplicate
+        create-react-app, ember, tsc, tsserver
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -231,7 +242,7 @@ $ volta list --human
     Node runtime: v12.2.0 (current @ ~/node-and-yarn/package.json)
     Packager: Yarn: v1.16.0 (current @ ~/node-and-yarn/package.json)
     Tool binaries available:
-        create-react-app, ember, tsc, tsserver, yarn-deduplicate
+        create-react-app, ember, tsc, tsserver
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -353,7 +364,7 @@ $ volta list --all --human
                     runtime: node@v12.2.0
                     packager: built-in npm
         yarn-deduplicate:
-            v1.1.1 (default)
+            v1.1.1
                 binaries: yarn-deduplicate
                 platform:
                     runtime: node@v12.2.0
@@ -409,7 +420,7 @@ $ volta list --all --human
                     runtime: node@v12.2.0
                     packager: built-in npm
         yarn-deduplicate:
-            v1.1.1 (default)
+            v1.1.1
                 binaries: yarn-deduplicate
                 platform:
                     runtime: node@v12.2.0
@@ -465,7 +476,7 @@ $ volta list --all --human
                     runtime: node@v12.2.0
                     packager: built-in npm
         yarn-deduplicate:
-            v1.1.1 (default)
+            v1.1.1
                 binaries: yarn-deduplicate
                 platform:
                     runtime: node@v12.2.0
@@ -502,7 +513,7 @@ tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (default)
+tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
 ```
 
 </details>
@@ -524,7 +535,7 @@ tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (default)
+tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
 ```
 
 </details>
@@ -546,7 +557,7 @@ tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in (default)
+tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
 ```
 
 </details>
