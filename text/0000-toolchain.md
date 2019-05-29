@@ -31,7 +31,7 @@ A project maintainer selects a version of TypeScript in `package.json`:
   "dependencies": {
       "typescript": "^3.2"
   },
-  "toolchain": {
+  "volta": {
       "node": "10.10.0"
   }
   ...
@@ -73,7 +73,7 @@ When the user runs
 ```
 pexx myproject
 ```
-the `pexx` binary runs with Node 8.15.0—even if `myproject` specifies a different version of Node in its `"toolchain"` spec.
+the `pexx` binary runs with Node 8.15.0—even if `myproject` specifies a different version of Node in its `"volta"` spec.
 
 # Pedagogy
 [pedagogy]: #pedagogy
@@ -127,9 +127,9 @@ The _intention_ of Volta is for an image never to be modified. In particular, al
 
 ## Pinning a project
 
-The `"toolchain"` section of `package.json` selects the engine image associated with a package.
+The `"volta"` section of `package.json` selects the engine image associated with a package.
 
-Users can pin the engine by manually editing the `package.json` `"toolchain"` section or via [`volta pin`](https://github.com/volta-cli/rfcs/pull/24).
+Users can pin the engine by manually editing the `package.json` `"volta"` section or via [`volta pin`](https://github.com/volta-cli/rfcs/pull/24).
 
 When the `node` shim or a package manager shim is executed from within a pinned project, the shim delegates to the version of that tool from the project's pinned engine.
 
@@ -179,7 +179,7 @@ volta update surge
 
 It's natural to question whether pinning for reproducibility is worth the cost of extra fetching. An alternative approach would be to allow projects to specify less precise version requirements (such as the ranges expressed under the `"engines"` field of `package.json`) and assume most differences will be benign. However, behavioral divergences between versions of Node do happen and are tricky bugs to nail down. Putting in extra work up front to ensure that these divergences cannot happen, by construction should pay dividends when scaled across the Node ecosystem. And over time, we can investigate optimization techniques to save time and disk space for fetching multiple similar versions.
 
-Theoretically, it might make more sense to put the `"toolchain"` section in a lockfile. But since there isn't a standardized single lockfile format for JS, and those formats aren't extensible, and we don't want to impose a whole new file to add to JS projects, using the package manifest seemed like the least imposition on users.
+Theoretically, it might make more sense to put the `"volta"` section in a lockfile. But since there isn't a standardized single lockfile format for JS, and those formats aren't extensible, and we don't want to impose a whole new file to add to JS projects, using the package manifest seemed like the least imposition on users.
 
 Another reasonable criticism is that pinning the Node version for tools in the user toolchain means that users will not automatically benefit from performance and security improvements in Node. There are a couple of reasons this is outweighed by the benefits of pinning. First, as described above, updating tools will typically get platform updates. Second, users can still override the default with the `--node` parameter.
 
