@@ -719,6 +719,10 @@ This section discusses the tradeoffs considered in this proposal. This must incl
 
 - Should the `list` command accept flags to narrow the search instead of subcommands, e.g. `volta list --node`, `volta list --yarn`, `volta list --package=typescript`, etc.?
 
+- How should the built-in version of `npm` be displayed to the user? Options include:
+    - associated with the runtime it ships with, e.g. `v12.2.0 (with npm v6.4.1)`
+    - as a packager, but indicating its source as a built-in, e.g. `npm v6.4.1 (built-in from node@v12.2.0`
+
 <!-- 
 - What parts of the design do you expect to resolve through the RFC process before this gets merged?
 - What parts of the design do you expect to resolve through the implementation of this feature before stabilization?
