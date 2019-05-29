@@ -176,7 +176,7 @@ The tool will support multiple modes (two initially), which include exactly the 
 
 This RFC does not propose, but allows for the possibility of, a JSON mode (`--print=json`) or similar at a later time if that proves desirable.
 
-## Detailed Command Output
+## Detailed command output
 
 Here we supply a worked example of each *variant* in both *output styles*.
 
