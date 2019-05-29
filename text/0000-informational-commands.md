@@ -687,16 +687,6 @@ tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 
 Since `volta list` subsumes (and substantially extends upon) the functionality of `volta current`, `volta current` should be deprecated when `volta list` is implemented. The deprecation should include a warning that the command will be removed in a future version and information about how to use `volta list --current <tool>` as a replacement.
 
-<!--
-This is the technical portion of the RFC. Explain the design in sufficient detail that:
-
-- Its interaction with other features is clear.
-- It is reasonably clear how the feature would be implemented.
-- Corner cases are dissected by example.
-
-This section should return to the examples given in the previous section, and explain more fully how the detailed proposal makes those examples work.
--->
-
 # Critique
 [critique]: #critique
 
@@ -766,8 +756,3 @@ We could leave the current state of affairs as it is. However, users then have n
     - associated with the runtime it ships with, e.g. `v12.2.0 (with npm v6.4.1)`
     - as a packager, but indicating its source as a built-in, e.g. `npm v6.4.1 (built-in from node@v12.2.0`
 
-<!-- 
-- What parts of the design do you expect to resolve through the RFC process before this gets merged?
-- What parts of the design do you expect to resolve through the implementation of this feature before stabilization?
-- What related issues do you consider out of scope for this RFC that could be addressed in the future independently of the solution that comes out of this RFC?
--->
