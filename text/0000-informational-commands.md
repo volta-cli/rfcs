@@ -26,16 +26,21 @@ Adding a `volta list` command designed to address all of these needs allows user
 # Pedagogy
 [pedagogy]: #pedagogy
 
-<!--
-How should we explain and teach this feature to users? How should users understand this feature? This generally means:
+We introduce a `list` command, which lets users get a description of their Volta environment: the currently-active items in their toolchain and the reason those items are currently active, and the total set of available tools on their system.
 
-- Introducing new named concepts.
-- Explaining the feature largely in terms of examples.
-- Explaining how users should _think_ about the feature, and how it should impact the way they use Volta. It should explain the impact as concretely as possible.
-- If applicable, describe the differences between teaching this to existing Node programmers and new Node programmers.
+- To get the currently-active runtime, packager, and available binaries, the user can run `volta list`.
 
-It is not necessary to write the actual feature documentation in this section, but it should establish the concepts on which the documentation would be built.
--->
+- To get *all* runtimes, packagers, and binaries currently fetched to the user's system, the user can run `volta list --all`.
+
+- The user can also narrow the query:
+    - to runtimes: `volta list node`
+    - to packagers: `volta list npm` or `volta list yarn`
+    - to a specific package: `volta list package <package name>`
+    - to a specific tool: `volta list tool <tool name>`
+
+These commands represent the Volta ideas of the user's *toolchain*, including *default* and *current* items within that chain.
+
+These ideas already exist implicitly in Volta's vocabulary. Introducing `list` provides a specific place for users to see what the terms mean and how they are employed. Indeed, one of the primary benefits of the `list` command is that it provides a point where the Volta model—as distinct from e.g. the nvm or nodenv models—can be *made explicit* and thereby taught to users.
 
 ## Why `list`?
 
