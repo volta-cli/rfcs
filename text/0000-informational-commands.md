@@ -98,14 +98,16 @@ Survey details:
 # Details
 [details]: #details
 
-There are variants of the command:
+The `volta list` command supports four *variants*:
 
 - with no flags: `volta list` – comparable to the existing `volta current`, but expanded to show not only the user’s current runtime but also their current packager and any available tool binaries, as well as explanation of why the current values are what they are
 - with `--all`: `volta list --all` – shows every fetched runtime, packager, and tool version, along with the binaries available for each tool, and an indication of whether each is a default or is set for a project in the user’s current working directory
 - with `--package`: `volta list --package=<package>` – shows a subset of the output from `--all`, scoped to the information for a specific package which has been fetched to the user’s inventory one or more times
 - with `--tool`: `volta list --tool=<tool>` – shows a subset of the output from `--all`, scoped to the information for a specific tool which has been fetched to the user’s inventory one or more times; like `--package` but if a package has more than one tool associated with it, only the specified tool will be shown
 
-## CLI Command Design
+It also supports (initially) two *output modes*: *human-friendly* (`human`) and *machine-friendly* (`plain`).
+
+## Command Output
 
 The `volta list` command always prints the following information for a set of runtimes, packagers, and tools:
 
@@ -113,6 +115,8 @@ The `volta list` command always prints the following information for a set of ru
 - version
 - whether it is the user's default or a project-pinned version
 - for tools, the associated runtime and packager versions
+
+## Output modes
 
 The tool will support multiple modes (two initially), which include exactly the same information but presented in different human- or machine-friendly formats. All modes include the same information for runtimes, packagers, and tools: name, version, whether it is a default or project-specified version, and (for tools) the Node version and packager (i.e. platform).
 
@@ -140,7 +144,9 @@ The tool will support multiple modes (two initially), which include exactly the 
 
 This RFC does not propose, but allows for the possibility of, a JSON mode (`--print=json`) or similar at a later time if that proves desirable.
 
-Below, this design is worked out in detailed examples.
+## Detailed Command Output
+
+Here we supply a worked example of each *variant* in both *output styles*.
 
 ### Assumed Configuration
 
