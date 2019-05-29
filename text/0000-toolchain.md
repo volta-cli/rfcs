@@ -191,3 +191,4 @@ Another reasonable criticism is that pinning the Node version for tools in the u
 - What kinds of performance optimizations can we offer to make stateless platform images super fast?
 - What about scenarios like CI and testing matrices, where users want to be able to specify different platform configurations without having to change the configuration file? Perhaps workflows similar to `ember try`?
 - `update` vs `upgrade` syntax 😬
+- Optional lockfile-like mechanism for [integration into other tooling such as Docker](https://github.com/volta-cli/volta/issues/282)?
