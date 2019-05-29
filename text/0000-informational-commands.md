@@ -11,24 +11,36 @@ Add an informational command, `volta list`, replacing the `volta current` comman
 # Motivation
 [motivation]: #motivation
 
-Why are we doing this? What use cases does it support? What is the expected outcome?
+Users of Volta currently have no way to get the answers to the following questions:
+
+- What versions of a runtime, packager, or tool do I have available already on my machine?
+- What versions of a runtime, packager, or tool are currently active? And why?
+- What versions of a runtime, packager, or tool are the *defaults* for the system?
+- What binaries are supplied by a given package which has been installed?
+- What Node version and packager are used by a given tool binary?
+
+The only tooling available to answer *any* of these question presently is the `volta current` command, which prints exactly and only the version of Node itself which will be executed in the user’s current directory. Users wanting to answer these questions today must resort to poking through the `~/.volta` directory, and its internals are *not* public API, so any tooling a user might put in place around that would be subject to breakage between versions.
+
+Adding a `volta list` command designed to address all of these needs allows users to get and use the information however they need. Adding it with both human- and tool-friendly output formats makes for a better user-experience: the default output will make it easy for people to *read*, and the machine-readable formats will make it easy for people to build *tools* around.
 
 # Pedagogy
 [pedagogy]: #pedagogy
 
+<!--
 How should we explain and teach this feature to users? How should users understand this feature? This generally means:
 
 - Introducing new named concepts.
 - Explaining the feature largely in terms of examples.
-- Explaining how users should _think_ about the feature, and how it should impact the way they use Notion. It should explain the impact as concretely as possible.
+- Explaining how users should _think_ about the feature, and how it should impact the way they use Volta. It should explain the impact as concretely as possible.
 - If applicable, describe the differences between teaching this to existing Node programmers and new Node programmers.
 
 It is not necessary to write the actual feature documentation in this section, but it should establish the concepts on which the documentation would be built.
+-->
 
 # Details
 [details]: #details
 
-## User configuration
+## Example configuration
 
 Throughout, we will assume the user has the following configuration for illustrative purposes:
 
