@@ -700,11 +700,48 @@ This section should return to the examples given in the previous section, and ex
 # Critique
 [critique]: #critique
 
-This section discusses the tradeoffs considered in this proposal. This must include an honest accounting of the drawbacks of the proposal, as well as list out all the alternatives that were considered and rationale for why this proposal was chosen over the alternatives. This section should address questions such as:
+## Use another command name
 
-- Why is this design the best in the space of possible designs?
-- What other designs have been considered and what is the rationale for not choosing them?
-- What is the impact of not doing this?
+As noted in [**Why `list`?**][why-list], options for this subcommand name include `list`, `ls`, `tools`, `toolchain`, `info`, and `current`. (For discussion of shorthands, see the next section.) Given the considerable [prior art][prior-art] using `list`, however, it seems the best option in terms of what users will expect.
+
+If another option is preferred, e.g. `toolchain`, `list` could be a (hidden) alias for the actual subcommand.
+
+## Use shorthands instead of `list`
+
+One alternative direction suggested by nodenv's approach is to supply shorthands:
+
+- `volta list package <package>` → `volta package <package>`
+- `volta list tool <tool>` → `volta tool <tool>`
+
+However, in nodenv's case, those subcommands are also used for installation, which we are *not* doing under the current design of `install`. Moreover, the distinction drawn above is *not* presented in our installation process. That is, we do not actually allow users to install *tools* by name today, only *packages*. (This may suggest a simplification is in order; see [Unresolved Questions][unresolved] below.)
+
+Additionally, we might consider here (and people have suggested in discussions in Discord) that we simply make the bare `volta` output the equivalent of `volta list`, with `volta --help` or `volta help` being required for the full help details. In this scenario, we would presumably also include a message to that effect for non-TTY, human-friendly contexts, so:
+
+```sh
+$ volta
+⚡️ Volta 0.5.2
+Currently active tools:
+
+    Node: v8.16.0 (default)
+    Yarn: v1.12.3 (from ~/node-and-yarn/package.json)
+    Tool binaries available:
+        create-react-app, ember, tsc, tsserver
+
+To install a tool in your toolchain, use `volta install`.
+To pin your project's runtime or package manager, use `volta pin`.
+
+See `volta help` for more options!
+```
+
+This would be a substantial change, and require considerably more work, but it might be a nice experience!
+
+## Keep `volta current` as an alias for `volta list`
+
+Rather than deprecating `volta current`, we could make it an alias for `volta list`. The primary downside to doing this is that we would want it to work for *only* the equivalent of *bare* `volta list`, and not support any subcommands. This might be mildly confusing to users, but that possibility of confusion should be balanced against the utility of meeting people's existing expectations.
+
+## Do not add `list`
+
+We could leave the current state of affairs as it is. However, users then have no insight into their toolchain: they must inspect the internals of `~/.volta`  to see what they actually have on their system, and in order to see what version of a tool is going to be used, they have must actually invoke it or run `volta which` and interpret the path.
 
 # Unresolved questions
 [unresolved]: #unresolved-questions
@@ -720,6 +757,10 @@ This section discusses the tradeoffs considered in this proposal. This must incl
 - How should the current version be identified? It is currently marked with `(current @ <path>)`. Should this be `(from <path>)` or some other design?
 
 - Should the `list` command accept flags to narrow the search instead of subcommands, e.g. `volta list --node`, `volta list --yarn`, `volta list --package=typescript`, etc.?
+
+    - Is there value in supporting both the `tool` and `package` invocations, or should we collapse them and avoid the additional complexity of distinguishing between tools/binaries and their supplying packages?
+
+    - Should we simply parse a positional argument after `volta list` as `<node|npm|yarn|<package name>>`?
 
 - How should the built-in version of `npm` be displayed to the user? Options include:
     - associated with the runtime it ships with, e.g. `v12.2.0 (with npm v6.4.1)`
