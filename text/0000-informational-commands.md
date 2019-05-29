@@ -100,14 +100,17 @@ Survey details:
 
 The `volta list` command supports four *variants*:
 
-- with no flags: `volta list` – comparable to the existing `volta current`, but expanded to show not only the user’s current runtime but also their current packager and any available tool binaries, as well as explanation of why the current values are what they are
-- with `--all`: `volta list --all` – shows every fetched runtime, packager, and tool version, along with the binaries available for each tool, and an indication of whether each is a default or is set for a project in the user’s current working directory
-- with `--package`: `volta list --package=<package>` – shows a subset of the output from `--all`, scoped to the information for a specific package which has been fetched to the user’s inventory one or more times
-- with `--tool`: `volta list --tool=<tool>` – shows a subset of the output from `--all`, scoped to the information for a specific tool which has been fetched to the user’s inventory one or more times; like `--package` but if a package has more than one tool associated with it, only the specified tool will be shown
+- **no subcommand:** `volta list` – comparable to the existing `volta current`, but expanded to show not only the user’s current runtime but also their current packager and any available tool binaries, as well as explanation of why the current values are what they are
+
+- **`--all`:** `volta list --all` – shows every fetched runtime, packager, and tool version, along with the binaries available for each tool, and an indication of whether each is a default or is set for a project in the user’s current working directory
+
+- **`package`:** `volta list package <package>` – shows a subset of the output from `--all`, scoped to the information for a specific package which has been fetched to the user’s inventory one or more times
+
+- **`tool`:** `volta list tool <tool>` – shows a subset of the output from `--all`, scoped to the information for a specific tool which has been fetched to the user’s inventory one or more times; like `package` but if a package has more than one tool associated with it, only the specified tool will be shown
 
 It also supports (initially) two *output modes*: *human-friendly* (`human`) and *machine-friendly* (`plain`).
 
-## Command Output
+## Information supplied by the command
 
 The `volta list` command always prints the following information for a set of runtimes, packagers, and tools:
 
@@ -568,7 +571,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
 
 </details>
 
-### `volta list --package=<package>`
+### `volta list package <package>`
 
 List all fetched versions of a specific package, along with its associated binaries.
 
@@ -577,7 +580,7 @@ List all fetched versions of a specific package, along with its associated binar
 The basic format is:
 
 ```sh
-volta list --package=<package> --human
+volta list package <package> --human
 
     <version> [(default|current @ <project path>)]
         binaries: [<binary name>]...
@@ -589,7 +592,7 @@ volta list --package=<package> --human
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list --package=typescript --human
+volta list package typescript --human
 
     v3.4.5
         binaries: tsc, tsserver
@@ -609,28 +612,28 @@ volta list --package=typescript --human
 The basic format is:
 
 ```sh
-volta list --package=<package> --plain
+volta list package <package> --plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list --package=typescript --plain
+volta list package typescript --plain
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 ```
 
-### `volta list --tool=<tool>`
+### `volta list tool <tool>`
 
 #### Human
 
 The basic format is:
 
 ```sh
-volta list --tool=<tool> --human
+volta list tool <tool> --human
 ⚡️ tool <tool> available from:
 
     <package>@<version> [(default|current @ <project path>)]
@@ -642,7 +645,7 @@ volta list --tool=<tool> --human
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list --tool=tsc --human
+volta list tool tsc --human
 ⚡️ tool tsc available from:
 
     typescript@v3.4.5
@@ -661,14 +664,14 @@ volta list --tool=tsc --human
 The basic format is:
 
 ```sh
-volta list --tool=<tool> --plain
+volta list tool <tool> --plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list --tool=tsc
+volta list tool tsc
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 ```
@@ -708,6 +711,8 @@ This section discusses the tradeoffs considered in this proposal. This must incl
     And how should that be presented in `plain` vs. `human` mode? Should there be any differences between `plain` and `human` for the bare command (as in the current design)?
 
 - How should the current version be identified? It is currently marked with `(current @ <path>)`. Should this be `(from <path>)` or some other design?
+
+- Should the `list` command accept flags to narrow the search instead of subcommands, e.g. `volta list --node`, `volta list --yarn`, `volta list --package=typescript`, etc.?
 
 <!-- 
 - What parts of the design do you expect to resolve through the RFC process before this gets merged?
