@@ -1,7 +1,7 @@
 - Feature Name: update_version_handling
 - Start Date: 2019-04-23
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: [#32](https://github.com/volta-cli/rfcs/pull/32)
+- Volta Issue: [#383](https://github.com/volta-cli/volta/pull/383)
 
 # Summary
 [summary]: #summary
