@@ -16,12 +16,12 @@ Add an informational command, `volta list`, replacing the `volta current` comman
 - [Details](#details)
     - [Information supplied by the command](#information-supplied-by-the-command)
     - [Output modes](#output-modes)
-    - [Detailed Command Output](#detailed-command-output)
+    - [Detailed command output](#detailed-command-output)
         - [Assumed Configuration](#assumed-configuration)
         - [`volta list` (no flags)](#volta-list-no-flags)
         - [`volta list all`](#volta-list-all)
-        - [`volta list package <package>`](#volta-list-package-package)
-        - [`volta list tool <tool>`](#volta-list-tool-tool)
+        - [`volta list <package>`](#volta-list-package)
+        - [`volta list <tool>`](#volta-list-tool)
     - [Deprecating `volta current`](#deprecating-volta-current)
 - [Critique](#critique)
     - [Use another command name](#use-another-command-name)
@@ -600,7 +600,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
 
 </details>
 
-### `volta list package <package>`
+### `volta list <package>`
 
 List all fetched versions of a specific package, along with its associated binaries.
 
@@ -609,7 +609,7 @@ List all fetched versions of a specific package, along with its associated binar
 The basic format is:
 
 ```sh
-volta list package <package> --human
+volta list <package> --human
 
     <version> [(default|current @ <project path>)]
         binaries: [<binary name>]...
@@ -641,28 +641,28 @@ volta list package typescript --human
 The basic format is:
 
 ```sh
-volta list package <package> --plain
+volta list <package> --plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list package typescript --plain
+volta list typescript --plain
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 ```
 
-### `volta list tool <tool>`
+### `volta list <tool>`
 
 #### Human
 
 The basic format is:
 
 ```sh
-volta list tool <tool> --human
+volta list <tool> --human
 ⚡️ tool <tool> available from:
 
     <package>@<version> [(default|current @ <project path>)]
@@ -674,7 +674,7 @@ volta list tool <tool> --human
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list tool tsc --human
+volta list tsc --human
 ⚡️ tool tsc available from:
 
     typescript@v3.4.5
@@ -693,14 +693,14 @@ volta list tool tsc --human
 The basic format is:
 
 ```sh
-volta list tool <tool> --plain
+volta list <tool> --plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list tool tsc
+volta list tsc
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 ```
@@ -722,8 +722,8 @@ If another option is preferred, e.g. `toolchain`, `list` could be a (hidden) ali
 
 One alternative direction suggested by nodenv's approach is to supply shorthands:
 
-- `volta list package <package>` → `volta package <package>`
-- `volta list tool <tool>` → `volta tool <tool>`
+- `volta list <package>` → `volta package <package>`
+- `volta list <tool>` → `volta tool <tool>`
 
 However, in nodenv's case, those subcommands are also used for installation, which we are *not* doing under the current design of `install`. Moreover, the distinction drawn above is *not* presented in our installation process. That is, we do not actually allow users to install *tools* by name today, only *packages*. (This may suggest a simplification is in order; see [Unresolved Questions][unresolved] below.)
 
