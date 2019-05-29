@@ -1,7 +1,7 @@
 - Feature Name: helpful_error_messages
 - Start Date: 2019-02-28
-- RFC PR: (leave this empty)
-- Notion Issue: (leave this empty)
+- RFC PR: [#31](https://github.com/volta-cli/rfcs/pull/31)
+- Notion Issue: [#294](https://github.com/volta-cli/volta/issues/294)
 
 # Summary
 [summary]: #summary
