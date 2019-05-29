@@ -129,15 +129,15 @@ Survey details:
 
 The `volta list` command supports four *variants*:
 
-- **no subcommand:** `volta list` – comparable to the existing `volta current`, but expanded to show not only the user’s current runtime but also their current packager and any available tool binaries, as well as explanation of why the current values are what they are
+- **`volta list`:** comparable to the existing `volta current`, but expanded. Shows not only the user’s current runtime but also their current packager and any available tool binaries, as well as explanation of why the current values are what they are.
 
-- **`--all`:** `volta list --all` – shows every fetched runtime, packager, and tool version, along with the binaries available for each tool, and an indication of whether each is a default or is set for a project in the user’s current working directory
+- **`volta list --all`:** shows every fetched runtime, packager, and tool version along with the binaries available for each tool. Also indicates of whether each is a default or is set for a project in the user’s current working directory.
 
-- **`package`:** `volta list package <package>` – shows a subset of the output from `--all`, scoped to the information for a specific package which has been fetched to the user’s inventory one or more times
+- **`volta list package <package>`:** shows a subset of the output from `--all`, scoped to the information for a specific package which has been fetched to the user’s inventory.
 
-- **`tool`:** `volta list tool <tool>` – shows a subset of the output from `--all`, scoped to the information for a specific tool which has been fetched to the user’s inventory one or more times; like `package` but if a package has more than one tool associated with it, only the specified tool will be shown
+- **`volta list tool <tool>`:** shows a subset of the output from `--all`, scoped to the information for a specific tool which has been fetched to the user’s inventory. `tool` is similar to `package`, but if a package has more than one tool associated with it, only the specified tool will be shown.
 
-It also supports (initially) two *output modes*: *human-friendly* (`human`) and *machine-friendly* (`plain`).
+The command also supports (initially) two *output modes*: *human-friendly* (`human`) and *machine-friendly* (`plain`).
 
 ## Information supplied by the command
 
