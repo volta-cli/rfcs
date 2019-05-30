@@ -133,9 +133,9 @@ The `volta list` command supports four *variants*:
 
 - **`volta list all`:** shows every fetched runtime, packager, and tool version along with the binaries available for each tool. Also indicates of whether each is a default or is set for a project in the user’s current working directory.
 
-- **`volta list package <package>`:** shows a subset of the output from `all`, scoped to the information for a specific package which has been fetched to the user’s inventory.
+- **`volta list <package>`:** shows a subset of the output from `all`, scoped to the information for a specific package which has been fetched to the user’s inventory.
 
-- **`volta list tool <tool>`:** shows a subset of the output from `all`, scoped to the information for a specific tool which has been fetched to the user’s inventory. `tool` is similar to `package`, but if a package has more than one tool associated with it, only the specified tool will be shown.
+- **`volta list <tool>`:** shows a subset of the output from `all`, scoped to the information for a specific tool which has been fetched to the user’s inventory. `tool` is similar to `package`, but if a package has more than one tool associated with it, only the specified tool will be shown.
 
 The command also supports (initially) two *output modes*: *human-friendly* (`human`) and *machine-friendly* (`plain`).
 
