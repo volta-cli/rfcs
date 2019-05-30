@@ -194,7 +194,7 @@ Throughout, we will assume the user has the following configuration for illustra
 	    - v3.4.5 on Node v12.2.0 with built-in npm
 	    - v3.0.3 on Node v12.2.0 with built-in npm (default)
     - create-react-app, with binary `create-react-app`: v3.0.1 on Node v12.2.0 with built-in npm (default)
-    - yarn-deduplicate, with binary `yarn-deduplicate`: v1.1.1 on Node v12.2.0 with built-in npm (notice that this is not a *default*; assume the user ran `volta fetch` )
+    - yarn-deduplicate, with binary `yarn-deduplicate`: v1.1.1, fetched but not installed (and therefore with no associated platform)
 
 They also have two projects with the following pins:
 
@@ -404,9 +404,6 @@ $ volta list all --print=human
         yarn-deduplicate:
             v1.1.1
                 binaries: yarn-deduplicate
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
 ```
 
 </details>
@@ -460,9 +457,6 @@ $ volta list all --print=human
         yarn-deduplicate:
             v1.1.1
                 binaries: yarn-deduplicate
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
 ```
 
 </details>
@@ -516,9 +510,6 @@ $ volta list all --print=human
         yarn-deduplicate:
             v1.1.1
                 binaries: yarn-deduplicate
-                platform:
-                    runtime: node@v12.2.0
-                    packager: built-in npm
 ```
 
 </details>
@@ -551,7 +542,7 @@ tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
+tool yarn-deduplicate / yarn-deduplicate@v1.1.1
 ```
 
 </details>
@@ -573,7 +564,7 @@ tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
+tool yarn-deduplicate / yarn-deduplicate@v1.1.1
 ```
 
 </details>
@@ -595,7 +586,7 @@ tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1 node@v12.2.0 npm@built-in
+tool yarn-deduplicate / yarn-deduplicate@v1.1.1
 ```
 
 </details>
