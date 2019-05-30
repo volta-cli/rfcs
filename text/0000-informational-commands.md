@@ -229,10 +229,10 @@ The format is:
 $ volta list --human
 ⚡️ Currently active tools:
 
-    Node: v8.16.0 (default)
-    Yarn: v1.12.3 (default)
-    Tool binaries available:
-        create-react-app, ember, tsc, tsserver
+    Node: <version> (default|current @ <project path>)
+    <Yarn|npm>: v1.12.3 (default|current @ <project path>)
+    Tool binaries available: [NONE]
+        [<[<tool name>]>,]...
 
 See options for more detailed reports by running `volta list --help`.
 ```
