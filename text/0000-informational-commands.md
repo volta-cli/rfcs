@@ -152,9 +152,9 @@ The `volta list` command always prints the following information for a set of ru
 
 The tool will support multiple modes (two initially), which include exactly the same information but presented in different human- or machine-friendly formats. All modes include the same information for runtimes, packagers, and tools: name, version, whether it is a default or project-specified version, and (for tools) the Node version and packager (i.e. platform).
 
-- "human" mode, the default if the context is a user-facing terminal; also invokable with `--print=human` in any context. An indented listing of the user's current runtime, packager (if specified), and any installed binaries. See the detailed sections below for examples of the format.
+- "human" mode, the default if the context is a user-facing terminal; also invokable with `--format=human` in any context. An indented listing of the user's current runtime, packager (if specified), and any installed binaries. See the detailed sections below for examples of the format.
 
-- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--print=plain` in any context. A simple plain text format which prints a line per runtime, packager, or tool, with space-separated output on each line.
+- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--format=plain` in any context. A simple plain text format which prints a line per runtime, packager, or tool, with space-separated output on each line.
 
     - runtimes:
 
@@ -174,7 +174,7 @@ The tool will support multiple modes (two initially), which include exactly the 
         tool <tool name> / <package name>@<package version> [node@<version>] [<yarn|npm>@<version>] [(default|current @ <project path>)]
         ```
 
-This RFC does not propose, but allows for the possibility of, a JSON mode (`--print=json`) or similar at a later time if that proves desirable.
+This RFC does not propose, but allows for the possibility of, a JSON mode (`--format=json`) or similar at a later time if that proves desirable.
 
 ## Detailed command output
 
@@ -226,7 +226,7 @@ They also have two projects with the following pins:
 The format is:
 
 ```sh
-$ volta list --print=human
+$ volta list --format=human
 ⚡️ Currently active tools:
 
     Node: <version> (default|current @ <project path>)
@@ -240,7 +240,7 @@ See options for more detailed reports by running `volta list --help`.
 <details><summary>Outside a project</summary>
 
 ```sh
-$ volta list --print=human
+$ volta list --format=human
 ⚡️ Currently active tools:
 
     Node: v8.16.0 (default)
@@ -258,7 +258,7 @@ See options for more detailed reports by running `volta list --help`.
 <b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436).
 
 ```sh
-$ volta list --print=human
+$ volta list --format=human
 ⚡️ Currently active tools:
 
     Node: v8.16.0 (current @ ~/node-only/package.json)
@@ -274,7 +274,7 @@ See options for more detailed reports by running `volta list --help`.
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list --print=human
+$ volta list --format=human
 ⚡️ Currently active tools:
 
     Node runtime: v12.2.0 (current @ ~/node-and-yarn/package.json)
@@ -292,7 +292,7 @@ See options for more detailed reports by running `volta list --help`.
 The format is:
 
 ```sh
-$ volta list --print=plain
+$ volta list --format=plain
 runtime node@<version> (default|current @ <project path>)
 packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 ```
@@ -300,7 +300,7 @@ packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 <details><summary>Outside a project</summary>
 
 ```sh
-$ volta list --print=plain
+$ volta list --format=plain
 runtime node@v10.15.3 (default)
 packager yarn@v1.12.3 (default)
 ```
@@ -312,7 +312,7 @@ packager yarn@v1.12.3 (default)
 <b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436).
 
 ```sh
-$ volta list --print=plain
+$ volta list --format=plain
 runtime node@v8.16.0 (~/node-only/package.json)
 packager yarn@v1.12.3 (default)
 ```
@@ -322,7 +322,7 @@ packager yarn@v1.12.3 (default)
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list --print=plain
+$ volta list --format=plain
 runtime node@v12.2.0 (~/node-and-yarn/package.json)
 packager yarn@v1.16.0 (~/node-and-yarn/package.json)
 ```
@@ -336,7 +336,7 @@ packager yarn@v1.16.0 (~/node-and-yarn/package.json)
 The basic format is:
 
 ```sh
-$ volta list all --print=human
+$ volta list all --format=human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -358,7 +358,7 @@ $ volta list all --print=human
 <details><summary>Outside a project directory</summary>
 
 ```sh
-$ volta list all --print=human
+$ volta list all --format=human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -411,7 +411,7 @@ $ volta list all --print=human
 <details><summary>In the <code>node-only</code> project</summary>
 
 ```sh
-$ volta list all --print=human
+$ volta list all --format=human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -464,7 +464,7 @@ $ volta list all --print=human
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list all --print=human
+$ volta list all --format=human
 ⚡️ User toolchain:
 
     Node runtimes:
@@ -519,7 +519,7 @@ $ volta list all --print=human
 The basic format is:
 
 ```sh
-$ volta list all --print=plain
+$ volta list all --format=plain
 runtime node@<version> [(default|current @ <project path>)]
 packager <packager>@<version> [(default|current @ <project path>)]
 tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|current @ <project path>)]
@@ -528,7 +528,7 @@ tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<versio
 <details><summary>Outside a project directory</summary>
 
 ```sh
-$ volta list all --print=plain
+$ volta list all --format=plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
@@ -550,7 +550,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1
 <details><summary>In the <code>node-only</code> project</summary>
 
 ```sh
-$ volta list all --print=plain
+$ volta list all --format=plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
@@ -572,7 +572,7 @@ tool yarn-deduplicate / yarn-deduplicate@v1.1.1
 <details><summary>In the <code>node-and-yarn</code> project</summary>
 
 ```sh
-$ volta list all --print=plain
+$ volta list all --format=plain
 runtime node@v12.2.0 (current @ ~/node-and-yarn/project.json)
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
@@ -600,7 +600,7 @@ List all fetched versions of a specific package, along with its associated binar
 The basic format is:
 
 ```sh
-volta list <package> --print=human
+volta list <package> --format=human
 
     <version> [(default|current @ <project path>)]
         binaries: [<binary name>]...
@@ -612,7 +612,7 @@ volta list <package> --print=human
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list package typescript --print=human
+volta list package typescript --format=human
 
     v3.4.5
         binaries: tsc, tsserver
@@ -632,14 +632,14 @@ volta list package typescript --print=human
 The basic format is:
 
 ```sh
-volta list <package> --print=plain
+volta list <package> --format=plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list typescript --print=plain
+volta list typescript --format=plain
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
@@ -653,7 +653,7 @@ tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 The basic format is:
 
 ```sh
-volta list <tool> --print=human
+volta list <tool> --format=human
 ⚡️ tool <tool> available from:
 
     <package>@<version> [(default|current @ <project path>)]
@@ -665,7 +665,7 @@ volta list <tool> --print=human
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list tsc --print=human
+volta list tsc --format=human
 ⚡️ tool tsc available from:
 
     typescript@v3.4.5
@@ -684,7 +684,7 @@ volta list tsc --print=human
 The basic format is:
 
 ```sh
-volta list <tool> --print=plain
+volta list <tool> --format=plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
