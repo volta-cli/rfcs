@@ -145,12 +145,25 @@ The `volta list` command always prints the following information for a set of ru
 
 - name
 - version
-- whether it is the user's default or a project-pinned version
+- whether it is the user's default toolchain or a project version
 - for tools, the associated runtime and packager versions
 
-## Output modes
+## Flags
 
-The tool will support multiple modes (two initially), which include exactly the same information but presented in different human- or machine-friendly formats. All modes include the same information for runtimes, packagers, and tools: name, version, whether it is a default or project-specified version, and (for tools) the Node version and packager (i.e. platform).
+Besides the subcommands, `volta list` accepts *context* flags and *output mode* flags.
+
+### Context
+
+The tool supports limiting the output to either the *current* or the *default* values for any given argument:
+
+- `--current`: prints the *currently active* tool or set of tools (per the invoked command), along with their source
+- `--default`: prints the user's *default* tool or set of tools (per the invoked command)
+
+The two are *optional* and *mutually exclusive*.
+
+### Output modes
+
+The tool will support multiple modes (two initially), which include exactly the same information but presented in different human- or machine-friendly formats. All modes include the same information for runtimes, packagers, and tools: name, version, whether it is a user- or project-specified version, and (for tools) the Node version and packager (i.e. platform).
 
 - "human" mode, the default if the context is a user-facing terminal; also invokable with `--format=human` in any context. An indented listing of the user's current runtime, packager (if specified), and any installed binaries. See the detailed sections below for examples of the format.
 
