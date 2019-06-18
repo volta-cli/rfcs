@@ -137,7 +137,7 @@ The `volta list` command supports four *variants*:
 
 - **`volta list <tool>`:** shows a subset of the output from `all`, scoped to the information for a specific tool which has been fetched to the user’s inventory. `tool` is similar to `package`, but if a package has more than one tool associated with it, only the specified tool will be shown.
 
-The command also supports (initially) two *output modes*: *human-friendly* (`human`) and *machine-friendly* (`plain`).
+The command also supports (initially) two *output modes*: *human-friendly* (`human`) and *machine-friendly* (`plain`). It may later be expanded to support JSON or other machine-focused outputs.
 
 ## Information supplied by the command
 
