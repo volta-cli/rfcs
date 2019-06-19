@@ -20,8 +20,6 @@ Add an informational command, `volta list`, replacing the `volta current` comman
         - [Assumed Configuration](#assumed-configuration)
         - [`volta list` (no flags)](#volta-list-no-flags)
         - [`volta list all`](#volta-list-all)
-        - [`volta list node`](#volta-list-node)
-        - [`volta list <npm|yarn>`](#volta-list-npmyarn)
         - [`volta list <package>`](#volta-list-package)
         - [`volta list <tool>`](#volta-list-tool)
     - [Deprecating `volta current`](#deprecating-volta-current)
