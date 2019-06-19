@@ -831,7 +831,8 @@ List all fetched versions of a specific package, along with its associated binar
 The basic format is:
 
 ```sh
-volta list <package> --format=human
+$ volta list <package> --format=human
+⚡️ `<package>` versions in your toolchain:
 
     <version> [(default|current @ <project path>)]
         binaries: [<binary name>]...
@@ -843,7 +844,8 @@ volta list <package> --format=human
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list package typescript --format=human
+$ volta list typescript --format=human
+⚡️ `typescript` versions in your toolchain:
 
     v3.4.5
         binaries: tsc, tsserver
@@ -863,14 +865,14 @@ volta list package typescript --format=human
 The basic format is:
 
 ```sh
-volta list <package> --format=plain
+$ volta list <package> --format=plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list typescript --format=plain
+$ volta list typescript --format=plain
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
@@ -884,7 +886,7 @@ tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 The basic format is:
 
 ```sh
-volta list <tool> --format=human
+$ volta list <tool> --format=human
 ⚡️ tool <tool> available from:
 
     <package>@<version> [(default|current @ <project path>)]
@@ -896,7 +898,7 @@ volta list <tool> --format=human
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list tsc --format=human
+$ volta list tsc --format=human
 ⚡️ tool tsc available from:
 
     typescript@v3.4.5
@@ -915,14 +917,14 @@ volta list tsc --format=human
 The basic format is:
 
 ```sh
-volta list <tool> --format=plain
+$ volta list <tool> --format=plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list tsc
+$ volta list tsc
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 ```
