@@ -20,6 +20,8 @@ Add an informational command, `volta list`, replacing the `volta current` comman
         - [Assumed Configuration](#assumed-configuration)
         - [`volta list` (no flags)](#volta-list-no-flags)
         - [`volta list all`](#volta-list-all)
+        - [`volta list node`](#volta-list-node)
+        - [`volta list <npm|yarn>`](#volta-list-npmyarn)
         - [`volta list <package>`](#volta-list-package)
         - [`volta list <tool>`](#volta-list-tool)
     - [Deprecating `volta current`](#deprecating-volta-current)
@@ -600,6 +602,222 @@ tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool yarn-deduplicate / yarn-deduplicate@v1.1.1
+```
+
+</details>
+
+### `volta list node`
+
+List all fetched Node runtimes.
+
+#### Human
+
+The basic format is:
+
+```sh
+$ volta list node --format=human
+⚡️ Node runtimes in your toolchain:
+
+    <version> [(default|current @ <project path>)]
+```
+
+If the user has no Node runtimes installed:
+
+```sh
+$ volta list node --format=human
+⚡️ No Node runtimes installed!
+
+You can install a runtime by running `volta install node`. See `volta help install` for
+details and more options.
+```
+
+<details><summary>Outside a project</summary>
+
+```sh
+$ volta list node --format=human
+⚡️ Node runtimes in your toolchain:
+
+    v12.2.0
+    v11.9.0
+    v10.15.3 (default)
+    v8.16.0
+```
+
+</details>
+
+<details><summary>In the `node-only` project</summary>
+
+```sh
+$ volta list node --format=human
+⚡️ Node runtimes in your toolchain:
+
+    v12.2.0
+    v11.9.0
+    v10.15.3 (default)
+    v8.16.0 (current @ ~/node-only/package.json)
+```
+
+</details>
+
+<details><summary>In the `node-and-yarn` project</summary>
+
+```sh
+$ volta list node --format=human
+⚡️ Node runtimes in your toolchain:
+
+    v12.2.0 (current @ ~/node-and-yarn/package.json)
+    v11.9.0
+    v10.15.3 (default)
+    v8.16.0
+```
+
+</details>
+
+#### Plain
+
+The basic format is:
+
+```sh
+$ volta list node --format=plain
+runtime node@<version> [(default|current @ <project path>)]
+```
+
+If the user has no Node runtimes installed, print nothing.
+
+<details><summary>Outside a project</summary>
+
+```sh
+$ volta list node --format=human
+runtime node@v12.2.0
+runtime node@v11.9.0
+runtime node@v10.15.3 (default)
+runtime node@v8.16.0
+```
+
+</details>
+
+<details><summary>In the `node-only` project</summary>
+
+```sh
+$ volta list node --format=human
+runtime node@v12.2.0
+runtime node@v11.9.0
+runtime node@v10.15.3 (default)
+runtime node@v8.16.0 (current @ ~/node-only/package.json)
+```
+
+</details>
+
+<details><summary>In the `node-and-yarn` project</summary>
+
+```sh
+$ volta list node --format=human
+runtime node@v12.2.0 (current @ ~/node-and-yarn/package.json)
+runtime node@v11.9.0
+runtime node@v10.15.3 (default)
+runtime node@v8.16.0
+```
+
+</details>
+
+### `volta list <npm|yarn>`
+
+List all fetched npm or Yarn versions. (Currently only Yarn is implemented.)
+
+#### Human
+
+The basic format is:
+
+```sh
+$ volta list <npm|yarn> --format=human
+⚡️ <npm|Yarn> versions in your toolchain:
+
+    <version> [(default|current @ <project path>)]
+```
+
+If the user has no packagers installed:
+
+```sh
+$ volta list <npm|yarn> --format=human
+⚡️ No <npm|Yarn> versions installed.
+
+You can install a Yarn version by running `volta install yarn`. See `volta help install` for
+details and more options.
+```
+
+<details><summary>Outside a project</summary>
+
+```sh
+$ volta list yarn --format=human
+⚡️ Yarn versions in your toolchain:
+
+    v1.16.0
+    v1.12.3 (default)
+```
+
+</details>
+
+<details><summary>In the `node-only` project</summary>
+
+```sh
+$ volta list yarn --format=human
+⚡️ Yarn versions in your toolchain:
+
+    v1.16.0
+    v1.12.3 (default)
+```
+
+</details>
+
+<details><summary>In the `node-and-yarn` project</summary>
+
+```sh
+$ volta list yarn --format=human
+⚡️ Yarn versions in your toolchain:
+
+    v1.16.0 (current @ ~/node-and-yarn/package.json)
+    v1.12.3 (default)
+```
+
+</details>
+
+#### Plain
+
+The basic format is:
+
+```sh
+$ volta list <npm|yarn> --format=plain
+packager <packager>@<version> [(default|current @ <project path>)]
+```
+
+If the user has no packagers installed, output nothing.
+
+<details><summary>Outside a project</summary>
+
+```sh
+$ volta list yarn --format=plain
+packager yarn@v1.16.0
+packager yarn@v1.12.3 (default)
+```
+
+</details>
+
+<details><summary>In the `node-only` project</summary>
+
+```sh
+$ volta list yarn --format=plain
+packager yarn@v1.16.0
+packager yarn@v1.12.3 (default)
+```
+
+</details>
+
+<details><summary>In the `node-and-yarn` project</summary>
+
+```sh
+$ volta list yarn --format=plain
+packager yarn@v1.16.0 (current @ ~/node-and-yarn/package.json)
+packager yarn@v1.12.3 (default)
 ```
 
 </details>
