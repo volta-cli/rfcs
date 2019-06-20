@@ -885,7 +885,7 @@ The basic format is:
 
 ```sh
 $ volta list <tool> --format=human
-⚡️ tool <tool> available from:
+⚡️ tool `<tool>` available from:
 
     <package>@<version> [(default|current @ <project path>)]
         platform:
@@ -897,7 +897,7 @@ For the TypeScript config specified in the canonical example:
 
 ```sh
 $ volta list tsc --format=human
-⚡️ tool tsc available from:
+⚡️ tool `tsc` available from:
 
     typescript@v3.4.5
         platform:
