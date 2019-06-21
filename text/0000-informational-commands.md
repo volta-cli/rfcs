@@ -129,9 +129,9 @@ Survey details:
 
 The `volta list` command supports four *variants*:
 
-- **`volta list`:** comparable to the existing `volta current`, but expanded. Shows not only the user’s current runtime but also their current packager and any available tool binaries, as well as explanation of why the current values are what they are.
+- **`volta list`:** comparable to the existing `volta current`, but expanded. Shows not only the user’s current runtime but also their current package manager and any available tool binaries, as well as explanation of why the current values are what they are.
 
-- **`volta list all`:** shows every fetched runtime, packager, and tool version along with the binaries available for each tool. Also indicates of whether each is a default or is set for a project in the user’s current working directory.
+- **`volta list all`:** shows every fetched runtime, package manager, and tool version along with the binaries available for each tool. Also indicates of whether each is a default or is set for a project in the user’s current working directory.
 
 - **`volta list <package>`:** shows a subset of the output from `all`, scoped to the information for a specific package which has been fetched to the user’s inventory.
 
@@ -141,12 +141,12 @@ The command also supports (initially) two *output modes*: *human-friendly* (`hum
 
 ## Information supplied by the command
 
-The `volta list` command always prints the following information for a set of runtimes, packagers, and tools:
+The `volta list` command always prints the following information for a set of runtimes, package managers, and tools:
 
 - name
 - version
 - whether it is the user's default toolchain or a project version
-- for tools, the associated runtime and packager versions
+- for tools, the associated runtime and package manager versions
 
 ## Flags
 
@@ -163,11 +163,11 @@ The two are *optional* and *mutually exclusive*.
 
 ### Output modes
 
-The tool will support multiple modes (two initially), which include exactly the same information but presented in different human- or machine-friendly formats. All modes include the same information for runtimes, packagers, and tools: name, version, whether it is a user- or project-specified version, and (for tools) the Node version and packager (i.e. platform).
+The tool will support multiple modes (two initially), which include exactly the same information but presented in different human- or machine-friendly formats. All modes include the same information for runtimes, package managers, and tools: name, version, whether it is a user- or project-specified version, and (for tools) the Node version and package manager (i.e. platform).
 
-- "human" mode, the default if the context is a user-facing terminal; also invokable with `--format=human` in any context. An indented listing of the user's current runtime, packager (if specified), and any installed binaries. See the detailed sections below for examples of the format.
+- "human" mode, the default if the context is a user-facing terminal; also invokable with `--format=human` in any context. An indented listing of the user's current runtime, package manager (if specified), and any installed binaries. See the detailed sections below for examples of the format.
 
-- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--format=plain` in any context. A simple plain text format which prints a line per runtime, packager, or tool, with space-separated output on each line.
+- "plain" mode, the default if the context is not a user-facing terminal (e.g. when piped into another command); also invokable with `--format=plain` in any context. A simple plain text format which prints a line per runtime, package manager, or tool, with space-separated output on each line.
 
     - runtimes:
 
@@ -175,10 +175,10 @@ The tool will support multiple modes (two initially), which include exactly the 
         runtime node@<version>
         ```
 
-    - packagers:
+    - package managers:
 
         ```
-        packager (yarn|npm)@<version>
+        packager-manager (yarn|npm)@<version>
         ```
 
     - tools: 
@@ -291,13 +291,13 @@ $ volta list --format=human
 ⚡️ Currently active tools:
 
     Node runtime: v12.2.0 (current @ ~/node-and-yarn/package.json)
-    Packager: Yarn: v1.16.0 (current @ ~/node-and-yarn/package.json)
+    Package manager: Yarn: v1.16.0 (current @ ~/node-and-yarn/package.json)
     Tool binaries available:
         create-react-app, ember, tsc, tsserver
 
 See options for more detailed reports by running `volta list --help`.
 ```
-    
+
 </details>
 
 #### Plain
@@ -307,7 +307,7 @@ The format is:
 ```sh
 $ volta list --format=plain
 runtime node@<version> (default|current @ <project path>)
-packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
+package-manager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 ```
 
 <details><summary>Outside a project</summary>
@@ -315,7 +315,7 @@ packager <npm|yarn>@<version> (built-in|default|current @ <project path>)
 ```sh
 $ volta list --format=plain
 runtime node@v10.15.3 (default)
-packager yarn@v1.12.3 (default)
+package-manager yarn@v1.12.3 (default)
 ```
 
 </details>
@@ -327,7 +327,7 @@ packager yarn@v1.12.3 (default)
 ```sh
 $ volta list --format=plain
 runtime node@v8.16.0 (~/node-only/package.json)
-packager yarn@v1.12.3 (default)
+package-manager yarn@v1.12.3 (default)
 ```
 
 </details>
@@ -337,7 +337,7 @@ packager yarn@v1.12.3 (default)
 ```sh
 $ volta list --format=plain
 runtime node@v12.2.0 (~/node-and-yarn/package.json)
-packager yarn@v1.16.0 (~/node-and-yarn/package.json)
+package-manager yarn@v1.16.0 (~/node-and-yarn/package.json)
 ```
 
 </details>
@@ -354,18 +354,18 @@ $ volta list all --format=human
 
     Node runtimes:
         <version> [(default|current @ <project path>)]
-    
-    Packagers:
+
+    Package managers:
         (Yarn|npm):
             <version> [(default|current @ <project path>)]
-    
+
     Tools:
         <package name>
             <version> [(default|current @ <project path>)]
                 binaries: [<binary name>]...
                 platform:
                     runtime: node@<version>
-                    packager: built-in npm|<npm|yarn>@<version>
+                    package manager: built-in npm|<npm|yarn>@<version>
 ```
 
 <details><summary>Outside a project directory</summary>
@@ -379,41 +379,41 @@ $ volta list all --format=human
         v11.9.0
         v10.15.3 (default)
         v8.16.0
-    
-    Packagers:
+
+    Package managers:
         Yarn:
             v1.16.0 (default)
             v1.12.3
-    
+
     Tools:
         create-react-app:
             v3.0.1 (default)
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         ember-cli:
             v3.10.0 (default)
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
             v3.8.2
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         typescript:
             v3.4.5
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
             v3.0.3 (default)
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         yarn-deduplicate:
             v1.1.1
                 binaries: yarn-deduplicate
@@ -432,41 +432,41 @@ $ volta list all --format=human
         v11.9.0
         v10.15.3 (default)
         v8.16.0 (current)
-    
-    Packagers:
+
+    Package managers:
         Yarn:
             v1.16.0 (default)
             v1.12.3
-    
+
     Tools:
         create-react-app:
             v3.0.1 (default)
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         ember-cli:
             v3.10.0 (default)
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
             v3.8.2
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         tsc:
             v3.4.5
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
             v3.0.3 (default)
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         yarn-deduplicate:
             v1.1.1
                 binaries: yarn-deduplicate
@@ -485,41 +485,41 @@ $ volta list all --format=human
         v11.9.0
         v10.15.3 (default)
         v8.16.0
-    
-    Packagers:
+
+    Package managers:
         Yarn:
             v1.16.0 (default)
             v1.12.3 (current @ ~/node-and-yarn/project.json)
-    
+
     Tools:
         create-react-app:
             v3.0.1 (default)
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         ember-cli:
             v3.10.0 (default)
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
             v3.8.2
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         tsc:
             v3.4.5
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
             v3.0.3 (default)
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
-                    packager: built-in npm
+                    package manager: built-in npm
         yarn-deduplicate:
             v1.1.1
                 binaries: yarn-deduplicate
@@ -534,7 +534,7 @@ The basic format is:
 ```sh
 $ volta list all --format=plain
 runtime node@<version> [(default|current @ <project path>)]
-packager <packager>@<version> [(default|current @ <project path>)]
+package-manager <packager>@<version> [(default|current @ <project path>)]
 tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|current @ <project path>)]
 ```
 
@@ -546,8 +546,8 @@ runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
 runtime node@v8.16.0
-packager yarn@v1.16.0 (default)
-packager yarn@v1.12.3
+package-manager yarn@v1.16.0 (default)
+package-manager yarn@v1.12.3
 tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
 tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
 tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
@@ -568,8 +568,8 @@ runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
 runtime node@v8.16.0 (current @ ~/node-only/package.json)
-packager yarn@v1.16.0 (default)
-packager yarn@v1.12.3
+package-manager yarn@v1.16.0 (default)
+package-manager yarn@v1.12.3
 tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
 tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
 tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
@@ -590,8 +590,8 @@ runtime node@v12.2.0 (current @ ~/node-and-yarn/project.json)
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
 runtime node@v8.16.0
-packager yarn@v1.16.0 (default)
-packager yarn@v1.12.3 (current @ ~/node-and-yarn/project.json)
+package-manager yarn@v1.16.0 (default)
+package-manager yarn@v1.12.3 (current @ ~/node-and-yarn/project.json)
 tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
 tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
 tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
@@ -600,222 +600,6 @@ tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
 tool yarn-deduplicate / yarn-deduplicate@v1.1.1
-```
-
-</details>
-
-### `volta list node`
-
-List all fetched Node runtimes.
-
-#### Human
-
-The basic format is:
-
-```sh
-$ volta list node --format=human
-⚡️ Node runtimes in your toolchain:
-
-    <version> [(default|current @ <project path>)]
-```
-
-If the user has no Node runtimes installed:
-
-```sh
-$ volta list node --format=human
-⚡️ No Node runtimes installed!
-
-You can install a runtime by running `volta install node`. See `volta help install` for
-details and more options.
-```
-
-<details><summary>Outside a project</summary>
-
-```sh
-$ volta list node --format=human
-⚡️ Node runtimes in your toolchain:
-
-    v12.2.0
-    v11.9.0
-    v10.15.3 (default)
-    v8.16.0
-```
-
-</details>
-
-<details><summary>In the `node-only` project</summary>
-
-```sh
-$ volta list node --format=human
-⚡️ Node runtimes in your toolchain:
-
-    v12.2.0
-    v11.9.0
-    v10.15.3 (default)
-    v8.16.0 (current @ ~/node-only/package.json)
-```
-
-</details>
-
-<details><summary>In the `node-and-yarn` project</summary>
-
-```sh
-$ volta list node --format=human
-⚡️ Node runtimes in your toolchain:
-
-    v12.2.0 (current @ ~/node-and-yarn/package.json)
-    v11.9.0
-    v10.15.3 (default)
-    v8.16.0
-```
-
-</details>
-
-#### Plain
-
-The basic format is:
-
-```sh
-$ volta list node --format=plain
-runtime node@<version> [(default|current @ <project path>)]
-```
-
-If the user has no Node runtimes installed, print nothing.
-
-<details><summary>Outside a project</summary>
-
-```sh
-$ volta list node --format=human
-runtime node@v12.2.0
-runtime node@v11.9.0
-runtime node@v10.15.3 (default)
-runtime node@v8.16.0
-```
-
-</details>
-
-<details><summary>In the `node-only` project</summary>
-
-```sh
-$ volta list node --format=human
-runtime node@v12.2.0
-runtime node@v11.9.0
-runtime node@v10.15.3 (default)
-runtime node@v8.16.0 (current @ ~/node-only/package.json)
-```
-
-</details>
-
-<details><summary>In the `node-and-yarn` project</summary>
-
-```sh
-$ volta list node --format=human
-runtime node@v12.2.0 (current @ ~/node-and-yarn/package.json)
-runtime node@v11.9.0
-runtime node@v10.15.3 (default)
-runtime node@v8.16.0
-```
-
-</details>
-
-### `volta list <npm|yarn>`
-
-List all fetched npm or Yarn versions. (Currently only Yarn is implemented.)
-
-#### Human
-
-The basic format is:
-
-```sh
-$ volta list <npm|yarn> --format=human
-⚡️ <npm|Yarn> versions in your toolchain:
-
-    <version> [(default|current @ <project path>)]
-```
-
-If the user has no packagers installed:
-
-```sh
-$ volta list <npm|yarn> --format=human
-⚡️ No <npm|Yarn> versions installed.
-
-You can install a Yarn version by running `volta install yarn`. See `volta help install` for
-details and more options.
-```
-
-<details><summary>Outside a project</summary>
-
-```sh
-$ volta list yarn --format=human
-⚡️ Yarn versions in your toolchain:
-
-    v1.16.0
-    v1.12.3 (default)
-```
-
-</details>
-
-<details><summary>In the `node-only` project</summary>
-
-```sh
-$ volta list yarn --format=human
-⚡️ Yarn versions in your toolchain:
-
-    v1.16.0
-    v1.12.3 (default)
-```
-
-</details>
-
-<details><summary>In the `node-and-yarn` project</summary>
-
-```sh
-$ volta list yarn --format=human
-⚡️ Yarn versions in your toolchain:
-
-    v1.16.0 (current @ ~/node-and-yarn/package.json)
-    v1.12.3 (default)
-```
-
-</details>
-
-#### Plain
-
-The basic format is:
-
-```sh
-$ volta list <npm|yarn> --format=plain
-packager <packager>@<version> [(default|current @ <project path>)]
-```
-
-If the user has no packagers installed, output nothing.
-
-<details><summary>Outside a project</summary>
-
-```sh
-$ volta list yarn --format=plain
-packager yarn@v1.16.0
-packager yarn@v1.12.3 (default)
-```
-
-</details>
-
-<details><summary>In the `node-only` project</summary>
-
-```sh
-$ volta list yarn --format=plain
-packager yarn@v1.16.0
-packager yarn@v1.12.3 (default)
-```
-
-</details>
-
-<details><summary>In the `node-and-yarn` project</summary>
-
-```sh
-$ volta list yarn --format=plain
-packager yarn@v1.16.0 (current @ ~/node-and-yarn/package.json)
-packager yarn@v1.12.3 (default)
 ```
 
 </details>
@@ -829,33 +613,31 @@ List all fetched versions of a specific package, along with its associated binar
 The basic format is:
 
 ```sh
-$ volta list <package> --format=human
-⚡️ `<package>` versions in your toolchain:
+volta list <package> --format=human
 
     <version> [(default|current @ <project path>)]
         binaries: [<binary name>]...
         platform:
             runtime: node@<version>
-            packager: built-in npm|<npm|yarn>@<version>
+            package manager: built-in npm|<npm|yarn>@<version>
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-$ volta list typescript --format=human
-⚡️ `typescript` versions in your toolchain:
+volta list package typescript --format=human
 
     v3.4.5
         binaries: tsc, tsserver
         platform:
             runtime: node@v12.2.0
-            packager: built-in npm
+            package manager: built-in npm
 
     v3.0.3 (default)
         binaries: tsc, tsserver
         platform:
             runtime: node@v12.2.0
-            packager: built-in npm
+            package manager: built-in npm
 ```
 
 #### Plain
@@ -863,14 +645,14 @@ $ volta list typescript --format=human
 The basic format is:
 
 ```sh
-$ volta list <package> --format=plain
+volta list <package> --format=plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-$ volta list typescript --format=plain
+volta list typescript --format=plain
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsserver / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
@@ -884,30 +666,30 @@ tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 The basic format is:
 
 ```sh
-$ volta list <tool> --format=human
-⚡️ tool `<tool>` available from:
+volta list <tool> --format=human
+⚡️ tool <tool> available from:
 
     <package>@<version> [(default|current @ <project path>)]
         platform:
             runtime: node@<version>
-            packager: built-in npm|<npm|yarn>@<version>
+            package manager: built-in npm|<npm|yarn>@<version>
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-$ volta list tsc --format=human
-⚡️ tool `tsc` available from:
+volta list tsc --format=human
+⚡️ tool tsc available from:
 
     typescript@v3.4.5
         platform:
             runtime: node@v12.2.0
-            packager: built-in npm
+            package manager: built-in npm
 
     typescript@v3.0.3 (default)
         platform:
             runtime: node@v12.2.0
-            packager: built-in npm
+            package manager: built-in npm
 ```
 
 #### Plain
@@ -915,14 +697,14 @@ $ volta list tsc --format=human
 The basic format is:
 
 ```sh
-$ volta list <tool> --format=plain
+volta list <tool> --format=plain
 tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-$ volta list tsc
+volta list tsc
 tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
 tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
 ```
