@@ -221,10 +221,13 @@ They also have two projects with the following pins:
     }
     ```
 
-- `~/node-and-yarn/package.json`:
+- `~/node-yarn-ember/package.json`:
 
     ```json
     {
+      "devDependencies": {
+        "ember-cli": "v3.8.2",
+      },
       "volta": {
         "node": "v12.2.0",
         "yarn": "v1.16.0"
@@ -245,7 +248,7 @@ Currently active tools:
     Node: <version> (default|current @ <project path>)
     <Yarn|npm>: v1.12.3 (default|current @ <project path>)
     Package binaries available: [NONE]
-        [<tool name>,...]
+        <tool name>[, <tool name>...] (default|current @ <project path>)
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -259,7 +262,7 @@ Currently active tools:
     Node: v8.16.0 (default)
     Yarn: v1.12.3 (default)
     Package binaries available:
-        create-react-app, ember, tsc, tsserver
+        create-react-app, ember, tsc, tsserver (default)
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -268,32 +271,31 @@ See options for more detailed reports by running `volta list --help`.
 
 <details><summary>In the `node-only` project</summary>
 
-<b>Note:</b> this assumes the implementation of a fix for [volta-cli/volta#436](https://github.com/volta-cli/volta/issues/436).
-
 ```sh
 $ volta list --format=human
 Currently active tools:
 
-    Node: v8.16.0 (current @ ~/node-only/package.json)
+    Node: v8.16.0 (@ ~/node-only/package.json)
     Yarn: v1.12.3 (default)
     Package binaries available:
-        create-react-app, ember, tsc, tsserver
+        create-react-app, ember, tsc, tsserver (default)
 
 See options for more detailed reports by running `volta list --help`.
 ```
 
 </details>
 
-<details><summary>In the <code>node-and-yarn</code> project</summary>
+<details><summary>In the <code>node-yarn-ember</code> project</summary>
 
 ```sh
 $ volta list --format=human
 Currently active tools:
 
-    Node runtime: v12.2.0 (current @ ~/node-and-yarn/package.json)
-    Package manager: Yarn: v1.16.0 (current @ ~/node-and-yarn/package.json)
+    Node runtime: v12.2.0 (@ ~/node-yarn-ember/package.json)
+    Package manager: Yarn: v1.16.0 (@ ~/node-yarn-ember/package.json)
     Package binaries available:
-        create-react-app, ember, tsc, tsserver
+        create-react-app, tsc, tsserver (default)
+        ember (current @ ~/node-yarn-ember/package.json) 
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -332,12 +334,12 @@ package-manager yarn@v1.12.3 (default)
 
 </details>
 
-<details><summary>In the <code>node-and-yarn</code> project</summary>
+<details><summary>In the <code>node-yarn-ember</code> project</summary>
 
 ```sh
 $ volta list --format=plain
-runtime node@v12.2.0 (~/node-and-yarn/package.json)
-package-manager yarn@v1.16.0 (~/node-and-yarn/package.json)
+runtime node@v12.2.0 (~/node-yarn-ember/package.json)
+package-manager yarn@v1.16.0 (~/node-yarn-ember/package.json)
 ```
 
 </details>
@@ -353,29 +355,20 @@ $ volta list all --format=human
 User toolchain:
 
     Node runtimes:
-        [default: <version>]
-        [current: <version> (@ <project path>)]
-        [fetched: <version>[, <version>...]]
+        <version> (default|current @ <project path>|fetched)
 
     Package managers:
         (Yarn|npm):
-            [default: <version>]
-            [current: <version> (@ <project path>)]
-            [fetched: <version>[, <version>...]]
+        <version> (default|current @ <project path>|fetched)
 
     Packages:
         <package name>
-            [current: <version> @ <project path>
+            [<version> (default | current @ <project path>)
                 binaries: [<binary name>]...
                 platform:
                     runtime: node@<version>
                     package manager: built-in npm|<npm|yarn>@<version>]
-            [default: <version>
-                binaries: [<binary name>]...
-                platform:
-                    runtime: node@<version>
-                    package manager: built-in npm|<npm|yarn>@<version>]
-            [fetched: <version>[, <version>...]]
+            [<version> (fetched)]
 ```
 
 <details><summary>Outside a project directory</summary>
@@ -385,37 +378,39 @@ $ volta list all --format=human
 User toolchain:
 
     Node runtimes:
-        default: v10.15.3
-        fetched: v8.16.0, v11.9.0, v12.2.0
+        v10.15.3 (default)
+        v8.16.0 (fetched)
+        v11.9.0 (fetched)
+        v12.2.0 (fetched)
 
     Package managers:
         Yarn:
-            default: v1.16.0
-            fetched: v1.12.3
+            v1.16.0 (default)
+            v1.12.3 (fetched)
 
     Packages:
         create-react-app:
-            default: v3.0.1
+            v3.0.1 (default)
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
         ember-cli:
-            default: v3.10.0
+            v3.10.0 (default)
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            fetched: v3.8.2
+            v3.8.2 (fetched)
         typescript:
-            default: v3.0.3
+            v3.0.3 (default)
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            fetched: v3.4.5
+            v3.4.5 (fetched)
         yarn-deduplicate:
-            fetched: v1.1.1
+            v1.1.1 (fetched)
 ```
 
 </details>
@@ -427,81 +422,87 @@ $ volta list all --format=human
 User toolchain:
 
     Node runtimes:
-        current: v8.16.0 (from ~/node-only/package.json)
-        default: v10.15.3
-        fetched: v11.9.0, v12.2.0
+        v8.16.0 (current @ ~/node-only/package.json)
+        v10.15.3 (default)
+        v11.9.0 (fetched)
+        v12.2.0 (fetched)
 
     Package managers:
         Yarn:
-            default: v1.16.0
-            fetched: v1.12.3
+            v1.16.0 (default)
+            v1.12.3 (fetched)
 
     Packages:
         create-react-app:
-            default: v3.0.1
+            v3.0.1 (default)
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
         ember-cli:
-            default: v3.10.0
+            v3.10.0 (default)
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            fetched: v3.8.2
+            v3.8.2 (fetched)
         tsc:
-            default: v3.0.3
+            v3.0.3 (default)
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            fetched: v3.4.5
+            v3.4.5 (fetched)
         yarn-deduplicate:
-            fetched: v1.1.1
+            v1.1.1 (fetched)
 ```
 
 </details>
 
-<details><summary>In the <code>node-and-yarn</code> project</summary>
+<details><summary>In the <code>node-yarn-ember</code> project</summary>
 
 ```sh
 $ volta list all --format=human
 User toolchain:
 
     Node runtimes:
-        current: v12.2.0 (from ~/node-and-yarn/project.json)
-        default: v10.15.3
-        fetched: v8.16.0, v11.9.0
+        v12.2.0 (current @ ~/node-yarn-ember/project.json)
+        v10.15.3 (default)
+        v8.16.0 (fetched)
+        v11.9.0 (fetched)
 
     Package managers:
         Yarn:
-            default: v1.16.0
-            current: v1.12.3 (from ~/node-and-yarn/project.json)
+            v1.16.0 (default)
+            v1.12.3 (current @ ~/node-yarn-ember/project.json)
 
     Packages:
         create-react-app:
-            default: v3.0.1
+            v3.0.1 (default)
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
         ember-cli:
-            default: v3.10.0
+            v3.10.0 (default)
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            fetched: v3.8.2
+            v3.8.2 (current @ ~/node-yarn-ember/project.json)
+                binaries: ember
+                platform:
+                    runtime: node@v12.2.0 (@ ~/node-yarn-ember/project.json)
+                    package manager: yarn@v1.12.3 (@ ~/node-yarn-ember/project.json)
         tsc:
-            default: v3.0.3
+            v3.0.3 (default)
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            fetched: v3.4.5
+            v3.4.5 (fetched)
         yarn-deduplicate:
-            fetched: v1.1.1
+            v1.1.1 (fetched)
 ```
 
 </details>
@@ -545,7 +546,7 @@ $ volta list all --format=plain
 runtime node@v12.2.0
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
-runtime node@v8.16.0 (current @ ~/node-only/package.json)
+runtime node@v8.16.0 (@ ~/node-only/package.json)
 package-manager yarn@v1.16.0 (default)
 package-manager yarn@v1.12.3
 package create-react-app@v3.0.1 / create-react-app / node@v12.2.0 npm@built-in (default)
@@ -558,19 +559,19 @@ package yarn-deduplicate@v1.1.1 (fetched)
 
 </details>
 
-<details><summary>In the <code>node-and-yarn</code> project</summary>
+<details><summary>In the <code>node-yarn-ember</code> project</summary>
 
 ```sh
 $ volta list all --format=plain
-runtime node@v12.2.0 (current @ ~/node-and-yarn/project.json)
+runtime node@v12.2.0 (@ ~/node-yarn-ember/project.json)
 runtime node@v11.9.0
 runtime node@v10.15.3 (default)
 runtime node@v8.16.0
 package-manager yarn@v1.16.0 (default)
-package-manager yarn@v1.12.3 (current @ ~/node-and-yarn/project.json)
+package-manager yarn@v1.12.3 (@ ~/node-yarn-ember/project.json)
 package create-react-app@v3.0.1 / create-react-app / node@v12.2.0 npm@built-in (default)
 package ember-cli@v3.10.0 / ember / node@v12.2.0 npm@built-in (default)
-package ember-cli@v3.8.2 (fetched)
+package ember-cli@v3.8.2 / ember / node@v12.2.0 yarn@v1.12.3 (@ ~/node-yarn-ember/project.json)
 package typescript@v3.4.5 (fetched)
 package typescript@v3.0.3 / tsc, tsserver / node@v12.2.0 npm@built-in (default)
 package yarn-deduplicate@v1.1.1 (fetched)
@@ -589,7 +590,7 @@ The basic format is:
 ```sh
 volta list <package> --format=human
 
-    [default: <version>|current: <version>(from @ <project path>)
+    [default: <version>|current: <version>(@ <project path>)
         binaries: [<binary name>]...
         platform:
             runtime: node@<version>
@@ -640,7 +641,7 @@ The basic format is:
 volta list <tool> --format=human
 tool <tool> available from package:
 
-    [default: <package>@<version>|current <package>@<version> (@ <project path>)]
+    <package>@<version> (default|current @ <project path>)
         platform:
             runtime: node@<version>
             package manager: built-in npm|<npm|yarn>@<version>
@@ -652,7 +653,7 @@ For the TypeScript config specified in the canonical example:
 volta list tsc --format=human
 tool tsc available from:
 
-    default: typescript@v3.0.3
+    typescript@v3.0.3 (default)
         platform:
             runtime: node@v12.2.0
             package manager: built-in npm
@@ -704,7 +705,7 @@ Volta 0.5.2
 Currently active tools:
 
     Node: v8.16.0 (default)
-    Yarn: v1.12.3 (from ~/node-and-yarn/package.json)
+    Yarn: v1.12.3 (current @ ~/node-yarn-ember/package.json)
     Package binaries available:
         create-react-app, ember, tsc, tsserver
 
