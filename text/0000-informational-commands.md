@@ -240,12 +240,12 @@ The format is:
 
 ```sh
 $ volta list --format=human
-⚡️ Currently active tools:
+Currently active tools:
 
     Node: <version> (default|current @ <project path>)
     <Yarn|npm>: v1.12.3 (default|current @ <project path>)
-    Tool binaries available: [NONE]
-        [<[<tool name>]>,]...
+    Package binaries available: [NONE]
+        [<tool name>,...]
 
 See options for more detailed reports by running `volta list --help`.
 ```
@@ -254,11 +254,11 @@ See options for more detailed reports by running `volta list --help`.
 
 ```sh
 $ volta list --format=human
-⚡️ Currently active tools:
+Currently active tools:
 
     Node: v8.16.0 (default)
     Yarn: v1.12.3 (default)
-    Tool binaries available:
+    Package binaries available:
         create-react-app, ember, tsc, tsserver
 
 See options for more detailed reports by running `volta list --help`.
@@ -272,11 +272,11 @@ See options for more detailed reports by running `volta list --help`.
 
 ```sh
 $ volta list --format=human
-⚡️ Currently active tools:
+Currently active tools:
 
     Node: v8.16.0 (current @ ~/node-only/package.json)
     Yarn: v1.12.3 (default)
-    Tool binaries available:
+    Package binaries available:
         create-react-app, ember, tsc, tsserver
 
 See options for more detailed reports by running `volta list --help`.
@@ -288,11 +288,11 @@ See options for more detailed reports by running `volta list --help`.
 
 ```sh
 $ volta list --format=human
-⚡️ Currently active tools:
+Currently active tools:
 
     Node runtime: v12.2.0 (current @ ~/node-and-yarn/package.json)
     Package manager: Yarn: v1.16.0 (current @ ~/node-and-yarn/package.json)
-    Tool binaries available:
+    Package binaries available:
         create-react-app, ember, tsc, tsserver
 
 See options for more detailed reports by running `volta list --help`.
@@ -350,73 +350,72 @@ The basic format is:
 
 ```sh
 $ volta list all --format=human
-⚡️ User toolchain:
+User toolchain:
 
     Node runtimes:
-        <version> [(default|current @ <project path>)]
+        [default: <version>]
+        [current: <version> (@ <project path>)]
+        [fetched: <version>[, <version>...]]
 
     Package managers:
         (Yarn|npm):
-            <version> [(default|current @ <project path>)]
+            [default: <version>]
+            [current: <version> (@ <project path>)]
+            [fetched: <version>[, <version>...]]
 
-    Tools:
+    Packages:
         <package name>
-            <version> [(default|current @ <project path>)]
+            [current: <version> @ <project path>
                 binaries: [<binary name>]...
                 platform:
                     runtime: node@<version>
-                    package manager: built-in npm|<npm|yarn>@<version>
+                    package manager: built-in npm|<npm|yarn>@<version>]
+            [default: <version>
+                binaries: [<binary name>]...
+                platform:
+                    runtime: node@<version>
+                    package manager: built-in npm|<npm|yarn>@<version>]
+            [fetched: <version>[, <version>...]]
 ```
 
 <details><summary>Outside a project directory</summary>
 
 ```sh
 $ volta list all --format=human
-⚡️ User toolchain:
+User toolchain:
 
     Node runtimes:
-        v12.2.0
-        v11.9.0
-        v10.15.3 (default)
-        v8.16.0
+        default: v10.15.3
+        fetched: v8.16.0, v11.9.0, v12.2.0
 
     Package managers:
         Yarn:
-            v1.16.0 (default)
-            v1.12.3
+            default: v1.16.0
+            fetched: v1.12.3
 
-    Tools:
+    Packages:
         create-react-app:
-            v3.0.1 (default)
+            default: v3.0.1
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
         ember-cli:
-            v3.10.0 (default)
+            default: v3.10.0
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            v3.8.2
-                binaries: ember
-                platform:
-                    runtime: node@v12.2.0
-                    package manager: built-in npm
+            fetched: v3.8.2
         typescript:
-            v3.4.5
+            default: v3.0.3
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            v3.0.3 (default)
-                binaries: tsc, tsserver
-                platform:
-                    runtime: node@v12.2.0
-                    package manager: built-in npm
+            fetched: v3.4.5
         yarn-deduplicate:
-            v1.1.1
-                binaries: yarn-deduplicate
+            fetched: v1.1.1
 ```
 
 </details>
@@ -425,51 +424,41 @@ $ volta list all --format=human
 
 ```sh
 $ volta list all --format=human
-⚡️ User toolchain:
+User toolchain:
 
     Node runtimes:
-        v12.2.0
-        v11.9.0
-        v10.15.3 (default)
-        v8.16.0 (current)
+        current: v8.16.0 (from ~/node-only/package.json)
+        default: v10.15.3
+        fetched: v11.9.0, v12.2.0
 
     Package managers:
         Yarn:
-            v1.16.0 (default)
-            v1.12.3
+            default: v1.16.0
+            fetched: v1.12.3
 
-    Tools:
+    Packages:
         create-react-app:
-            v3.0.1 (default)
+            default: v3.0.1
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
         ember-cli:
-            v3.10.0 (default)
+            default: v3.10.0
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            v3.8.2
-                binaries: ember
-                platform:
-                    runtime: node@v12.2.0
-                    package manager: built-in npm
+            fetched: v3.8.2
         tsc:
-            v3.4.5
+            default: v3.0.3
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            v3.0.3 (default)
-                binaries: tsc, tsserver
-                platform:
-                    runtime: node@v12.2.0
-                    package manager: built-in npm
+            fetched: v3.4.5
         yarn-deduplicate:
-            v1.1.1
-                binaries: yarn-deduplicate
+            fetched: v1.1.1
 ```
 
 </details>
@@ -478,51 +467,41 @@ $ volta list all --format=human
 
 ```sh
 $ volta list all --format=human
-⚡️ User toolchain:
+User toolchain:
 
     Node runtimes:
-        v12.2.0 (current @ ~/node-and-yarn/project.json)
-        v11.9.0
-        v10.15.3 (default)
-        v8.16.0
+        current: v12.2.0 (from ~/node-and-yarn/project.json)
+        default: v10.15.3
+        fetched: v8.16.0, v11.9.0
 
     Package managers:
         Yarn:
-            v1.16.0 (default)
-            v1.12.3 (current @ ~/node-and-yarn/project.json)
+            default: v1.16.0
+            current: v1.12.3 (from ~/node-and-yarn/project.json)
 
-    Tools:
+    Packages:
         create-react-app:
-            v3.0.1 (default)
+            default: v3.0.1
                 binaries: create-react-app
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
         ember-cli:
-            v3.10.0 (default)
+            default: v3.10.0
                 binaries: ember
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            v3.8.2
-                binaries: ember
-                platform:
-                    runtime: node@v12.2.0
-                    package manager: built-in npm
+            fetched: v3.8.2
         tsc:
-            v3.4.5
+            default: v3.0.3
                 binaries: tsc, tsserver
                 platform:
                     runtime: node@v12.2.0
                     package manager: built-in npm
-            v3.0.3 (default)
-                binaries: tsc, tsserver
-                platform:
-                    runtime: node@v12.2.0
-                    package manager: built-in npm
+            fetched: v3.4.5
         yarn-deduplicate:
-            v1.1.1
-                binaries: yarn-deduplicate
+            fetched: v1.1.1
 ```
 
 </details>
@@ -535,7 +514,8 @@ The basic format is:
 $ volta list all --format=plain
 runtime node@<version> [(default|current @ <project path>)]
 package-manager <packager>@<version> [(default|current @ <project path>)]
-tool <tool name> / <package>@<tool version> [node@<version>] [<yarn|npm>@<version>] [(default|current @ <project path>)]
+package <package>@<version> / [<tool>, ...] / <npm|yarn>@<built-in|version> (default|current @ <path>)
+package <name>@<version> (fetched)
 ```
 
 <details><summary>Outside a project directory</summary>
@@ -548,14 +528,12 @@ runtime node@v10.15.3 (default)
 runtime node@v8.16.0
 package-manager yarn@v1.16.0 (default)
 package-manager yarn@v1.12.3
-tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
-tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
-tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
-tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
-tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
-tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1
+package create-react-app@v3.0.1 / create-react-app / node@v12.2.0 npm@built-in (default)
+package ember-cli@v3.10.0 / ember / node@v12.2.0 npm@built-in (default)
+package ember-cli@v3.8.2 (fetched)
+package typescript@v3.4.5 (fetched)
+package typescript@v3.0.3 / tsc, tsserver / node@v12.2.0 npm@built-in (default)
+package yarn-deduplicate@v1.1.1 (fetched)
 ```
 
 </details>
@@ -570,14 +548,12 @@ runtime node@v10.15.3 (default)
 runtime node@v8.16.0 (current @ ~/node-only/package.json)
 package-manager yarn@v1.16.0 (default)
 package-manager yarn@v1.12.3
-tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
-tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
-tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
-tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
-tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
-tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1
+package create-react-app@v3.0.1 / create-react-app / node@v12.2.0 npm@built-in (default)
+package ember-cli@v3.10.0 / ember / node@v12.2.0 npm@built-in (default)
+package ember-cli@v3.8.2 (fetched)
+package typescript@v3.4.5 (fetched)
+package typescript@v3.0.3 / tsc, tsserver / node@v12.2.0 npm@built-in (default)
+package yarn-deduplicate@v1.1.1 (fetched)
 ```
 
 </details>
@@ -592,14 +568,12 @@ runtime node@v10.15.3 (default)
 runtime node@v8.16.0
 package-manager yarn@v1.16.0 (default)
 package-manager yarn@v1.12.3 (current @ ~/node-and-yarn/project.json)
-tool create-react-app / create-react-app@v3.0.1 node@v12.2.0 npm@built-in (default)
-tool ember / ember-cli@v3.10.0 node@v12.2.0 npm@built-in (default)
-tool ember / ember-cli@v3.8.2 node@v12.2.0 npm@built-in
-tool tsc / typescript@v3.4.5 node@v12.2.0 npm@built-in
-tool tsserver / typescript@v3.4.5 node@v12.2.0 npm@built-in
-tool tsc / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool tsserver / typescript@v3.0.3 node@v12.2.0 npm@built-in (default)
-tool yarn-deduplicate / yarn-deduplicate@v1.1.1
+package create-react-app@v3.0.1 / create-react-app / node@v12.2.0 npm@built-in (default)
+package ember-cli@v3.10.0 / ember / node@v12.2.0 npm@built-in (default)
+package ember-cli@v3.8.2 (fetched)
+package typescript@v3.4.5 (fetched)
+package typescript@v3.0.3 / tsc, tsserver / node@v12.2.0 npm@built-in (default)
+package yarn-deduplicate@v1.1.1 (fetched)
 ```
 
 </details>
@@ -615,29 +589,27 @@ The basic format is:
 ```sh
 volta list <package> --format=human
 
-    <version> [(default|current @ <project path>)]
+    [default: <version>|current: <version>(from @ <project path>)
         binaries: [<binary name>]...
         platform:
             runtime: node@<version>
-            package manager: built-in npm|<npm|yarn>@<version>
+            package manager: built-in npm|<npm|yarn>@<version>]
+    [fetched: [<version>, ...]]
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
-volta list package typescript --format=human
+volta list typescript --format=human
+<package> versions in toolchain:
 
-    v3.4.5
+    default: v3.0.3
         binaries: tsc, tsserver
         platform:
             runtime: node@v12.2.0
             package manager: built-in npm
 
-    v3.0.3 (default)
-        binaries: tsc, tsserver
-        platform:
-            runtime: node@v12.2.0
-            package manager: built-in npm
+    fetched: v3.4.5
 ```
 
 #### Plain
@@ -646,17 +618,16 @@ The basic format is:
 
 ```sh
 volta list <package> --format=plain
-tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
+package <package>@<version> / [<tool>, ...] / <npm|yarn>@<built-in|version> (default|current @ <path>)
+package <package>@<version> (fetched)
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
 volta list typescript --format=plain
-tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
-tool tsserver / typescript@v3.4.5 node@12.2.0 npm@built-in
-tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
-tool tsserver / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
+package typescript@v3.0.3 / tsc, tsserver / node@12.2.0 npm@built-in (default)
+package typescript@v3.4.5 (fetched)
 ```
 
 ### `volta list <tool>`
@@ -667,9 +638,9 @@ The basic format is:
 
 ```sh
 volta list <tool> --format=human
-⚡️ tool <tool> available from:
+tool <tool> available from package:
 
-    <package>@<version> [(default|current @ <project path>)]
+    [default: <package>@<version>|current <package>@<version> (@ <project path>)]
         platform:
             runtime: node@<version>
             package manager: built-in npm|<npm|yarn>@<version>
@@ -679,14 +650,9 @@ For the TypeScript config specified in the canonical example:
 
 ```sh
 volta list tsc --format=human
-⚡️ tool tsc available from:
+tool tsc available from:
 
-    typescript@v3.4.5
-        platform:
-            runtime: node@v12.2.0
-            package manager: built-in npm
-
-    typescript@v3.0.3 (default)
+    default: typescript@v3.0.3
         platform:
             runtime: node@v12.2.0
             package manager: built-in npm
@@ -694,19 +660,18 @@ volta list tsc --format=human
 
 #### Plain
 
-The basic format is:
+The basic format is the same as the format for packages, but `fetched` can never appear (under the current implementation limitations):
 
 ```sh
 volta list <tool> --format=plain
-tool <tool> / <package>@<version> node@<version> <npm|yarn>@<built-in|version> [(default|current @ <path>)]
+package <package>@<version> / [<tool>, ...] / <npm|yarn>@<built-in|version> (default|current @ <path>)
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
 volta list tsc
-tool tsc / typescript@v3.4.5 node@12.2.0 npm@built-in
-tool tsc / typescript@v3.0.3 node@12.2.0 npm@built-in (default)
+package typescript@v3.0.3 / tsc, tsserver / node@12.2.0 npm@built-in (default)
 ```
 
 ## Deprecating `volta current`
@@ -735,12 +700,12 @@ Additionally, we might consider here (and people have suggested in discussions i
 
 ```sh
 $ volta
-⚡️ Volta 0.5.2
+Volta 0.5.2
 Currently active tools:
 
     Node: v8.16.0 (default)
     Yarn: v1.12.3 (from ~/node-and-yarn/package.json)
-    Tool binaries available:
+    Package binaries available:
         create-react-app, ember, tsc, tsserver
 
 To install a tool in your toolchain, use `volta install`.
