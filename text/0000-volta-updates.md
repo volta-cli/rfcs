@@ -11,19 +11,19 @@ Provide a path for users to keep Volta up-to-date, ranging from notifications th
 # Motivation
 [motivation]: #motivation
 
-We are constantly working to improve Volta, so we should make sure that those updates are made available to our users, especially those who don't keep a close eye on our releases. That way users are always able to take advantage of new functionality and improvements.
+We are constantly working to improve Volta, so we should make sure that those updates are made available to our users, especially those who don't keep a close eye on our releases. That way users are always able to take advantage of new functionality and improvements. We also want to support managed environments such as a corporate networks where updates can be automatically pushed onto users' machines.
 
 # Pedagogy
 [pedagogy]: #pedagogy
 
 The goal for this feature is to not require any education for typical users. The updates will be checked and made available through notifications or automatically applied, requiring nothing new from the user.
 
-For Enterprise / Advanced users that want their updates to be sourced from a private repository, we will need to provide documentation on how to direct the updater to use a non-public source, as well as how to alter any messaging so that the update notifications remain accurate for those users. This will likely need to take place in a config file within the `~/.volta` directory.
+For Enterprise / Advanced users that want to directly manage their updates, we will need to provide documentation of which Volta files need to be provided with a given update. We also need to provide the ability to disable any update notification / automatic updates, so that the updates can be managed. We also will need to document the new command that will be available to allow users to bootstrap their local environment from a globally managed Volta install.
 
 # Details
 [details]: #details
 
-There are multiple approaches to updates, each building incrementally on the previous ones. This will allow us to implement straightforward approaches first, and then roll out more advanced update techniques later.
+There are two distinct use-cases that need to be considered: Individual users and Enterprise users. For individual users, there are multiple approaches to updates, each building incrementally on the previous ones. This will allow us to implement straightforward approaches first, and then roll out more advanced update techniques later.
 
 ## Notifications
 
@@ -45,7 +45,7 @@ We should also provide the ability for users to opt-out of automatic updates and
 
 ## Constraints
 
-Though these approaches are are different, they all have a few important constraints that should be kept in mind.
+Though these approaches are different, they all have a few important constraints that should be kept in mind.
 
 ### Performance
 
@@ -61,12 +61,28 @@ For the automatic updater, as discussed above, we should try to make the process
 
 As discussed above, each update process should provide a means for users to redirect it to a different source, which will accommodate users who need to install from a private repository or are otherwise limited in their public internet access. We should also give users the ability to opt-out of updating / checking for updates, as we want to make sure the user has control of their own machine.
 
+## Enterprise Users
+
+For Enterprise users where updates will be managed by an external IT department, we want to provide the ability for updates to be pushed onto users machines. This will mean that the "install" process could happen completely separate from the user who is actually using Volta, so we need to provide the ability to manage the `VOLTA_HOME` directory disconnected from the installer.
+
+### `volta init` Command
+
+For the initial bootstrap / opt-in to Volta, we should provide a new command `volta init` that, when called, will bootstrap a users' `VOLTA_HOME` directory and make any necessary changes to their startup scripts to allow Volta to work for their environment. This command can be made robust enough to be a no-op if the environment is already created and potentially to write a configuration file that disables the single-user update mechanisms.
+
+### Detecting Layout Updates
+
+Since in managed environments, the update process will only involve updating the binaries, we will need a method to detect if the user is on an older layout schema and needs to be migrated. This check will need to be made fast, since it will have to run on every execution of Volta or a Shim. If we detect a migration is needed, we want to automatically handle that migration and report that to the user before continuing with the rest of the command that they ran.
+
 # Critique
 [critique]: #critique
 
 The main question is whether we should tackle the entire update story at once, or incrementally. Tackling it all at once would mean that we can present users with a polished, delightful update process from the first time it available. However, the full process will likely take a lot of effort to implement and in the interim there wouldn't be anything. Doing incremental updates will probably take more effort overall, but will allow us to give users a working experience and then progressively enhance it until we are at the final state. It's also likely that we will discover edge cases and workflow issues along the way that will inform our final design for the update experience, making it that much better when we reach the goal.
 
+Another alternative approach would be to merge the Single-user and Enterprise-user cases so that the upgrade process is the same, regardless of how you install Volta. This, however, would require us to provide a number of hooks so that Enterprise users can fundamentally alter the flow of updates. The two approaches are different enough that shoe-horning them together would be difficult and would require a lot more complexity in the configuration than having separate behaviors.
+
 # Unresolved questions
 [unresolved]: #unresolved-questions
 
 - Are there other update models we should implement along the way?
+- Do we want to provide separate installers? One for the "Managed environment" case and one for the "individual user" case?
+- Do we need to include the layout update detection in the initial rollout, or can we delay that until we get close to having an update that requires a layout change?
