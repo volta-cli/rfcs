@@ -515,7 +515,7 @@ The basic format is:
 $ volta list all --format=plain
 runtime node@<version> [(default|current @ <project path>)]
 package-manager <packager>@<version> [(default|current @ <project path>)]
-package <package>@<version> / [<tool>, ...] / <npm|yarn>@<built-in|version> (default|current @ <path>)
+package <package>@<version> / [<tool>, ...] / node@<version> <npm|yarn>@<built-in|version> (default|current @ <path>)
 package <name>@<version> (fetched)
 ```
 
@@ -661,18 +661,18 @@ tool tsc available from:
 
 #### Plain
 
-The basic format is the same as the format for packages, but `fetched` can never appear (under the current implementation limitations):
+The basic format is similar to the format for packages, but `fetched` can never appear (under the current implementation limitations):
 
 ```sh
 volta list <tool> --format=plain
-package <package>@<version> / [<tool>, ...] / <npm|yarn>@<built-in|version> (default|current @ <path>)
+tool <tool> / <package>@<version> <npm|yarn>@<built-in|version> (default|current @ <path>)
 ```
 
 For the TypeScript config specified in the canonical example:
 
 ```sh
 volta list tsc
-package typescript@v3.0.3 / tsc, tsserver / node@12.2.0 npm@built-in (default)
+tool tsc / typescript@v3.0.3 / node@12.2.0 npm@built-in (default)
 ```
 
 ## Deprecating `volta current`
