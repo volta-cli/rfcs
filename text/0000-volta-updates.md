@@ -19,11 +19,11 @@ We are constantly working to improve Volta, so we should make sure that those up
 The main new concept for update functionality is the difference between Individual and Managed users:
 
 - Individual users: The current model, where Volta is installed in the users' home directory and only available to that user.
-- Managed users: For Enterprise environments, where Volta is installed by IT on users' machines, available to all users of the computer (Each user will still have their own data directory to manage their own tools)
+- Managed users: For Enterprise environments, where Volta is installed by IT on users' machines, available to all users of the computer (Each user will still have their own data directory to manage their own tools). This will also likely be the case in many CI environments that are managed by IT, removed from the control of individual users.
 
 For Individual users, the goal of this feature is to not require any education. The updates will be checked and made available through notifications or automatically applied, requiring nothing new from the user.
 
-For Managed users, there will be a new command: `volta init`. This command will make sure that a user's environment is set up to run Volta and the shims. This command should be idempotent, so that if a user accidentally runs it again, there are no adverse effects. Additionally, we will need to document what files an Enterprise needs to distribute in order to run Volta in a Managed environment.
+For Managed users, there will be a new command: `volta setup`. This command will make sure that a user's environment is set up to run Volta and the shims. This command should be idempotent, so that if a user accidentally runs it again, there are no adverse effects. Additionally, we will need to document what files an Enterprise needs to distribute in order to run Volta in a Managed environment.
 
 # Details
 [details]: #details
@@ -36,13 +36,15 @@ The large majority of updates to Volta involve _only_ updating the binaries, wit
 
 For Managed users, updating the binaries will be handled by the team managing the distribution, making sure that they are always on the latest binaries.
 
-For Individual users, updating the binaries can be handled in 2 phases:
+For Individual users, updating the binaries can be handled in 3 phases:
 
 - First, we can provide a notification that the user's version is out-of-date, letting them know that it's time to upgrade. We can also include the platform-specific install instructions in that notification, making it easy for them to act on the notification. This will still require that the user manually update their system, but it will let them know when it is needed and provide guidance on how to affect that update.
 
-- Later, we can implement an automatic updater, which runs in the background and detects when a new version is available, then downloads and unpacks the binaries, replacing the existing ones. This will result in Individual users having an experience that is effectively the same as Managed users: The binaries will be silently updated behind the scenes, without them having to take any action. This should be as atomic of a process as we can make it, so that the user is less likely to notice any strange behaviors because they are in the middle of an update.
+- Next, we can implement a command `volta selfupdate` that checks for a new version, and if one is available, downloads and unpacks the binaries, replacing the existing ones. Then the binaries will use the new versions from that point on.
 
-For both of these cases, we want to make sure that the checking does not have an adverse effect on the performance of the tools, especially on the performance of shims. For that reason, we likely want to perform the checks and updates in a separate process or thread, so that the main thread can continue to run. This is especially important in offline or low-bandwidth situations, where the check for new versions may take a long time before ultimately failing, and we don't want the user to have to wait.
+- Later, we can implement an automatic updater, which runs in the background and mirrors the effect of `volta selfupdate` automatically. This will result in Individual users having an experience that is effectively the same as Managed users: The binaries will be silently updated behind the scenes, without them having to take any action. This should be as atomic of a process as we can make it, so that the user is less likely to notice any strange behaviors because they are in the middle of an update.
+
+For both of these cases, we want to make sure that the checking does not have an adverse effect on the performance of the tools, especially on the performance of shims. For that reason, we likely want to perform the checks and updates in a separate process or thread, so that the main thread can continue to run. This is especially important in offline or low-bandwidth situations, where the check for new versions may take a long time before ultimately failing, and we don't want the user to have to wait. Additionally, we want to make sure that any separate threads we spawn don't write output to the terminal, as we want to make sure that all output is handled in a deterministic way.
 
 Additionally, for notifications, we don't want to show the notification every time the user runs a command, so we should limit the notifications to one per day so that we don't pester the user incessantly.
 
@@ -50,19 +52,19 @@ Additionally, for notifications, we don't want to show the notification every ti
 
 Occasionally, there will be updates that require migrating the user's data directory (`VOLTA_HOME`) to a different layout as part of the update. Also, a new install can be considered a special-case of updating the data directory (from _nothing_ to _current_). Since both the Managed user case and the Individual automatic updater will result in the binaries being updated without any direct changes to the data directory, we will need to detect when changes are necessary and carry them out. The first of these changes will be the update that includes Managed environment support, since we will want to change how the files are laid out and remove some unnecessary files (`load.sh` and `load.fish`, for example).
 
-We should have a fast way of determining what layout version the user is currently on, so it can be compared with the version that the running binary needs. We can likely write the layout version into a file and detect that on startup of either `volta` or a shim. If the user's layout is outdated, we should block while migrating the layout, since successful execution of the tool will depend on the data directory being in the expected layout. We should also provide feedback to the user about what is happening, probably with a progress spinner.
+We should have a way of determining what layout version the user is currently on, so it can be compared with the version that the running binary needs. We can likely write the layout version into a file and detect that on startup of either `volta` or a shim. We will then need to check that version on every invocation of `volta` or a shim, so we should make sure that the check for outdated layout is as fast as possible. If the user's layout is outdated, we should block while migrating the layout, since successful execution of the tool will depend on the data directory being in the expected layout. We should also provide feedback to the user about what is happening, probably with a progress spinner. Additionally, we will need to ensure that multiple calls with an outdated layout don't cause issues of different tools trying to update at the same time.
 
 ## Updating the Profile
 
 Last, since Volta relies on having shims in the `PATH` to work, we need to update the user's terminal profile to ensure that the shims are available (`~/.bashrc`, `~/.profile` or similar). We should also be able to adapt an old profile block into a new one, in case things change about how we want `volta` to be called. Since migrations like that should be exceedingly rare, I don't think we will need a versioning system for the profile block, but we should be aware that may be needed in the future.
 
-Since the user's profile is an area outside of Volta's direct control, we should only modify it when the user explicitly requests a change be made. To that end, we won't try to modify the profile as part of updating the data directory, but only when the user explicitly calls `volta init`. This command will ensure that the data directory is up-to-date (through the above section), then modify the user's profile as necessary to ensure that Volta is available.
+Since the user's profile is an area outside of Volta's direct control, we should only modify it when the user explicitly requests a change be made. To that end, we won't try to modify the profile as part of updating the data directory, but only when the user explicitly calls `volta setup`. This command will ensure that the data directory is up-to-date (through the above section), then modify the user's profile as necessary to ensure that Volta is available.
 
 ## Miscellaneous
 
 ### Installer
 
-Under this model, the Individual user installer itself can be greatly simplified: It will download the correct binaries, unpack them into the `VOLTA_HOME` directory, and then call `volta init` using the new Volta binary that was just unpacked. `volta init` will then be responsible for building / updating the user's data directory and making the necessary profile modifications.
+Under this model, the Individual user installer itself can be greatly simplified: It will download the correct binaries, unpack them into the `VOLTA_HOME` directory, and then call `volta setup` using the new Volta binary that was just unpacked. `volta setup` will then be responsible for building / updating the user's data directory and making the necessary profile modifications.
 
 ### Removal of `volta activate` and `volta deactivate`
 
@@ -78,7 +80,7 @@ For Managed environments, the `volta` and `volta-shim` binaries will be in a dif
 
 ### Detecting Managed vs Individual Environment
 
-Since the Individual install will remain the same, with all the files located within `VOLTA_HOME`, we can detect whether we are in a Managed or Individual environment by checking if the executable path is a child of `VOLTA_HOME` or not. This will allow us to conditionally activate the update notifier / automatic updater based on what mode the user is working under.
+Since the Individual install will remain the same, with all the files located within `VOLTA_HOME`, on Unix we can detect whether we are in a Managed or Individual environment by checking if the executable path is a child of `VOLTA_HOME` or not. This will allow us to conditionally activate the update notifier / automatic updater based on what mode the user is working under. For Windows environments, we will need to come up with a different method of detecting whether we are in a Managed or Individual environment, since even Individual environments will have the binaries separated from the `VOLTA_HOME` directory.
 
 # Critique
 [critique]: #critique
@@ -91,8 +93,9 @@ One question is whether we should tackle the Individual update story incremental
 
 ## New Command Name
 
-Another area of critique is in the name of the new command. `volta init` Seems to fit the use-case cleanly, since it's something you will likely run once and then never need to run again, but there are other potential options:
+Another area of critique is in the name of the new command. `volta setup` Seems to fit the use-case cleanly, since it's something you will likely run once and then never need to run again, but there are other potential options:
 
+- `volta init`
 - `volta bootstrap`
 - `volta start`
 - `volta activate` (Has a clear collision with the existing command that is proposed to be removed)
@@ -105,7 +108,7 @@ The current proposal detects the user's Environment using the location of the bi
 
 ## Windows
 
-The Windows automatic update story is complicated, since the binaries are currently installed into the `Program Files` directory, and the user may or may not have edit access to that directory. Should we update the installer to unpack the files into the `LocalAppData` directory and then run `volta init`, in the same way that the Unix install works? That would guarantee that the user has permissions to the binaries for automatic updates, and would align the Windows and Unix stories more closely.
+The Windows automatic update story is complicated, since the binaries are currently installed into the `Program Files` directory, and the user may or may not have edit access to that directory. Should we update the installer to unpack the files into the `LocalAppData` directory and then run `volta setup`, in the same way that the Unix install works? That would guarantee that the user has permissions to the binaries for automatic updates, and would align the Windows and Unix stories more closely.
 
 # Unresolved questions
 [unresolved]: #unresolved-questions
