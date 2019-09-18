@@ -16,7 +16,7 @@ Volta currently will automatically detect the platform (Node runtime and yarn ve
 # Pedagogy
 [pedagogy]: #pedagogy
 
-We will need to document the existence of `volta run` and how the users can specify the versions of Node and Yarn when running a command. This will be provided on the command line by StructOpt, however it should also be explained in detail in the documentation. We should also document how the overall platform is resolved if the user specifies only one of Node or Yarn, so that the behavior is clear to users.
+We will need to document the existence of `volta run` and how the users can specify the versions of Node and Yarn when running a command. This will be provided on the command line help output, however it should also be explained in detail in the documentation. We should also document how the overall platform is resolved if the user specifies only one of Node or Yarn, so that the behavior is clear to users.
 
 # Details
 [details]: #details
