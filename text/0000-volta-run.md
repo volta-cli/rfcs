@@ -16,7 +16,7 @@ Volta currently will automatically detect the platform (Node runtime and yarn ve
 # Pedagogy
 [pedagogy]: #pedagogy
 
-We will need to document the existence of `volta run` and how the users can specify the versions of Node and Yarn when running a command. This will be provided on the command line help output, however it should also be explained in detail in the documentation. We should also document how the overall platform is resolved if the user specifies only one of Node or Yarn, so that the behavior is clear to users.
+We will need to document the existence of `volta run` and how the users can specify the versions of Node and Yarn when running a command. This will be provided on the command line help output, however it should also be explained in detail in the documentation. We should also document on the website how the overall platform is resolved if the user specifies only one of Node or Yarn, so that the behavior is clear to users.
 
 # Details
 [details]: #details
@@ -27,7 +27,15 @@ The new command will have the structure:
 volta run [--node <version>] [--yarn <version>] <command>
 ```
 
-Specifically, the `--node` and `--yarn` settings will need to be specified _before_ the command to be executed, as everything after the command will be treated as arguments to the command itself. This will allow users to specify a full command, with any command-line flags they need, without having to append `--` to separate the `volta run` command from the others.
+For example:
+
+```
+volta run --node 8 --yarn 1.10 ember new my-app --yarn
+```
+
+Would run the command `ember new my-app --yarn` with Node 8 and Yarn 1.10.
+
+Of note, the `--node` and `--yarn` settings will need to be specified _before_ the command to be executed, as everything after the command will be treated as arguments to the command itself. This will allow users to specify a full command, with any command-line flags they need, without having to append `--` to separate the `volta run` command from the others.
 
 ## Platform Resolution
 
@@ -41,11 +49,15 @@ We will resolve the a platform that has `node@8` and `yarn@1.17.3`, with the lat
 
 ## 3rd-Party Binaries
 
-After resolving the platform, if the command the user is executing is a 3rd party binary (not `node`, `npm`, `npx`, or `yarn`), then we will still do resolution of that binary relative to the current project (if any). That means if we are inside a project with that binary as a dependency, we will still use the project-local version of that tool.
+After resolving the platform, if the command the user is executing is a 3rd party binary (not `node`, `npm`, `npx`, or `yarn`), then we will need to maintain the existing resolution of that binary relative to the current project (if any). That means if we are inside a project with that binary as a dependency, we will still use the project-local version of that tool, however we will use the Node / Yarn versions specified on the command-line to execute the tool.
 
 ## Verbose Output
 
 In order to provide meaningful verbose output, we will need to update the `SourcedPlatformSpec` model to support platforms that come from the command line as well. This will likely require a refactor to support specifying the version for each tool explicitly, as opposed to having a single `Source` for the Platform as a whole.
+
+## Additional Package Managers
+
+Currently, the only package manager that we support specifying on its own is Yarn. However, there are plans to support `npm` in the near future and farther out, we may want to support others (e.g. `pnpm`, `entropic`, etc). For each aspect of the platform that we support, we'll need to add an accompanying flag to the `run` command that supports specifying the version of that tool.
 
 # Critique
 [critique]: #critique
@@ -68,5 +80,5 @@ However, it would also mean that if a user doesn't specify `--node`, that no com
 # Unresolved questions
 [unresolved]: #unresolved-questions
 
-- Do we want to support removing `yarn` from the platform (e.g. `--yarn none`) in a way that won't be overridden by the platform inheritance?
+- Do we want to support removing `yarn` from the platform (e.g. `--no-yarn`) in a way that won't be overridden by the platform inheritance?
 - Do we want to support changing a package version as well, letting the user run a different version of a tool than they currently have installed / available?
