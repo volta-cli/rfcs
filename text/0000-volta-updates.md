@@ -23,7 +23,7 @@ The main new concept for update functionality is the difference between Individu
 
 For Individual users, the goal of this feature is to not require any education. The updates will be checked and made available through notifications or automatically applied, requiring nothing new from the user.
 
-For Managed users, there will be a new command: `volta setup`. This command will make sure that a user's environment is set up to run Volta and the shims. This command should be idempotent, so that if a user accidentally runs it again, there are no adverse effects. Additionally, we will need to document what files an Enterprise needs to distribute in order to run Volta in a Managed environment.
+For Managed users, there will be a new command: `volta setup`. This command will make sure that a user's environment is set up to run Volta and the shims. This command should be idempotent, so that if a user accidentally runs it again, there are no adverse effects. Additionally, we will need to document what files an Enterprise needs to distribute in order to run Volta in a Managed environment (see [Updating the Binaries](#updating-the-binaries) for more information).
 
 # Details
 [details]: #details
@@ -34,7 +34,16 @@ For Volta updates, there are three distinct sets of changes that need to be cons
 
 The large majority of updates to Volta involve _only_ updating the binaries, without requiring updates to the Data Directory or Profile.
 
-For Managed users, updating the binaries will be handled by the team managing the distribution, making sure that they are always on the latest binaries.
+### Managed Users
+
+For Managed users, updating the binaries will be handled by the team managing the distribution, making sure that they are always on the latest binaries. Specifically, we currently provide 2 binaries:
+
+- `volta` - Provides the functionality of all `volta` commands
+- `shim` - Provides the shimming behavior for all tools
+
+Both of these binaries will need to be updated by the group managing the installs, made available on the PATH for all users, and be in the same directory as one another (for discoverability).
+
+### Individual Users
 
 For Individual users, updating the binaries can be handled in 3 phases:
 
@@ -81,6 +90,12 @@ For Managed environments, the `volta` and `volta-shim` binaries will be in a dif
 ### Detecting Managed vs Individual Environment
 
 Since the Individual install will remain the same, with all the files located within `VOLTA_HOME`, on Unix we can detect whether we are in a Managed or Individual environment by checking if the executable path is a child of `VOLTA_HOME` or not. This will allow us to conditionally activate the update notifier / automatic updater based on what mode the user is working under. For Windows environments, we will need to come up with a different method of detecting whether we are in a Managed or Individual environment, since even Individual environments will have the binaries separated from the `VOLTA_HOME` directory.
+
+### Kill Switch
+
+Since we will inevitably wind up in a state where an update can't be handled automatically, we should support some way to indicate that an update cannot be performed automatically and needs to be handled with some user intervention. As discussed in [Updating the Data Directory](#updating-the-data-directory), we will need some way of detecting the current update level that we can compare to the current level in the running binary in order to perform the update. One option for this kill switch would be to have the update level follow a SemVer specification, where any patch or minor change can represent an automatic update, while a major version bump will indicate a significant migration that needs some level of human interaction. This "update version" would be separate from the overall program version, so we can iterate both independently as necessary.
+
+It will be important to include this feature in the first release of updates, since once those are released, we can't be sure that users did or did not get any specific release, meaning we could never reliably use it if it came in a subsequent update.
 
 # Critique
 [critique]: #critique
