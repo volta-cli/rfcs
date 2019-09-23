@@ -41,7 +41,7 @@ For Managed users, updating the binaries will be handled by the team managing th
 - `volta` - Provides the functionality of all `volta` commands
 - `shim` - Provides the shimming behavior for all tools
 
-Both of these binaries will need to be updated by the group managing the installs, made available on the PATH for all users, and be in the same directory as one another (for discoverability).
+Both of these binaries will need to be updated by the group managing the installs, made available on the PATH for all users, and be in the same directory as one another (for discoverability). Since the number of binaries that need to be provided could change in the future, we should also provide a `volta.manifest` file as part of the distribution. That file will list all of the binaries that need to be made available for Volta to work correctly.
 
 ### Individual Users
 
