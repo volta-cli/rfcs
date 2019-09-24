@@ -71,7 +71,7 @@ In order to provide meaningful verbose output, we will need to update the `Sourc
 
 ## Additional Package Managers
 
-Currently, the only package manager that we support specifying on its own is Yarn. However, there are plans to support `npm` in the near future and farther out, we may want to support others (e.g. `pnpm`, `entropic`, etc). For each aspect of the platform that we support, we'll need to accompanying flags to the `run` command that support specifying the version of that tool. (i.e. `--pnpm <version>` and `--no-pnpm`).
+Currently, the only package manager that we support specifying on its own is Yarn. However, there are plans to support customizing the `npm` version independently from the version installed by node in the near future and farther out, we may want to support others (e.g. `pnpm`, `entropic`, etc). For each aspect of the platform that we support, we'll need to accompanying flags to the `run` command that support specifying the version of that tool. (i.e. `--pnpm <version>` and `--no-pnpm`).
 
 # Critique
 [critique]: #critique
