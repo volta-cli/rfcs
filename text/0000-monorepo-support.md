@@ -51,26 +51,32 @@ Given this folder structure for a monorepo project:
 A common setup would have the following values in the various `package.json` files:
 
 * `package.json`
-        {
-          "volta": {
-            "node": "12.16.1",
-            "yarn": "1.22.0"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "node": "12.16.1",
+        "yarn": "1.22.0"
+      }
+    }
+    ```
 
 * `packages/bar/package.json`
-        {
-          "volta": {
-            "extends": "../../package.json"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../../package.json"
+      }
+    }
+    ```
 
 * `packages/foo/package.json`
-        {
-          "volta": {
-            "extends": "../../package.json"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../../package.json"
+      }
+    }
+    ```
 
 With this setup (as described in the next section), both `packages/bar` and `packages/foo` would use the `node` and `yarn` versions defined in the top-level `package.json` file.
 
@@ -98,36 +104,44 @@ Given the following folder structure and `package.json` contents:
 ```
 
 * `package.json`
-        {
-          "volta": {
-            "node": "12.16.1",
-            "yarn": "1.22.0"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "node": "12.16.1",
+        "yarn": "1.22.0"
+      }
+    }
+    ```
 
 * `bar/package.json`
-        {
-          "volta": {
-            "extends": "../package.json",
-            "node": "10.15.0"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../package.json",
+        "node": "10.15.0"
+      }
+    }
+    ```
 
 * `foo/package.json`
-        {
-          "volta": {
-            "extends": "../package.json",
-            "yarn": "1.17.0"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../package.json",
+        "yarn": "1.17.0"
+      }
+    }
+    ```
 
 * `foo/inner/package.json`
-        {
-          "volta": {
-            "extends": "../package.json",
-            "node": "14.0.0"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../package.json",
+        "node": "14.0.0"
+      }
+    }
+    ```
 
 The following versions will be used when running commands inside subdirectories:
 
@@ -156,18 +170,22 @@ Given the following folder structure and `package.json` contents:
 ```
 
 * `packages/foo/package.json`
-        {
-          "volta": {
-            "extends": "../../package.json"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../../package.json"
+      }
+    }
+    ```
 
 * `packages/foo/inner/package.json`
-        {
-          "volta": {
-            "extends": "../package.json"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../package.json"
+      }
+    }
+    ```
 
 If you run a binary that you have previously installed with `volta install` within the `packages/foo/inner` directory, we will look in these locations to find the project-local version of that binary:
 
@@ -196,24 +214,38 @@ Using the same folder structure and `package.json` contents from Local Binary Re
 ```
 
 * `packages/foo/package.json`
-        {
-          "volta": {
-            "extends": "../../package.json"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../../package.json"
+      }
+    }
+    ```
 
 * `packages/foo/inner/package.json`
-        {
-          "volta": {
-            "extends": "../package.json"
-          }
-        }
+    ```
+    {
+      "volta": {
+        "extends": "../package.json"
+      }
+    }
+    ```
 
-When you run a command within 
+When you run a command within the `packages/foo/inner` directory, we will look in the following locations for Volta hooks:
+
+* `packages/foo/inner/.volta/hooks.json`
+* `packages/foo/.volta/hooks.json`
+* `.volta/hooks.json`
+
+Again note that we don't look in `packages/.volta/hooks.json`, because the `packages` directory is not in our chain of project roots.
 
 ## Pinning Tools
 
 When a user runs `volta pin`, we will always make the changes to the _first_ `package.json` that we find. This means that if a user wants to `pin` a tool for the root project, they will need to first navigate to the root directory (out of any subprojects) and _then_ run `volta pin`. This gives users the most flexibility to control where they want to `pin` tools, without trying to guess which location they were intending or requiring interactivity.
+
+## Support for common workflows
+
+Beyond the basic support for nested projects provided by the above details, we can also provide enhancements that improve the experience when using common monorepo tools, such as [Yarn Workspaces](https://classic.yarnpkg.com/en/docs/workspaces/) or [Lerna](https://github.com/lerna/lerna). For example, both of those tools have a top-level configuration that lists all the packages that are contained in the workspace, so we can automate writing the `"extends"` keys into each of the subprojects when a user runs `volta pin` in the top-level directory.
 
 # Critique
 [critique]: #critique
