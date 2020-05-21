@@ -19,7 +19,7 @@ Currently, Volta treats the first `package.json` file it finds in the directory 
 The changes proposed by this RFC are primarily advanced features required by users who _manage_ monorepo projects. Users who are purely consumers should be able to continue using Volta without needing to consider the details of how Volta determines the appropriate context. For the advanced users, we will need to document:
 
 - Volta's model for having multiple project roots, using the `"extends"` key in `package.json`
-- The logic Volta uses to combine platform settings from multiple locations into a single context (including the ability to disable inheriting with the `false` value).
+- The logic Volta uses to combine platform settings from multiple locations into a single context.
 - The additional impact of having multiple project roots, i.e. `hooks` and local binary resolution.
 - The behavior of `volta pin` in subprojects vs the root project.
 
