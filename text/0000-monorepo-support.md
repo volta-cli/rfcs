@@ -250,17 +250,24 @@ Beyond the basic support for nested projects provided by the above details, we c
 # Critique
 [critique]: #critique
 
+## Requiring Changes in each Subproject
+
+A significant criticism of this proposal is that it requires that every subproject in a monorepo explicitly opt-in to the behavior with an `"extends"` entry pointing to the root. This is less of a concern in small, single-project Monorepos where the same team is working on all of the subprojects, so maintaining that cohesion is straightforward. However, it becomes a bigger issue in monorepos for large organizations, where there may be a different team (or teams) managing the overall structure of the monorepo, separate from the team(s) managing the individual subprojects. This means that a team adding a new subproject will need to know how to opt-in to using the monorepo's configuration, reducing the organization's ability to modularize the responsibility.
+
+However, when declaring dependencies within a monorepo, a subproject still needs to be aware of the overall structure of the monorepo, in order to correctly reference other in-repo dependencies. The Volta settings in `package.json` are conceptually very similar to dependencies, declaring platform dependencies as opposed to code dependencies. While our approach does result in subprojects having a responsibility to be aware of the overall monorepo configuration, that responsibility isn't an increase over the responsibility they already have to be good citizens of the monorepo with their declared dependencies.
+
+Additionally, there are a number of technical and conceptual issues with using a top-down approach similar to that used for Yarn workspaces:
+
+- It obfuscates the source of the platform - A user trying to figure out why we are using a specific Node version will have to do the same digging to figure out where the settings are. In our model, the user can look at the subproject and it will point them to the root project (or next project in the chain), so they always know where to start when investigating.
+- It requires either duplicating the workspace configuration or tying our implementation tightly to how the package managers define workspaces:
+    - If we have our own setting for indicating which projects are part of the workspace, then users will have to duplicate that setting between Yarn / npm / pnpm / lerna and Volta, which comes with additional maintenance costs as they will also need to keep them in sync.
+    - If we instead chose to re-use the existing `"workspace"` key used by Yarn et al., we will need to ensure that our parsing aligns with those other tools exactly, so that we don't accidentally get out of sync ourselves. This also raises the question of how do we handle it when two tools diverge on their implementation?
+- It requires more speculative IO. This is likely less of a significant concern, but is definitely something we would need to plan for and monitor to ensure we don't have significant performance regressions.
+
+
 ## Multiple Roots
 
 Instead of allowing an entire sequence of project roots, we could instead only allow a single level. This would align with techniques like Lerna and Yarn Workspaces, which don't allow nested workspaces. However, apart from the detection of possible loops, there isn't any technical reason that 3 or 4 roots is less complicated than 2, so going with a general approach will allow us to be the most flexible.
-
-## Requiring Changes in each Subproject
-
-This proposal requires that every subproject in a monorepo have (at the very least) an `"extends"` entry pointing to the root, if the want to take advantage of these features. We could take the approach used by e.g. Yarn workspaces and instead have some way of marking the root project and indicating which subprojects should use those settings. This has a couple of major issues, however, that make it a less than ideal solution:
-
-- It requires more speculative IO, as even once we find a `package.json`, we still need to continue looking up the directory tree for more, parsing them, and then trying to figure out if our project is correctly a subproject of the root.
-- It requires duplicating the workspace configuration, since Volta will need to have the settings in addition to the existing Yarn workspace information in the root `package.json`.
-- It obfuscates the source of the platform - A user trying to figure out why we are using a specific Node version will have to do the same digging to figure out where the settings are. In our model, the user can look at the subproject and it will point them to the root project (or next project in the chain), so they always know where to start when investigating.
 
 ## Pinning
 
