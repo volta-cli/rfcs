@@ -1,7 +1,7 @@
 - Feature Name: volta_run
 - Start Date: 2019-09-14
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: https://github.com/volta-cli/rfcs/pull/39
+- Volta PR: https://github.com/volta-cli/volta/pull/713
 
 # Summary
 [summary]: #summary
