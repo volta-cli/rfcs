@@ -1,7 +1,7 @@
 - Feature Name: install_pin_npm
 - Start Date: 2019-10-14
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: https://github.com/volta-cli/rfcs/pull/40
+- Volta Issue: https://github.com/volta-cli/volta/issues/292
 
 # Summary
 [summary]: #summary
