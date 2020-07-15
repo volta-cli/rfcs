@@ -1,7 +1,7 @@
 - Feature Name: informational_commands
 - Start Date: 2019-05-15
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: https://github.com/volta-cli/rfcs/pull/34
+- Volta Issue: https://github.com/volta-cli/volta/issues/349
 
 # Summary
 [summary]: #summary
