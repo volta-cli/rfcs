@@ -1,7 +1,7 @@
 - Feature Name: volta_updates
 - Start Date: 2019-08-01
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: https://github.com/volta-cli/rfcs/pull/37
+- Volta Issue: https://github.com/volta-cli/volta/issues/568
 
 # Summary
 [summary]: #summary
