@@ -81,7 +81,11 @@ In order to avoid requiring users to keep track of their global packages and man
 
 In order to be efficient at this change, we should keep a separate manifest for each major version of Node, so that we can perform a diff with the "primary" manifest and deteremine exactly which changes are needed to get the system in a working state.
 
-This process may take some time, so we should provide some visual feedback to the user to indicate what we're doing (and if possible, progress on how much is left to do). Additionally, we should have a command-line switch to allow users to skip the consolidation if they don't need it or want to make a quick change.
+This process may take some time, so we should provide clear visual feedback to the user to indicate that we're refreshing their packages (and if possible, progress on how much is left to do). Additionally, while we generally want this behavior to maintain Volta's guarantees about binary availability, there are special cases so we should have a command-line switch to allow users to skip the consolidation if they don't need it.
+
+### Errors While Migrating
+
+Once switching Node versions completes, we should consider that a success, regardless of whether any of the global package installs fails. This means that packages failing to install shouldn't ever result in the `volta install node@<version>` command returning a non-zero exit code. However, for any packages that do fail to install, we should show a warning letting the user know that we were unable to make that package available and so it likely won't work correctly. We may also want to include a call-to-action prompting them to change to a different version of the tool that is compatible with their new Node version.
 
 ## Handling Global Libraries
 
