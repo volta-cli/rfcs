@@ -57,6 +57,8 @@ To ease the transition and for consistency with the existing workflows, we shoul
 
 The core of this approach is to take advantage of the existing behavior of package manager global installs like `npm i -g` and `yarn global add`. Those tools already provide the expected interoperability between global packages that we want and users have intuition around how they work. We can insert some customization before the global install runs to point it at a custom directory that Volta controls, so we can keep track of everything. Additionally, we can do record-keeping after the global install finishes to ensure that we keep track of which tools and binaries are installed.
 
+Specifically, we would use the in-built behavior of `npm i -g` and `yarn global add`—along with the user's current default platform—to actually perform global installs. We can take advantage of the methods provided by the package managers to redirect the global directory to one that we control and then make sure to do our record-keeping after the global install finishes.
+
 Finally, to avoid forcing the user to re-install every global package whenever they switch Node versions, we can use our manifest of installed packages to automatically re-install them whenever the user changes their default Node version. That way they get the benefits of global installs without the added hassles.
 
 ## Sandbox Per Node Major Version
@@ -93,7 +95,7 @@ Since libraries without binaries are already supported by `npm i -g`, this appro
 
 ## `volta list`
 
-Since this change represents a significant update of the internal model for packages, it will require the output of `volta list` around packages to be redesigned. Specifically, packages will no longer be associated with a specific platform any more, so we should be able to simplify the output to only show the package version (and whether it is the default version or a project-local version).
+Since this change represents a significant update of the internal model for packages, it will require the output of `volta list` around packages to be redesigned. Specifically, packages will no longer be associated with a specific platform any more, so we should be able to simplify the output to only show the package version (and whether it is the default version or a project-local version). For advanced users / more verbose output, we can also show the specific version of Node used to install a specific package, in case there are issues with different Nodes within the same major bucket (though we also want to be very explicit about what that annotation means, to avoid confusion).
 
 ## Workflow Examples
 
