@@ -31,27 +31,82 @@ Ultimately, the goal of Volta is to improve the workflow of developers while sta
 The goal of this change is that there should be _less_ we need to teach users, instead of _more_. By shifting to use the existing workflows, package installs should "just work" the way users expect them to, with some small improvements. We won't have to teach users about an entirely new command to manage their tools, only about the steps we take to smooth out their workflows. Those changes boil down to:
 
 - Delegation to project-local binaries where appropriate.
-- Automatic maintenance of globals when switching Node versions.
+- Pinning the version used to install a binary.
 
 This will greatly simplify the mental model needed to use Volta and reduce confusion around the package install process.
-
-## Current Users
-
-While the overall result will be a significant simplification in the user experience, this change could potentially be a big one for our current users. Ideally the solution will be implemented in a way that it's roughly compatible and existing users won't notice a major shift—apart from new possibilities and fewer issues—but it's a significant shift in the mental model.
-
-To ease the transition and for consistency with the existing workflows, we should continue to support `volta install <package>` as we do now, fitting it into the new model by performing the same actions we would if a user runs `npm i -g <package>`.
 
 # Details
 [details]: #details
 
 ## Constraints
 
-* **Global installs with package managers should work** We need to move away from our hard error interception of `npm i -g` and `yarn global add` and instead move to use those commands as the _primary_ way of installing global packages. This will allow users to continue with the familiar workflows they already use.
-* **Global packages should continue to work when switching Node versions** While we currently handle this with siloed versions of Node, this is one of the key benefits that Volta provides over other Node managers and it should be preserved.
-* **Global binaries should be able to call other global binaries** With a "standard" npm or Yarn setup, all of the tools that are globally installed are put onto the PATH directly, so they can all call each other without issue. We add the associated Node version to global tools, so we likely need to go through the shim logic, but that shouldn't stop tools from being able to call other tools (or themselves recursively).
-* **Global libraries should be allowed** While not extremely useful, since they aren't generally accessible from arbitrary scripts, we should nevertheless allow users to install global packages that don't have any binaries. This is important for things like peer dependencies and `yeoman` generators.
-* **Global packages should be able to `require` globally installed libraries** npm installs all global packages under a single `node_modules` directory, so when calling `require` from one package, it automatically can see the other packages that were installed globally. We should preserve this behavior as much as we can; the main difficulty I see here is native modules and differing associated Node versions.
-* **Global packages should leverage Node module resolution** Our directory structure currently doesn't have any folders named `node_modules`, so the Node module resolution algorithm is completely unable to detect our packages, even from within a package's dependencies. There shouldn't be a need to completely reinvent the wheel here, we should do our best to leverage the existing resolution algorithm.
+1. **Global installs with package managers should work** We need to move away from our hard error interception of `npm i -g` and `yarn global add` and instead move to use those commands as the _primary_ way of installing global packages. This will allow users to continue with the familiar workflows they already use.
+2. **Global packages should continue to work when switching Node versions** While we currently handle this with siloed versions of Node, this is one of the key benefits that Volta provides over other Node managers and it should be preserved.
+3. **Global binaries should be able to call other global binaries** With a "standard" npm or Yarn setup, all of the tools that are globally installed are put onto the PATH directly, so they can all call each other without issue. We add the associated Node version to global tools, so we likely need to go through the shim logic, but that shouldn't stop tools from being able to call other tools (or themselves recursively).
+4. **Global libraries should be allowed** While not extremely useful, since they aren't generally accessible from arbitrary scripts, we should nevertheless allow users to install global packages that don't have any binaries. This is important for things like peer dependencies and `yeoman` generators.
+5. **Global packages should be able to `require` globally installed libraries** npm installs all global packages under a single `node_modules` directory, so when calling `require` from one package, it automatically can see the other packages that were installed globally. We should preserve this behavior as much as we can; the main difficulty I see here is native modules and differing associated Node versions.
+6. **Global packages should leverage Node module resolution** Our directory structure currently doesn't have any folders named `node_modules`, so the Node module resolution algorithm is completely unable to detect our packages, even from within a package's dependencies. There shouldn't be a need to completely reinvent the wheel here, we should do our best to leverage the existing resolution algorithm.
+
+## Overview
+
+The core of this approach is to incrementally satisfy the constraints to solve the outstanding issues. This will allow us to roll out improvements in steps, without having to make major, sweeping changes to the Volta implementation all at once. That flexibility will also allow us to iterate more quickly on the solution to make sure we cover the most common use-cases.
+
+## 0. Keep Existing Sandbox-per-Package Model
+
+This doesn't require any change to the code directly, but in order to satisfy constraint 2 above, we should keep the existing model of each package having its own platform, independent of the user's default Node version.
+
+## 1. Leverage Package Manager Behaviors
+
+In order to allow global installs directly (constraint 1) and include a `node_modules` directory in the PATH so that module resolution works as expected (constraint 6), we should remove our bespoke logic for installing a tool and its dependencies and instead directly use the existing package manager install behavior. We can accomplish this by using configuration options (e.g. `--prefix` and `--global-folder`, depending on the package manager) to redirect the install into the sandbox directory.
+
+For installs started by the user running `npm i -g` or `yarn global add`, we can do 2 things to ensure the install works as needed:
+
+1. Inject the configuration options to redirect the install to the Volta-managed package directory
+2. Detect binaries and write config files _after_ a successful install.
+
+For installs run with `volta install`, we can do the same and directly call `npm i -g` as if the user had called it themselves.
+
+### Node Version
+
+Currently, the Node version that we pin to a package is determined by the `engines` property in the package's `package.json`, finding the latest LTS version of Node that meets the requirements (or the current LTS version if no `engines` is specified). However, that results in the choice of Node being opaque and not directly controllable. Instead, we should default to the user's current default Node, so that the tool is installed in an environment that matches the user's current default configuration.
+
+This has the benefit of providing a clear way to upgrade the pinned Node if a user desires: Switch their default and re-install the package. While that looks a bit like other package managers—which require you to re-install packages for every different version of Node—the key difference is that with Volta, this path is entirely _optional_ and not required unless you want to change the version of Node associated with a package.
+
+### Handling Multiple Installs
+
+If the user calls `npm i -g <package_1> <package_2>`, that would normally all run as a single command. However, to maintain Volta's Sandbox-per-package behavior, we will need to split that out and run `npm i -g <package_1>` and `npm i -g <package_2>` separately, allowing us to install them in separate locations and avoid combining them into a single block.
+
+### Note on `pnpm`
+
+`pnpm` can also be redirected with a `prefix` configuration setting, however we also need to do some messing with the PATH when calling `pnpm i -g`. The reason is that `pnpm` searches the `PATH` to find the highest-precedence "appropriate" location to install the binary symlinks. Unfortunately, that currently means in the Volta image directory for the specific Node version, which is definitely _not_ where we want them. We will likely need to create a directory and add it to the PATH for `pnpm` global installs, to make sure that the symlinks are created in the correct location.
+
+## 2. Shared Global Package Directory
+
+In order to satisfy constraints 4 & 5, allowing global packages to `require` each other, we should create a single shared "globals" directory that we add to `NODE_PATH` when executing a global binary (and _only_ for global binaries, as normal Node commands wouldn't have access the globals anyway). That directory can have symlinks to all of the individual package directories, so that a `require` from any one of the packages will be able to access any of the others. Per the [Node documentation](https://nodejs.org/api/modules.html#modules_loading_from_the_global_folders), the `NODE_PATH` will only be searched if the regular filesystem process fails, so this should result in the correct precedence when resolving a global library.
+
+With the shared package directory available, we can then remove the restriction that we currently enforce that prevents installing global libraries.
+
+Finally, we should document the location of this shared package directory, so that if users want to include it in their own configurations (e.g. for one-off scripts), they can easily locate the correct directory.
+
+## 3. Leave Binary Shims on PATH
+
+The final constraint we need to satisfy (number 3) is to allow different Node binaries to call each other. Currently, when we execute a binary shim, we remove the Volta directories from the PATH, so that shim can only see itself and not the other global binaries. To allow binaries to call one another, we should leave the Volta directory on the PATH when executing a shim. That will allow the shim resolution to happen again and ensure that binaries can call one another (or that `node` can call a binary).
+
+Since that leaves open the potential of infinite recursion, we should set an environment variable when running a shim. That will allow us to detect recursive calls and switch to the passthrough behavior (which is exactly what would happen currently). We do, however, need to be careful to not make that detection too aggressive, since a legitimate use-case would be a package manager shim (e.g. `yarn run`) calling out to `volta run <command>` (i.e. through a script).
+
+# Critique
+[critique]: #critique
+
+## Node Version Selection
+
+Instead of using the user's current default platform to install a global, we could keep our existing logic that resolves the highest LTS version that matches the `engines` setting. However, that has a couple of issues:
+
+* It breaks the user's intuition about how `npm i -g` works, since they expect that to be using the same Node version as any other `npm` command.
+* It makes it difficult to understand how to upgrade the underlying Node version. We would need to add flags to `volta install` to control that resolution, and if a user installed a tool using `npm i -g`, how would they know they need to use `volta install` to later modify that installation?
+
+# Appendix: Previous Suggestion (Major Version Buckets)
+<details>
+    <summary>Click to Expand</summary>
 
 ## Overview
 
@@ -81,7 +136,7 @@ Additionally, if a user calls `volta install <package>`, we can perform the same
 
 In order to avoid requiring users to keep track of their global packages and manually re-install them whenever they switch Node versions, we can instead manage that for them. Using the manifest generated above whenever a package is updated, we will always know which tools the user has available to them. Then, whenever they switch to a new major version of Node (with `volta install node@<version>`), we can ensure that the full list of packages is made available by running the appropriate `install` commands.
 
-In order to be efficient at this change, we should keep a separate manifest for each major version of Node, so that we can perform a diff with the "primary" manifest and deteremine exactly which changes are needed to get the system in a working state.
+In order to be efficient at this change, we should keep a separate manifest for each major version of Node, so that we can perform a diff with the "primary" manifest and determine exactly which changes are needed to get the system in a working state.
 
 This process may take some time, so we should provide clear visual feedback to the user to indicate that we're refreshing their packages (and if possible, progress on how much is left to do). Additionally, while we generally want this behavior to maintain Volta's guarantees about binary availability, there are special cases so we should have a command-line switch to allow users to skip the consolidation if they don't need it.
 
@@ -137,21 +192,4 @@ Finally, the user decides that working on Node 14 isn't working out, and they sw
 After ensuring Node 12 is available, Volta will once again check the manifest of global packages against the packages that are currently set up in the Node 12 bucket. In this case, Volta detects that we need to install `ember-cli@3.18.0` and downgrade `typescript` to `3.8.2`, so it runs `npm` commands internally to ensure those changes are made. When the process is complete, the user has the exact same tools that they did on Node 14.
 
 The end result is that the user doesn't have to think about a matrix of which tools they installed for which Node versions. They only have to consider which tools they have installed and which Node version they want to use. This greatly streamlines their workflow and makes it easier to work with globals, while still getting the expected behaviors of a "global" install.
-
-# Critique
-[critique]: #critique
-
-## Reinstallation Time on Node Version Switch
-
-As the number of global packages installed on a user's machine grows, the process of re-installing them for new Node versions will take longer and longer. This is a concern we need to keep an eye on, however it is mitigated by a couple of factors:
-
-1. We only need to do a re-install when the user switches _major_ Node versions, which are only released on a 6-month cadence.
-2. By doing a diff of the global manifest with the major version manifest, we can limit the changes to only the necessary subset. This will reduce the amount of work we need to do on any given Node switch, as well as allow us to completely skip re-installs if no changes have been made.
-
-Finally, we plan to offer a command-line switch of some kind to avoid the re-installation altogether, for times when the user needs to make a quick Node version switch and doesn't care about the specifics of which packages are available.
-
-## Just-In-Time Binary Installation
-
-Related to the other concern, instead of re-installing every package when switching Node versions, we could instead use the shims to do a just-in-time installation of a binary. Under this model, if a user switches Node versions, no changes are made. Then, when they go to execute a binary (e.g. `tsc`), we detect that the correct version isn't available right before executing and run the install at that point. This has the benefit of only requiring re-installation when a tool is _used_, as opposed to when the user switches Node versions.
-
-However, this approach falls down when it comes to the interop of tools. Since we don't know ahead of time which other binaries and libraries will be called from a given tool, there's no way to know the full set of packages we need to install to ensure a given command works as expected. This breaks users expectations and would cause significant confusion around why some packages are available and some aren't.
+</details>
