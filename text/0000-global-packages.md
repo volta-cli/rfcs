@@ -51,7 +51,7 @@ This will greatly simplify the mental model needed to use Volta and reduce confu
 
 The core of this approach is to incrementally satisfy the constraints to solve the outstanding issues. This will allow us to roll out improvements in steps, without having to make major, sweeping changes to the Volta implementation all at once. That flexibility will also allow us to iterate more quickly on the solution to make sure we cover the most common use-cases.
 
-## 0. Keep Existing Sandbox-per-Package Model
+## 0. Keep Existing Sandbox-per-Package Model (Complete!)
 
 This doesn't require any change to the code directly, but in order to satisfy constraint 2 above, we should keep the existing model of each package having its own platform, independent of the user's default Node version.
 
@@ -86,7 +86,7 @@ In order to satisfy constraints 4 & 5, allowing global packages to `require` eac
 
 With the shared package directory available, we can then remove the restriction that we currently enforce that prevents installing global libraries.
 
-Finally, we should document the location of this shared package directory, so that if users want to include it in their own configurations (e.g. for one-off scripts), they can easily locate the correct directory.
+Finally, we should provide users with access to the location of this shared package directory, both in documentation and through a new `volta` command (similar to how we have `volta which` to unwind the shims). This will allow users to include it in their own configurations (e.g. for one-off scripts) as needed.
 
 ## 3. Leave Binary Shims on PATH
 
@@ -103,6 +103,17 @@ Instead of using the user's current default platform to install a global, we cou
 
 * It breaks the user's intuition about how `npm i -g` works, since they expect that to be using the same Node version as any other `npm` command.
 * It makes it difficult to understand how to upgrade the underlying Node version. We would need to add flags to `volta install` to control that resolution, and if a user installed a tool using `npm i -g`, how would they know they need to use `volta install` to later modify that installation?
+
+## Shared Package Directory Compatibility
+
+One concern with providing a single shared package directory for `require` is that a package installed with one version of Node may not work correctly when included in a binary installed with a different Node version. Unfortunately, the only way to fully mitigate that risk would be to separate each package by full Node version and ensure that only packages installed with the same Node version can see each other. That would lead to a couple of bad outcomes that we are trying to avoid, namely: Confusion over why `require` doesn't work and having to re-install your packages whenever you switch Node versions in order to make sure everything you install in the future remains compatible. The goal of Volta is to stay out of the way as much as possible, and requiring users to maintain the mapping of packages to Node versions manually runs counter to that.
+
+Additionally, the potential issues with sharing across Node versions are mitigated by two factors:
+
+* Native modules (the most likely candidates for incompatibilities between Node versions) are relatively rare in the context of CLI tools.
+* Node Major Versions don't change frequently, reducing the likelihood of incompatibilities being introduced.
+
+Nevertheless, we should make sure to document the potential for incompatibility and how the user can go about resolving any problems they find. If possible, we should also provide some warnings about that case (though for `require`, that may not always be feasible since it's a level removed from Volta).
 
 # Appendix: Previous Suggestion (Major Version Buckets)
 <details>
