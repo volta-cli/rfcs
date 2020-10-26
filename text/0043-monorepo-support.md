@@ -1,7 +1,7 @@
 - Feature Name: monorepo_support
 - Start Date: 2020-04-23
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: [#43](https://github.com/volta-cli/rfcs/pull/43)
+- Volta Issue: [#378](https://github.com/volta-cli/volta/issues/378)
 
 # Summary
 [summary]: #summary
