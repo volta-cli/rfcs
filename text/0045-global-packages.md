@@ -1,7 +1,7 @@
 - Feature Name: global_packages
 - Start Date: 2020-07-15
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: [#45](https://github.com/volta-cli/rfcs/pull/45)
+- Volta PR: [#848](https://github.com/volta-cli/volta/pull/848)
 
 # Summary
 [summary]: #summary
