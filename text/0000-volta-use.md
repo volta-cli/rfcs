@@ -27,7 +27,7 @@ This will be a fairly large change to our recommended workflows. As `volta use` 
 
 Notably, we will _not_ be removing the existing `volta install` and `volta pin` commands right away. They will continue to work as they already do. In the future, we might consider adding notifications to them to point users to the updated command, but for the initial implementation we don't want to disrupt current users' workflows.
 
-All that said, the new command should simplify things a lot, especially for new users. It also will do a better job of living up to our website by truly having a _single_ command that users can use to get set up.
+All that said, the new command should simplify things a lot, especially for new users. It will allow us to explain Volta by saying that you pick a version with `volta use`, and don't worry about installing it: Volta will handle making it available. It also should do a better job of living up to the claim on our website by truly having a _single_ command that users can run to get set up.
 
 # Details
 
