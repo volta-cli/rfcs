@@ -1,7 +1,7 @@
 - Feature Name: static_link_tls
 - Start Date: 2022-02-04
-- RFC PR: (leave this empty)
-- Volta Issue: (leave this empty)
+- RFC PR: https://github.com/volta-cli/rfcs/pull/47
+- Volta Issue: https://github.com/volta-cli/volta/pull/1214
 
 # Summary
 [summary]: #summary
