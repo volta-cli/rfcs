@@ -1,6 +1,6 @@
 - Feature Name: yarn_berry_support
 - Start Date: 2022-02-16
-- RFC PR: (leave this empty)
+- RFC PR: https://github.com/volta-cli/rfcs/pull/48
 - Volta Issue: https://github.com/volta-cli/volta/issues/651
 
 # Summary
