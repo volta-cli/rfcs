@@ -1,6 +1,6 @@
 - Feature Name: uninstall_node
 - Start Date: 2024-08-21
-- RFC PR:
+- RFC PR:[https://github.com/volta-cli/volta/pull/1882]
 - Volta Issue:
 
 # Summary
