@@ -59,6 +59,8 @@ One notable difference between the current `volta install` behavior and the new 
 
 A different possibility for the flag itself would be to use `--global`, which aligns well with existing tools (e.g. `npm install --global`). This may be more intuitive for users who already know what `--global` typically means. However, we have intentionally used `default` rather than `global` in all of our messaging within Volta, to avoid the negative connotations associated with "global" installs in the existing ecosystem.
 
+One point in favor of `--global`, however, is that it has a more intuitive short flag (`-g`) than `--default` (`-d`). At least for myself, if I wasn't already aware, I would expect `-d` to do a "delete" operation, rather than setting a default.
+
 ## Changing both `pin` and `install` to a different combined verb
 
 An earlier version of this RFC proposed combining `volta pin` and `volta install` into a single new command: `volta use`. That proposal had the behavior of the new command contextual based on whether the user was in a project or not. In the discussion, we felt that behavior was too surprising and resulted in a bad user experience around edge cases.
